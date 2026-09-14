@@ -35,7 +35,7 @@ export default function PhysicalHubPage() {
           'Trung Tâm Đánh Giá Sản Phẩm Vật Lý'
         ),
         h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight' }, 'Thiết Bị Điện Tử, Đồ Gia Dụng & Phong Cách Sống'),
-        h('p', { className: 'text-slate-600 max-w-2xl leading-relaxed text-sm sm:text-base' }, 'Khám phá các bài thử nghiệm thực tế, bảng xếp hạng Top 10 và hướng dẫn chọn mua đồ dùng gia đình, thiết bị công nghệ với thông tin giá cập nhật chính xác.')
+        h('p', { className: 'text-slate-600 max-w-2xl leading-relaxed text-sm sm:text-base text-justify' }, 'Khám phá các bài thử nghiệm thực tế, bảng xếp hạng Top 10 và hướng dẫn chọn mua đồ dùng gia đình, thiết bị công nghệ với thông tin giá cập nhật chính xác.')
       ),
 
       // Categories Grid
@@ -51,7 +51,7 @@ export default function PhysicalHubPage() {
               'div',
               { key: idx, className: 'p-6 bg-white border border-slate-200 rounded-md shadow-sm hover:shadow-md hover:border-blue-400 transition-all space-y-3' },
               h('h3', { className: 'font-bold text-lg text-slate-900' }, cat.name),
-              h('p', { className: 'text-xs text-slate-600 leading-relaxed' }, cat.desc),
+              h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, cat.desc),
               h(
                 'div',
                 { className: 'pt-2 flex flex-wrap gap-1.5' },
@@ -94,7 +94,7 @@ export default function PhysicalHubPage() {
                 rank.categoryName
               ),
               h('h3', { className: 'text-lg font-bold text-slate-900 mt-2 mb-2 group-hover:text-blue-600 transition-colors' }, rank.title),
-              h('p', { className: 'text-xs text-slate-600 line-clamp-2' }, rank.intro),
+              h('p', { className: 'text-xs text-slate-600 line-clamp-2 text-justify' }, rank.intro),
               h('div', { className: 'mt-4 text-xs font-bold text-blue-600 inline-flex items-center gap-1' }, 'Xem Bảng Xếp Hạng Chi Tiết →')
             )
           )
@@ -131,7 +131,7 @@ export default function PhysicalHubPage() {
                     h('span', { className: 'px-2 py-0.5 bg-blue-50 text-blue-700 font-extrabold text-xs rounded border border-blue-200/60' }, `${prod.overallScore}/10`)
                   ),
                   h('h3', { className: 'font-bold text-slate-900 text-base group-hover:text-blue-600 transition-colors' }, prod.name),
-                  h('p', { className: 'text-xs text-slate-600 line-clamp-2 mt-1' }, prod.summary)
+                  h('p', { className: 'text-xs text-slate-600 line-clamp-2 mt-1 text-justify' }, prod.summary)
                 ),
                 h(
                   'div',
@@ -162,7 +162,7 @@ export default function PhysicalHubPage() {
                 className: 'p-6 bg-white border border-slate-200 rounded-md shadow-sm hover:border-blue-300 transition-all block'
               },
               h('h3', { className: 'font-bold text-base text-slate-900 mb-2' }, guide.title),
-              h('p', { className: 'text-xs text-slate-600 leading-relaxed' }, guide.excerpt),
+              h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, guide.excerpt),
               h('span', { className: 'text-xs font-semibold text-blue-600 inline-block mt-3' }, 'Đọc toàn bộ hướng dẫn →')
             )
           )

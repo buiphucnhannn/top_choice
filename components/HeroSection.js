@@ -34,7 +34,7 @@ export default function HeroSection() {
       // Left column content
       h(
         'div',
-        { className: 'max-w-xl md:max-w-2xl space-y-6 md:space-y-7' },
+        { className: 'max-w-xl md:max-w-2xl space-y-6 md:space-y-7 -translate-y-3 sm:-translate-y-4 md:-translate-y-6' },
         // Eyebrow text
         h(
           'div',
@@ -53,8 +53,8 @@ export default function HeroSection() {
         // Description
         h(
           'p',
-          { className: 'text-slate-700 font-medium text-sm sm:text-base md:text-lg leading-relaxed max-w-xl' },
-          'Chúng tôi mang đến các bài đánh giá chuyên sâu, bảng xếp hạng đáng tin cậy và hướng dẫn hữu ích để giúp bạn lựa chọn sản phẩm phù hợp nhất.'
+          { className: 'text-slate-700 font-medium text-sm sm:text-base md:text-lg leading-relaxed max-w-xl text-justify' },
+          'Chúng tôi mang đến các bài đánh giá chuyên sâu, bảng xếp hạng đáng tin cậy và hướng dẫn hữu ích để giúp bạn lựa chọn sản phẩm phù hợp\u00A0nhất.'
         ),
 
         // Search Box in Hero

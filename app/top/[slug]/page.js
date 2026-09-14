@@ -40,7 +40,7 @@ export default function RankingDetailPage({ params }) {
           'Bảng xếp hạng độc lập 2026'
         ),
         h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight' }, ranking.title),
-        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed' }, ranking.intro),
+        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed text-justify' }, ranking.intro),
         // Author info bar
         h(
           'div',
@@ -149,7 +149,7 @@ export default function RankingDetailPage({ params }) {
                 h(
                   'div',
                   { className: 'md:col-span-8 space-y-4' },
-                  h('p', { className: 'text-sm text-slate-700 leading-relaxed font-medium' }, item.rationale),
+                  h('p', { className: 'text-sm text-slate-700 leading-relaxed font-medium text-justify' }, item.rationale),
                   // Pros & Cons
                   h(
                     'div',
@@ -210,7 +210,7 @@ export default function RankingDetailPage({ params }) {
         'section',
         { className: 'bg-white border border-slate-200 rounded-lg p-6 space-y-3 shadow-sm' },
         h('h3', { className: 'text-lg font-bold text-slate-900' }, '📋 Phương pháp đánh giá & Tiêu chí xếp hạng'),
-        h('p', { className: 'text-sm text-slate-600 leading-relaxed' }, ranking.methodology)
+        h('p', { className: 'text-sm text-slate-600 leading-relaxed text-justify' }, ranking.methodology)
       )
     ),
     h(Footer, null)

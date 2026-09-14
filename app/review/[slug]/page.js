@@ -68,7 +68,7 @@ export default function ProductReviewPage({ params }) {
             )
           ),
           h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight' }, `Đánh Giá Chi Tiết ${product.name}`),
-          h('p', { className: 'text-base text-slate-600 leading-relaxed' }, product.summary),
+          h('p', { className: 'text-base text-slate-600 leading-relaxed text-justify' }, product.summary),
           h(
             'div',
             { className: 'p-4 bg-slate-50 rounded-md border border-slate-200 flex items-center justify-between gap-4 flex-wrap' },
@@ -231,7 +231,7 @@ export default function ProductReviewPage({ params }) {
             'Kiểm chứng độc lập'
           ),
           h('div', { className: 'font-bold text-slate-900' }, `Biên tập viên: ${author.name} • ${author.credentials}`),
-          h('p', { className: 'text-xs text-slate-600' }, author.bio)
+          h('p', { className: 'text-xs text-slate-600 text-justify' }, author.bio)
         )
       )
     ),

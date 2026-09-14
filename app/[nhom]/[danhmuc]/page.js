@@ -99,7 +99,7 @@ export default function SubCategoryPage({ params }) {
           groupLabel
         ),
         h('h1', { className: 'text-2xl sm:text-3xl font-black text-slate-900 tracking-tight' }, `Đánh Giá & Xếp Hạng: ${currentSub.name}`),
-        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed' }, bannerDesc),
+        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed text-justify' }, bannerDesc),
 
         // Subcategories Chips
         currentCategory.subcategories && currentCategory.subcategories.length > 0 &&
@@ -156,7 +156,7 @@ export default function SubCategoryPage({ params }) {
                         h('span', { className: 'px-2 py-0.5 bg-blue-50 text-blue-700 font-extrabold text-xs rounded border border-blue-200/60' }, `${prod.overallScore}/10`)
                       ),
                       h('h3', { className: 'font-bold text-slate-900 text-base group-hover:text-blue-600 transition-colors' }, prod.name),
-                      h('p', { className: 'text-xs text-slate-600 line-clamp-2 mt-1' }, prod.summary)
+                      h('p', { className: 'text-xs text-slate-600 line-clamp-2 mt-1 text-justify' }, prod.summary)
                     ),
                     h(
                       'div',
@@ -189,7 +189,7 @@ export default function SubCategoryPage({ params }) {
                   className: 'p-6 bg-white border border-slate-200 rounded-md shadow-sm hover:border-blue-400 transition-all block group'
                 },
                 h('h3', { className: 'font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors' }, r.title),
-                h('p', { className: 'text-xs text-slate-600 mt-2 line-clamp-2' }, r.intro),
+                h('p', { className: 'text-xs text-slate-600 mt-2 line-clamp-2 text-justify' }, r.intro),
                 h('span', { className: 'text-xs font-semibold text-blue-600 inline-block mt-3' }, 'Xem bảng xếp hạng →')
               )
             )

@@ -61,3 +61,10 @@ body {
   overflow: hidden;
   transition: max-height 0.25s ease-out, opacity 0.2s ease-out;
 }
+
+/* Typography enhancement for justified paragraphs */
+.text-justify {
+  text-align: justify;
+  text-justify: inter-word;
+}
+

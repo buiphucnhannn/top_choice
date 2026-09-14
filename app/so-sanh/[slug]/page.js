@@ -40,7 +40,7 @@ export default function ComparisonPage({ params }) {
           'So Sánh Đối Đầu Trực Diện'
         ),
         h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight' }, comp.title),
-        h('p', { className: 'text-sm sm:text-base text-slate-600' }, comp.summaryWinner)
+        h('p', { className: 'text-sm sm:text-base text-slate-600 text-justify' }, comp.summaryWinner)
       ),
 
       // Side by side Cards
@@ -58,7 +58,7 @@ export default function ComparisonPage({ params }) {
             h('span', { className: 'text-2xl font-black text-blue-600' }, `${prodA.overallScore}/10`)
           ),
           h('div', { className: 'text-sm font-semibold text-slate-700' }, `Giá tham khảo: ${prodA.priceRef}`),
-          h('p', { className: 'text-xs text-slate-600 leading-relaxed' }, prodA.summary),
+          h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, prodA.summary),
           h('a', { href: `/review/${prodA.slug}`, className: 'inline-block text-xs font-bold text-blue-600 hover:underline' }, 'Đọc review đầy đủ của sản phẩm A →')
         ),
 
@@ -73,7 +73,7 @@ export default function ComparisonPage({ params }) {
             h('span', { className: 'text-2xl font-black text-blue-600' }, `${prodB.overallScore}/10`)
           ),
           h('div', { className: 'text-sm font-semibold text-slate-700' }, `Giá tham khảo: ${prodB.priceRef}`),
-          h('p', { className: 'text-xs text-slate-600 leading-relaxed' }, prodB.summary),
+          h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, prodB.summary),
           h('a', { href: `/review/${prodB.slug}`, className: 'inline-block text-xs font-bold text-blue-600 hover:underline' }, 'Đọc review đầy đủ của sản phẩm B →')
         )
       ),
@@ -139,13 +139,13 @@ export default function ComparisonPage({ params }) {
             'div',
             { className: 'bg-slate-800/80 p-5 rounded-md border border-slate-700 space-y-2' },
             h('h4', { className: 'text-base font-bold text-blue-400' }, `Chọn ${prodA.name} nếu:`),
-            h('p', { className: 'text-xs sm:text-sm text-slate-300 leading-relaxed' }, comp.verdict.chooseAIf)
+            h('p', { className: 'text-xs sm:text-sm text-slate-300 leading-relaxed text-justify' }, comp.verdict.chooseAIf)
           ),
           h(
             'div',
             { className: 'bg-slate-800/80 p-5 rounded-md border border-slate-700 space-y-2' },
             h('h4', { className: 'text-base font-bold text-indigo-400' }, `Chọn ${prodB.name} nếu:`),
-            h('p', { className: 'text-xs sm:text-sm text-slate-300 leading-relaxed' }, comp.verdict.chooseBIf)
+            h('p', { className: 'text-xs sm:text-sm text-slate-300 leading-relaxed text-justify' }, comp.verdict.chooseBIf)
           )
         )
       )

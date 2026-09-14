@@ -57,9 +57,9 @@ export default function IntroSection() {
       // Section header
       h(
         'div',
-        { className: 'text-center max-w-2xl mx-auto mb-8 space-y-2' },
+        { className: 'text-center max-w-3xl mx-auto mb-8 space-y-2' },
         h('h2', { className: 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight' }, 'Nền tảng đánh giá sản phẩm đáng tin cậy'),
-        h('p', { className: 'text-sm text-slate-500 leading-relaxed' }, 'Chúng tôi nghiên cứu, thử nghiệm và so sánh hàng trăm sản phẩm vật lý lẫn sản phẩm số — từ đồ gia dụng, thiết bị điện tử đến công cụ AI và phần mềm SaaS — để đưa ra những khuyến nghị khách quan nhất.')
+        h('p', { className: 'text-sm text-slate-500 leading-relaxed' }, 'Chúng tôi nghiên cứu, thử nghiệm và so sánh hàng trăm sản phẩm vật lý lẫn sản phẩm số — từ đồ gia dụng, thiết bị điện tử đến công cụ AI và phần mềm SaaS — để đưa ra những khuyến nghị khách quan\u00A0nhất.')
       ),
 
       // 4 Highlights grid

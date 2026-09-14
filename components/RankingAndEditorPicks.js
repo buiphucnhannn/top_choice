@@ -270,7 +270,7 @@ export default function RankingAndEditorPicks() {
                     h('h3', { className: 'font-bold text-slate-900 text-sm group-hover:text-blue-600 transition-colors truncate' }, pick.title),
                     h('p', { className: 'text-[11px] text-slate-400 -mt-0.5 mb-1' }, pick.category),
                     // Description
-                    h('p', { className: 'text-xs text-slate-600 line-clamp-2 leading-relaxed' }, pick.desc)
+                    h('p', { className: 'text-xs text-slate-600 line-clamp-2 leading-relaxed text-justify' }, pick.desc)
                   )
                 )
               )

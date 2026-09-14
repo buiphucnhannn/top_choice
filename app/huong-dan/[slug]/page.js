@@ -40,7 +40,7 @@ export default function GuideDetailPage({ params }) {
           'Cẩm Nang Người Tiêu Dùng'
         ),
         h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight' }, guide.title),
-        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed' }, guide.excerpt),
+        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed text-justify' }, guide.excerpt),
         // Author info
         h(
           'div',
@@ -78,7 +78,7 @@ export default function GuideDetailPage({ params }) {
             'section',
             { key: idx, id: `sec-${idx}`, className: 'space-y-3' },
             h('h2', { className: 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight' }, sec.title),
-            h('p', { className: 'text-sm sm:text-base text-slate-700 leading-relaxed' }, sec.content)
+            h('p', { className: 'text-sm sm:text-base text-slate-700 leading-relaxed text-justify' }, sec.content)
           )
         )
       ),

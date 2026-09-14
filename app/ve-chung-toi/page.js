@@ -27,7 +27,7 @@ export default function AboutPage() {
           'Sứ Mệnh Của Chúng Tôi'
         ),
         h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Đánh Giá Khách Quan. Lựa Chọn Thông Minh.'),
-        h('p', { className: 'text-base text-slate-600 leading-relaxed' }, 'Top Choice được xây dựng nhằm giúp người tiêu dùng Việt Nam tiết kiệm hàng chục giờ tìm kiếm và loại bỏ những băn khoăn khi lựa chọn sản phẩm vật lý cũng như phần mềm số.')
+        h('p', { className: 'text-base text-slate-600 leading-relaxed text-justify' }, 'Top Choice được xây dựng nhằm giúp người tiêu dùng Việt Nam tiết kiệm hàng chục giờ tìm kiếm và loại bỏ những băn khoăn khi lựa chọn sản phẩm vật lý cũng như phần mềm số.')
       ),
 
       // Values Grid
@@ -44,7 +44,7 @@ export default function AboutPage() {
             { key: idx, className: 'p-6 bg-white border border-slate-200 rounded-md space-y-2.5 shadow-sm' },
             h('div', { className: 'text-3xl' }, item.icon),
             h('h3', { className: 'text-lg font-bold text-slate-900' }, item.title),
-            h('p', { className: 'text-xs sm:text-sm text-slate-600 leading-relaxed' }, item.desc)
+            h('p', { className: 'text-xs sm:text-sm text-slate-600 leading-relaxed text-justify' }, item.desc)
           )
         )
       ),
@@ -64,7 +64,7 @@ export default function AboutPage() {
               h('img', { src: author.avatar, alt: author.name, className: 'w-24 h-24 rounded-full mx-auto object-cover border-2 border-blue-500 shadow-md' }),
               h('h3', { className: 'font-bold text-base text-slate-900' }, author.name),
               h('div', { className: 'text-xs text-blue-600 font-semibold' }, author.role),
-              h('p', { className: 'text-xs text-slate-600 leading-relaxed' }, author.bio)
+              h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, author.bio)
             )
           )
         )

@@ -34,7 +34,7 @@ export default function RankingsArchivePage() {
           'Bảng Xếp Hạng Độc Lập 2026'
         ),
         h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Bảng Xếp Hạng Sản Phẩm & Phần Mềm Tốt Nhất'),
-        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed' }, 'Tất cả các bảng xếp hạng được xây dựng dựa trên kết quả kiểm tra thực tế, so sánh tính năng và đánh giá phản hồi người dùng bởi ban biên tập Top Choice.')
+        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed text-justify' }, 'Tất cả các bảng xếp hạng được xây dựng dựa trên kết quả kiểm tra thực tế, so sánh tính năng và đánh giá phản hồi người dùng bởi ban biên tập Top Choice.')
       ),
 
       // Filter tabs
@@ -85,7 +85,7 @@ export default function RankingsArchivePage() {
                 h('span', { className: 'text-slate-400' }, `Cập nhật: ${rank.updatedAt}`)
               ),
               h('h2', { className: 'text-xl font-bold text-slate-900 leading-snug' }, rank.title),
-              h('p', { className: 'text-xs text-slate-600 line-clamp-3 leading-relaxed' }, rank.intro)
+              h('p', { className: 'text-xs text-slate-600 line-clamp-3 leading-relaxed text-justify' }, rank.intro)
             ),
             h(
               'div',

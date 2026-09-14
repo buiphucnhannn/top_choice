@@ -34,7 +34,7 @@ export default function GuidesArchivePage() {
           'Cẩm Nang Tiêu Dùng Thông Minh'
         ),
         h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Kinh Nghiệm Chọn Mua & Tiêu Chí Đánh Giá'),
-        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed' }, 'Các bài viết hướng dẫn chuyên sâu phân tích tiêu chí chọn mua, so sánh công nghệ và giải đáp những sai lầm thường gặp giúp bạn chọn đúng sản phẩm.')
+        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed text-justify' }, 'Các bài viết hướng dẫn chuyên sâu phân tích tiêu chí chọn mua, so sánh công nghệ và giải đáp những sai lầm thường gặp giúp bạn chọn đúng sản phẩm.')
       ),
 
       // Filter tabs
@@ -86,7 +86,7 @@ export default function GuidesArchivePage() {
                 h('span', { className: 'text-slate-400' }, `Cập nhật: ${guide.updatedAt}`)
               ),
               h('h2', { className: 'text-xl font-bold text-slate-900 leading-snug' }, guide.title),
-              h('p', { className: 'text-xs text-slate-600 leading-relaxed line-clamp-3' }, guide.excerpt)
+              h('p', { className: 'text-xs text-slate-600 leading-relaxed line-clamp-3 text-justify' }, guide.excerpt)
             ),
             h(
               'div',

@@ -85,7 +85,7 @@ export default function RecentArticles() {
                 { className: 'space-y-2' },
                 h('span', { className: `inline-block text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${item.badgeClass}` }, item.badge),
                 h('h3', { className: 'font-bold text-slate-900 text-base leading-snug group-hover:text-blue-600 transition-colors' }, item.title),
-                h('p', { className: 'text-xs text-slate-600 line-clamp-2 leading-relaxed' }, item.desc)
+                h('p', { className: 'text-xs text-slate-600 line-clamp-2 leading-relaxed text-justify' }, item.desc)
               ),
               h(
                 'div',

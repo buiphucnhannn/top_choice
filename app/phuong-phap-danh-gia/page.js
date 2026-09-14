@@ -26,7 +26,7 @@ export default function MethodologyPage() {
           'Tính Minh Bạch & Độc Lập'
         ),
         h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Phương Pháp Đánh Giá Sản Phẩm & Thang Điểm'),
-        h('p', { className: 'text-base text-slate-600 leading-relaxed' }, 'Để giữ được niềm tin từ hàng trăm nghìn độc giả, chúng tôi áp dụng một quy trình thử nghiệm và chấm điểm chuẩn hóa, minh bạch cho từng nhóm sản phẩm.')
+        h('p', { className: 'text-base text-slate-600 leading-relaxed text-justify' }, 'Để giữ được niềm tin từ hàng trăm nghìn độc giả, chúng tôi áp dụng một quy trình thử nghiệm và chấm điểm chuẩn hóa, minh bạch cho từng nhóm sản phẩm.')
       ),
 
       // Detailed Steps
@@ -60,7 +60,7 @@ export default function MethodologyPage() {
             { key: idx, className: 'p-6 bg-white border border-slate-200 rounded-md space-y-2 shadow-sm' },
             h('span', { className: 'inline-block px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-bold rounded uppercase tracking-wider' }, item.step),
             h('h3', { className: 'text-lg font-bold text-slate-900' }, item.title),
-            h('p', { className: 'text-sm text-slate-600 leading-relaxed' }, item.content)
+            h('p', { className: 'text-sm text-slate-600 leading-relaxed text-justify' }, item.content)
           )
         )
       )
