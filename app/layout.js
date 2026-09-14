@@ -8,6 +8,11 @@ export const metadata = {
     template: '%s | TOP CHOICE'
   },
   description: 'Chúng tôi mang đến các bài đánh giá chuyên sâu, bảng xếp hạng đáng tin cậy và hướng dẫn hữu ích để giúp bạn lựa chọn sản phẩm phù hợp nhất.',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
   robots: { index: true, follow: true },
 };
 
