@@ -10,6 +10,8 @@ export default function AdminProductsPage() {
   const [productList, setProductList] = useState(initialProducts);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
+  const [sortBy, setSortBy] = useState('updated');
+  const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
 
@@ -26,9 +28,15 @@ export default function AdminProductsPage() {
     e.preventDefault();
     if (!formData.name || !formData.priceRef) return;
 
+    const slug = formData.name.toLowerCase().trim().replace(/\s+/g, '-');
+    if (productList.some((product) => product.slug === slug)) {
+      setToastMsg('Slug đã tồn tại. Vui lòng đổi tên sản phẩm để tạo slug khác.');
+      return;
+    }
+
     const newProd = {
       id: `prod-${Date.now()}`,
-      slug: formData.name.toLowerCase().replace(/\s+/g, '-'),
+      slug,
       name: formData.name,
       brand: formData.brand || 'Thương hiệu',
       type: formData.type,
@@ -45,6 +53,7 @@ export default function AdminProductsPage() {
     };
 
     setProductList([newProd, ...productList]);
+    setPage(1);
     setShowModal(false);
     setToastMsg(`Đã thêm thành công sản phẩm "${formData.name}"!`);
     setTimeout(() => setToastMsg(''), 4000);
@@ -63,7 +72,14 @@ export default function AdminProductsPage() {
     const matchType = filterType === 'all' || p.type === filterType;
     const matchSearch = !searchTerm || p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.brand.toLowerCase().includes(searchTerm.toLowerCase());
     return matchType && matchSearch;
+  }).sort((a, b) => {
+    if (sortBy === 'score') return b.overallScore - a.overallScore;
+    if (sortBy === 'name') return a.name.localeCompare(b.name, 'vi');
+    return b.id.localeCompare(a.id);
   });
+  const pageSize = 8;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const visibleProducts = filtered.slice((page - 1) * pageSize, page * pageSize);
 
   return h(
     'div',
@@ -108,7 +124,7 @@ export default function AdminProductsPage() {
         h('input', {
           type: 'text',
           value: searchTerm,
-          onChange: (e) => setSearchTerm(e.target.value),
+          onChange: (e) => { setSearchTerm(e.target.value); setPage(1); },
           placeholder: 'Tìm kiếm sản phẩm theo tên, thương hiệu...',
           className: 'w-full sm:w-80 px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
         }),
@@ -120,12 +136,23 @@ export default function AdminProductsPage() {
             'select',
             {
               value: filterType,
-              onChange: (e) => setFilterType(e.target.value),
+              onChange: (e) => { setFilterType(e.target.value); setPage(1); },
               className: 'px-3 py-2 bg-slate-50 border border-slate-200 rounded focus:outline-none'
             },
             h('option', { value: 'all' }, 'Tất cả sản phẩm'),
             h('option', { value: 'vat-ly' }, 'Sản phẩm vật lý'),
             h('option', { value: 'so' }, 'Sản phẩm số')
+          )
+        )
+      ),
+
+      h('div', { className: 'flex justify-end' },
+        h('label', { className: 'flex items-center gap-2 text-xs font-semibold text-slate-600' },
+          'Sắp xếp:',
+          h('select', { value: sortBy, onChange: (e) => { setSortBy(e.target.value); setPage(1); }, className: 'rounded border border-slate-200 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500' },
+            h('option', { value: 'updated' }, 'Mới cập nhật'),
+            h('option', { value: 'score' }, 'Điểm cao nhất'),
+            h('option', { value: 'name' }, 'Tên A–Z')
           )
         )
       ),
@@ -154,7 +181,7 @@ export default function AdminProductsPage() {
           h(
             'tbody',
             { className: 'divide-y divide-slate-100 text-xs' },
-            filtered.map((prod) =>
+            visibleProducts.map((prod) =>
               h(
                 'tr',
                 { key: prod.id, className: 'hover:bg-slate-50/60 transition-colors' },
@@ -209,6 +236,15 @@ export default function AdminProductsPage() {
               )
             )
           )
+        )
+      ),
+
+      h('div', { className: 'flex items-center justify-between text-xs text-slate-600' },
+        h('span', null, `Hiển thị ${visibleProducts.length}/${filtered.length} sản phẩm`),
+        h('div', { className: 'flex gap-2' },
+          h('button', { type: 'button', disabled: page === 1, onClick: () => setPage(page - 1), className: 'px-3 py-1.5 rounded border border-slate-300 bg-white font-bold disabled:opacity-40' }, '← Trước'),
+          h('span', { className: 'px-2 py-1.5 font-semibold' }, `${page}/${totalPages}`),
+          h('button', { type: 'button', disabled: page === totalPages, onClick: () => setPage(page + 1), className: 'px-3 py-1.5 rounded border border-slate-300 bg-white font-bold disabled:opacity-40' }, 'Sau →')
         )
       ),
 

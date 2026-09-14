@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AdminSidebar from '../../../components/AdminSidebar';
 import { categories as initialCategories } from '../../../data/mockData';
 
@@ -10,9 +10,27 @@ export default function AdminCategoriesPage() {
   const [catList, setCatList] = useState(initialCategories);
   const [toastMsg, setToastMsg] = useState('');
 
+  useEffect(() => {
+    const savedVisibility = window.localStorage.getItem('topchoice-demo-mega-menu');
+    if (!savedVisibility) return;
+    try {
+      const visibility = JSON.parse(savedVisibility);
+      setCatList((current) => current.map((category) => (
+        Object.prototype.hasOwnProperty.call(visibility, category.slug)
+          ? { ...category, featured: visibility[category.slug] }
+          : category
+      )));
+    } catch {
+      window.localStorage.removeItem('topchoice-demo-mega-menu');
+    }
+  }, []);
+
   const toggleFeatured = (id) => {
-    setCatList(
-      catList.map((c) => (c.id === id ? { ...c, featured: !c.featured } : c))
+    const nextCategories = catList.map((c) => (c.id === id ? { ...c, featured: !c.featured } : c));
+    setCatList(nextCategories);
+    window.localStorage.setItem(
+      'topchoice-demo-mega-menu',
+      JSON.stringify(Object.fromEntries(nextCategories.map((category) => [category.slug, category.featured])))
     );
     setToastMsg('Đã cập nhật trạng thái hiển thị Mega Menu.');
     setTimeout(() => setToastMsg(''), 3000);

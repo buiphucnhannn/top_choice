@@ -1,6 +1,5 @@
-'use client';
-
 import React from 'react';
+import { notFound } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
@@ -8,9 +7,16 @@ import { comparisons, products } from '../../../data/mockData';
 
 const h = React.createElement;
 
+export function generateMetadata({ params }) {
+  const comparison = comparisons.find((item) => item.slug === params.slug);
+  if (!comparison) return { title: 'Không tìm thấy trang so sánh' };
+  return { title: comparison.title, description: comparison.summaryWinner };
+}
+
 export default function ComparisonPage({ params }) {
   const { slug } = params;
-  const comp = comparisons.find((c) => c.slug === slug) || comparisons[0];
+  const comp = comparisons.find((c) => c.slug === slug);
+  if (!comp) notFound();
   const prodA = products.find((p) => p.id === comp.productAId) || products[0];
   const prodB = products.find((p) => p.id === comp.productBId) || products[1];
 
@@ -24,7 +30,7 @@ export default function ComparisonPage({ params }) {
       // Breadcrumb
       h(Breadcrumb, {
         items: [
-          { name: 'So sánh sản phẩm', href: '#' },
+          { name: 'So sánh sản phẩm' },
           { name: `${prodA.name} vs ${prodB.name}` }
         ]
       }),
@@ -130,22 +136,22 @@ export default function ComparisonPage({ params }) {
       // Final Verdict Box
       h(
         'section',
-        { className: 'bg-slate-900 text-white rounded-lg p-8 space-y-6 shadow-md' },
-        h('h3', { className: 'text-2xl font-bold tracking-tight' }, '🎯 Kết luận biên tập: Bạn nên mua sản phẩm nào?'),
+        { className: 'bg-white border border-slate-200 rounded-lg p-6 sm:p-8 space-y-6 shadow-sm' },
+        h('h3', { className: 'text-2xl font-bold tracking-tight text-slate-900' }, '🎯 Kết luận biên tập: Bạn nên mua sản phẩm nào?'),
         h(
           'div',
           { className: 'grid grid-cols-1 md:grid-cols-2 gap-6' },
           h(
             'div',
-            { className: 'bg-slate-800/80 p-5 rounded-md border border-slate-700 space-y-2' },
-            h('h4', { className: 'text-base font-bold text-blue-400' }, `Chọn ${prodA.name} nếu:`),
-            h('p', { className: 'text-xs sm:text-sm text-slate-300 leading-relaxed text-justify' }, comp.verdict.chooseAIf)
+            { className: 'bg-blue-50/50 p-5 rounded-md border border-blue-200/80 space-y-2' },
+            h('h4', { className: 'text-base font-bold text-blue-700' }, `Chọn ${prodA.name} nếu:`),
+            h('p', { className: 'text-xs sm:text-sm text-slate-700 leading-relaxed text-justify' }, comp.verdict.chooseAIf)
           ),
           h(
             'div',
-            { className: 'bg-slate-800/80 p-5 rounded-md border border-slate-700 space-y-2' },
-            h('h4', { className: 'text-base font-bold text-indigo-400' }, `Chọn ${prodB.name} nếu:`),
-            h('p', { className: 'text-xs sm:text-sm text-slate-300 leading-relaxed text-justify' }, comp.verdict.chooseBIf)
+            { className: 'bg-indigo-50/50 p-5 rounded-md border border-indigo-200/80 space-y-2' },
+            h('h4', { className: 'text-base font-bold text-indigo-700' }, `Chọn ${prodB.name} nếu:`),
+            h('p', { className: 'text-xs sm:text-sm text-slate-700 leading-relaxed text-justify' }, comp.verdict.chooseBIf)
           )
         )
       )

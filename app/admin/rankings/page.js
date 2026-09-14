@@ -7,7 +7,18 @@ import { rankings as initialRankings } from '../../../data/mockData';
 const h = React.createElement;
 
 export default function AdminRankingsPage() {
-  const [rankingList] = useState(initialRankings);
+  const [rankingList, setRankingList] = useState(initialRankings);
+
+  const moveItem = (rankingId, itemIndex, direction) => {
+    setRankingList((current) => current.map((ranking) => {
+      if (ranking.id !== rankingId) return ranking;
+      const target = itemIndex + direction;
+      if (target < 0 || target >= ranking.items.length) return ranking;
+      const items = [...ranking.items];
+      [items[itemIndex], items[target]] = [items[target], items[itemIndex]];
+      return { ...ranking, items: items.map((item, index) => ({ ...item, rank: index + 1 })) };
+    }));
+  };
 
   return h(
     'div',
@@ -54,7 +65,11 @@ export default function AdminRankingsPage() {
                     'div',
                     { key: idx, className: 'flex items-center justify-between text-xs bg-white p-2.5 rounded border border-slate-200' },
                     h('div', { className: 'font-semibold text-slate-800' }, `#${item.rank} - ${item.label}`),
-                    h('div', { className: 'text-slate-500 italic' }, item.rationale)
+                    h('div', { className: 'text-slate-500 italic hidden lg:block max-w-md truncate' }, item.rationale),
+                    h('div', { className: 'flex gap-1 ml-2' },
+                      h('button', { type: 'button', disabled: idx === 0, onClick: () => moveItem(rank.id, idx, -1), 'aria-label': 'Đưa sản phẩm lên', className: 'w-7 h-7 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 disabled:opacity-30' }, '↑'),
+                      h('button', { type: 'button', disabled: idx === rank.items.length - 1, onClick: () => moveItem(rank.id, idx, 1), 'aria-label': 'Đưa sản phẩm xuống', className: 'w-7 h-7 rounded border border-slate-300 text-slate-700 hover:bg-slate-100 disabled:opacity-30' }, '↓')
+                    )
                   )
                 )
               )

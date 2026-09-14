@@ -7,11 +7,18 @@ import { products, categories, rankings, guides } from '../../data/mockData';
 const h = React.createElement;
 
 export default function AdminDashboardPage() {
-  const kpis = [
+  const staticKpis = [
     { title: 'Tổng Sản Phẩm', value: products.length, change: '+12 mẫu', color: 'text-blue-600', bg: 'bg-blue-50' },
     { title: 'Danh Mục', value: categories.length, change: '8 danh mục', color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { title: 'Bảng Xếp Hạng', value: rankings.length, change: '4 active', color: 'text-amber-600', bg: 'bg-amber-50' },
     { title: 'Bài Hướng Dẫn', value: guides.length, change: '4 bài viết', color: 'text-purple-600', bg: 'bg-purple-50' }
+  ];
+
+  const kpis = [
+    { title: 'Tổng Sản Phẩm', value: products.length, change: 'Bộ demo mở rộng', color: 'text-blue-600', bg: 'bg-blue-50' },
+    { title: 'Danh Mục', value: categories.length, change: 'Cả vật lý và số', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+    { title: 'Bảng Xếp Hạng', value: rankings.length, change: 'Đang xuất bản', color: 'text-amber-600', bg: 'bg-amber-50' },
+    { title: 'Bài Hướng Dẫn', value: guides.length, change: 'Đã xuất bản', color: 'text-purple-600', bg: 'bg-purple-50' }
   ];
 
   return h(

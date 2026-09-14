@@ -9,6 +9,7 @@ const h = React.createElement;
 export default function AdminContentPage() {
   const [guidesList, setGuidesList] = useState(initialGuides);
   const [searchTerm, setSearchTerm] = useState('');
+  const [contentType, setContentType] = useState('all');
   const [showModal, setShowModal] = useState(false);
   const [toastMsg, setToastMsg] = useState('');
   const [formData, setFormData] = useState({ title: '', type: 'vat-ly', excerpt: '' });
@@ -34,8 +35,19 @@ export default function AdminContentPage() {
     setFormData({ title: '', type: 'vat-ly', excerpt: '' });
   };
 
-  const filtered = guidesList.filter((g) =>
-    !searchTerm || g.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const reviewItems = products.map((product) => ({
+    id: `review-${product.id}`,
+    title: `Đánh giá ${product.name}`,
+    excerpt: product.summary,
+    type: product.type,
+    kind: 'review',
+    updatedAt: product.updatedAt,
+    href: `/review/${product.slug}`
+  }));
+  const guideItems = guidesList.map((guide) => ({ ...guide, kind: 'guide', href: `/huong-dan/${guide.slug}` }));
+  const filtered = [...guideItems, ...reviewItems].filter((item) =>
+    (contentType === 'all' || item.kind === contentType) &&
+    (!searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return h(
@@ -71,6 +83,15 @@ export default function AdminContentPage() {
           },
           '+ Soạn Bài Hướng Dẫn Mới'
         )
+      ),
+
+      h('div', { className: 'flex flex-wrap gap-2 text-xs font-bold' },
+        [{ id: 'all', label: 'Tất cả' }, { id: 'review', label: `Review (${products.length})` }, { id: 'guide', label: `Hướng dẫn (${guidesList.length})` }].map((tab) => h('button', {
+          key: tab.id,
+          type: 'button',
+          onClick: () => setContentType(tab.id),
+          className: `rounded px-3 py-2 border ${contentType === tab.id ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-200 bg-white text-slate-700 hover:bg-slate-50'}`
+        }, tab.label))
       ),
 
       // Search & Table
@@ -142,7 +163,7 @@ export default function AdminContentPage() {
                   h(
                     'td',
                     { className: 'py-3.5 px-4 text-right' },
-                    h('a', { href: `/huong-dan/${item.slug}`, target: '_blank', className: 'text-blue-600 hover:underline font-bold' }, 'Xem bài')
+                    h('a', { href: item.href, target: '_blank', className: 'text-blue-600 hover:underline font-bold' }, 'Xem bài')
                   )
                 )
               )

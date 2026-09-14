@@ -13,6 +13,10 @@ export default function ProductReviewPage({ params }) {
   const product = products.find((p) => p.slug === slug) || products[0];
   const category = categories.find((c) => c.slug === product.categorySlug) || categories[0];
   const author = authors[0];
+  const alternatives = products.filter((item) => item.type === product.type && item.id !== product.id).slice(0, 3);
+  const suitableFor = product.type === 'vat-ly'
+    ? 'người cần một lựa chọn đáng tin cậy, dễ dùng và muốn tối ưu giá trị theo nhu cầu sử dụng thực tế.'
+    : 'cá nhân hoặc nhóm nhỏ cần công cụ linh hoạt, dễ bắt đầu và có lộ trình nâng cấp rõ ràng.';
 
   const [helpfulVotes, setHelpfulVotes] = useState(128);
   const [voted, setVoted] = useState(false);
@@ -89,6 +93,25 @@ export default function ProductReviewPage({ params }) {
               'Xem Nơi Bán Tốt Nhất →'
             )
           )
+        )
+      ),
+
+      // Quick conclusion
+      h(
+        'section',
+        { className: 'grid grid-cols-1 lg:grid-cols-3 gap-5' },
+        h(
+          'div',
+          { className: 'lg:col-span-2 bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
+          h('span', { className: 'inline-block text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded' }, 'Kết luận nhanh'),
+          h('h2', { className: 'text-xl font-bold text-slate-900' }, `${product.name} có đáng chọn không?`),
+          h('p', { className: 'text-sm leading-relaxed text-slate-700 text-justify' }, `${product.name} đạt ${product.overallScore}/10 nhờ ${product.pros[0]?.toLowerCase() || 'những điểm mạnh nổi bật'}. Sản phẩm phù hợp với ${suitableFor}`)
+        ),
+        h(
+          'div',
+          { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
+          h('h2', { className: 'text-sm font-bold text-slate-900' }, 'Cần cân nhắc nếu'),
+          h('ul', { className: 'space-y-2 text-xs text-slate-600' }, product.cons.slice(0, 3).map((item, index) => h('li', { key: index, className: 'flex gap-2' }, h('span', { className: 'text-rose-500 font-bold' }, '•'), item)))
         )
       ),
 
@@ -178,6 +201,47 @@ export default function ProductReviewPage({ params }) {
             )
           )
         )
+      ),
+
+      // Editorial analysis, price context and alternatives
+      h(
+        'section',
+        { className: 'grid grid-cols-1 lg:grid-cols-2 gap-8' },
+        h(
+          'div',
+          { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
+          h('h2', { className: 'text-xl font-bold text-slate-900' }, '🔎 Trải nghiệm & đánh giá chuyên sâu'),
+          h('p', { className: 'text-sm text-slate-700 leading-relaxed text-justify' }, `${product.summary} Trong quá trình đánh giá, ban biên tập đối chiếu trải nghiệm sử dụng, tính năng cốt lõi, mức độ hoàn thiện và giá trị nhận lại trong tầm giá.`),
+          h('p', { className: 'text-sm text-slate-700 leading-relaxed text-justify' }, `Điểm mạnh đáng chú ý là ${product.pros.slice(0, 2).join(' và ').toLowerCase()}. Trước khi chọn mua, hãy cân nhắc ${product.cons[0]?.toLowerCase() || 'nhu cầu sử dụng thực tế'} để chọn đúng phiên bản hoặc gói phù hợp.`)
+        ),
+        h(
+          'div',
+          { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
+          h('h2', { className: 'text-xl font-bold text-slate-900' }, '💳 Giá & thông tin kiểm tra'),
+          h('div', { className: 'rounded bg-blue-50 border border-blue-100 p-4' }, h('div', { className: 'text-xs text-blue-700 font-semibold' }, 'Giá tham khảo'), h('div', { className: 'mt-1 text-2xl text-slate-900 font-black' }, product.priceRef)),
+          h('p', { className: 'text-xs text-slate-600 leading-relaxed' }, `Giá và cấu hình có thể thay đổi theo nhà bán hoặc gói dịch vụ. Dữ liệu được kiểm tra lần cuối: ${product.updatedAt}.`),
+          h('a', { href: product.officialUrl, target: '_blank', rel: 'noopener noreferrer', className: 'inline-flex text-xs font-bold text-blue-600 hover:underline' }, 'Xem nguồn chính thức ↗')
+        )
+      ),
+
+      alternatives.length > 0 && h(
+        'section',
+        { className: 'space-y-4' },
+        h('h2', { className: 'text-xl font-bold text-slate-900' }, 'Sản phẩm thay thế đáng cân nhắc'),
+        h('div', { className: 'grid grid-cols-1 md:grid-cols-3 gap-4' }, alternatives.map((item) => h(
+          'a',
+          { key: item.id, href: `/review/${item.slug}`, className: 'bg-white border border-slate-200 rounded-md p-4 hover:border-blue-400 hover:shadow-sm transition-all space-y-2' },
+          h('div', { className: 'flex items-center justify-between gap-3' }, h('h3', { className: 'font-bold text-sm text-slate-900' }, item.name), h('span', { className: 'font-black text-blue-600 text-sm' }, `${item.overallScore}/10`)),
+          h('p', { className: 'text-xs text-slate-600 line-clamp-2' }, item.summary),
+          h('span', { className: 'text-xs font-semibold text-blue-600' }, 'Xem review →')
+        )))
+      ),
+
+      h(
+        'section',
+        { className: 'bg-slate-50 border border-slate-200 rounded-md p-5 text-xs text-slate-600 leading-relaxed' },
+        h('h2', { className: 'font-bold text-slate-900 text-sm mb-1' }, 'Phương pháp đánh giá'),
+        'Điểm số tổng hợp từ chất lượng, tính năng, mức độ dễ dùng, giá trị và hỗ trợ. Ban biên tập tham chiếu thông tin chính thức, đối chiếu cùng lựa chọn trong danh mục và cập nhật nội dung khi dữ liệu thay đổi.'
       ),
 
       // Reader Interaction & Helpful Feedback (FR06)

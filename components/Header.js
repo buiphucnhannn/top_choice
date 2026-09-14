@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const h = React.createElement;
 
@@ -196,7 +196,22 @@ export default function Header() {
   const [mobileVatLyOpen, setMobileVatLyOpen] = useState(false);
   const [mobileSoOpen, setMobileSoOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [megaMenuVisibility, setMegaMenuVisibility] = useState({});
   const timeoutRef = React.useRef(null);
+
+  useEffect(() => {
+    try {
+      const savedVisibility = window.localStorage.getItem('topchoice-demo-mega-menu');
+      if (savedVisibility) setMegaMenuVisibility(JSON.parse(savedVisibility));
+    } catch {
+      window.localStorage.removeItem('topchoice-demo-mega-menu');
+    }
+  }, []);
+
+  const getVisibleMegaMenu = (menuData) => menuData.filter((category) => {
+    const slug = category.href.split('/').filter(Boolean).pop();
+    return megaMenuVisibility[slug] !== false;
+  });
 
   const handleMouseEnter = (menuKey) => {
     if (timeoutRef.current) {
@@ -234,6 +249,7 @@ export default function Header() {
   };
 
   const renderMegaMenu = (title, hubHref, hubLabel, menuData, hotRankings) => {
+    const visibleMenuData = getVisibleMegaMenu(menuData);
     return h(
       'div',
       {
@@ -271,7 +287,7 @@ export default function Header() {
         h(
           'div',
           { className: 'grid grid-cols-3 gap-3.5 p-5 bg-white' },
-          menuData.map((cat, idx) =>
+          visibleMenuData.map((cat, idx) =>
             h(
               'div',
               {
@@ -596,7 +612,7 @@ export default function Header() {
                   { href: '/san-pham-vat-ly', className: 'block text-xs font-bold text-blue-600 hover:underline' },
                   '→ Vào trang Hub Sản Phẩm Vật Lý'
                 ),
-                physicalMegaMenu.map((cat, idx) =>
+        getVisibleMegaMenu(physicalMegaMenu).map((cat, idx) =>
                   h(
                     'div',
                     { key: idx, className: 'space-y-1' },
@@ -643,7 +659,7 @@ export default function Header() {
                   { href: '/san-pham-so', className: 'block text-xs font-bold text-blue-600 hover:underline' },
                   '→ Vào trang Hub Sản Phẩm Số'
                 ),
-                digitalMegaMenu.map((cat, idx) =>
+                getVisibleMegaMenu(digitalMegaMenu).map((cat, idx) =>
                   h(
                     'div',
                     { key: idx, className: 'space-y-1' },

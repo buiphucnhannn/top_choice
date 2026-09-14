@@ -6,6 +6,7 @@ const h = React.createElement;
 
 export default function AdminSidebar({ active = 'dashboard' }) {
   const menuItems = [
+    { id: 'settings', label: 'Cài đặt website', href: '/admin/settings' },
     { id: 'dashboard', label: '📊 Dashboard Tổng Quan', href: '/admin' },
     { id: 'categories', label: '📁 Quản Lý Danh Mục', href: '/admin/categories' },
     { id: 'products', label: '📦 Quản Lý Sản Phẩm', href: '/admin/products' },

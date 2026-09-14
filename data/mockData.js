@@ -1165,26 +1165,25 @@ export const comparisons = [
   // 1 So sánh số
   {
     id: 'comp-2',
-    slug: 'macbook-air-m4-vs-dell-xps-13',
-    title: 'MacBook Air M4 vs Dell XPS 13: Đâu Là Chiếc Laptop Văn Phòng Hoàn Hảo?',
+    slug: 'chatgpt-plus-vs-notion-ai',
+    title: 'ChatGPT Plus vs Notion AI: Nên Chọn Trợ Lý AI Hay Không Gian Làm Việc Thông Minh?',
     type: 'so',
-    productAId: 'prod-macbook-air-m4',
-    productBId: 'prod-dell-xps-13',
-    winnerId: 'prod-macbook-air-m4',
-    summaryWinner: 'MacBook Air M4 chiến thắng nhờ thời lượng pin vượt trội 18 tiếng, thiết kế không quạt hoàn toàn yên tĩnh và độ mượt mà của chip M4; Dell XPS 13 vượt trội về màn hình viền siêu mỏng InfinityEdge OLED 3K và khả năng tương thích phần mềm Windows.',
+    productAId: 'prod-7',
+    productBId: 'prod-8',
+    winnerId: 'prod-7',
+    summaryWinner: 'ChatGPT Plus phù hợp hơn cho người cần một trợ lý AI đa năng để phân tích, viết và xử lý nhiều dạng tác vụ; Notion AI là lựa chọn mạnh hơn khi công việc của bạn đã tập trung trong không gian ghi chú, tài liệu và dự án của Notion.',
     updatedAt: '12/09/2026',
     matrix: [
-      { criterion: 'Hệ điều hành', productA: 'macOS Sequoia', productB: 'Windows 11 Home/Pro', winner: 'Hòa' },
-      { criterion: 'Thời lượng Pin', productA: '16-18 tiếng thực tế', productB: '10-12 tiếng thực tế', winner: 'A' },
-      { criterion: 'Màn hình hiển thị', productA: '13.6" Liquid Retina 500 nits', productB: '13.4" 3K+ OLED Touch', winner: 'B' },
-      { criterion: 'Khả năng tản nhiệt', productA: 'Không quạt (hoàn toàn yên tĩnh)', productB: '2 quạt làm mát', winner: 'A' },
-      { criterion: 'Trọng lượng máy', productA: '1.24 kg', productB: '1.19 kg', winner: 'B' },
-      { criterion: 'Cổng kết nối', productA: '2x Thunderbolt, MagSafe 3', productB: '2x Thunderbolt 4', winner: 'A' },
-      { criterion: 'Giá bán tham khảo', productA: '28.990.000đ', productB: '32.490.000đ', winner: 'A' }
+      { criterion: 'Vai trò chính', productA: 'Trợ lý AI đa năng, hội thoại độc lập', productB: 'AI tích hợp trong workspace Notion', winner: 'Hòa' },
+      { criterion: 'Phân tích & suy luận đa tác vụ', productA: 'Mạnh với văn bản, ý tưởng, phân tích và hội thoại', productB: 'Tối ưu cho nội dung đang có trong Notion', winner: 'A' },
+      { criterion: 'Quản lý dự án & tri thức nhóm', productA: 'Cần kết hợp công cụ ngoài', productB: 'Tích hợp database, tài liệu và task', winner: 'B' },
+      { criterion: 'Tạo nội dung từ ngữ cảnh tài liệu', productA: 'Dán hoặc tải ngữ cảnh thủ công', productB: 'Dùng trực tiếp trang và workspace Notion', winner: 'B' },
+      { criterion: 'Tích hợp', productA: 'Web, desktop, mobile và GPTs', productB: 'Notion Web, desktop và mobile', winner: 'A' },
+      { criterion: 'Giá tham khảo', productA: '490.000đ/tháng', productB: '240.000đ/tháng', winner: 'B' }
     ],
     verdict: {
-      chooseAIf: 'Bạn ưu tiên thời lượng pin làm việc cả ngày không cần mang sạc, máy mát rượi và hệ sinh thái Apple đồng bộ.',
-      chooseBIf: 'Bạn phụ thuộc vào các phần mềm chuyên biệt chỉ có trên Windows hoặc yêu thích màn hình cảm ứng OLED viền siêu mỏng.'
+      chooseAIf: 'Bạn cần một trợ lý AI linh hoạt để viết, phân tích, học tập, lập kế hoạch và giải quyết nhiều tác vụ khác nhau mỗi ngày.',
+      chooseBIf: 'Bạn đã dùng Notion làm nơi lưu tài liệu và quản lý dự án, muốn AI đọc hiểu và xử lý ngay trong quy trình làm việc của nhóm.'
     }
   }
 ];

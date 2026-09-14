@@ -43,9 +43,9 @@ Tài liệu này tổng hợp toàn bộ thông tin đăng nhập, dữ liệu m
    - Thẻ chứng nhận kiểm duyệt độc lập của chuyên gia kèm avatar.
 
 ### Kịch Bản 4: So Sánh Đối Đầu 2 Sản Phẩm (Comparison)
-1. Truy cập trang so sánh nồi chiên [`/so-sanh/aircook-pro-vs-homechef-dual`](http://localhost:3000/so-sanh/aircook-pro-vs-homechef-dual) hoặc laptop [`/so-sanh/macbook-air-m4-vs-dell-xps-13`](http://localhost:3000/so-sanh/macbook-air-m4-vs-dell-xps-13):
+1. Truy cập trang so sánh nồi chiên [`/so-sanh/aircook-pro-vs-homechef-dual`](http://localhost:3000/so-sanh/aircook-pro-vs-homechef-dual) hoặc hai công cụ AI [`/so-sanh/chatgpt-plus-vs-notion-ai`](http://localhost:3000/so-sanh/chatgpt-plus-vs-notion-ai):
    - Hai thẻ sản phẩm đối đầu trực diện, nổi bật sản phẩm thắng cuộc tổng thể.
-   - Ma trận so sánh chi tiết từng tiêu chí (dung tích, công suất, giá, độ dễ rửa).
+   - Ma trận so sánh chi tiết theo các tiêu chí tương ứng (ví dụ: dung tích, công suất, giá ở nồi chiên; vai trò, tích hợp, giá ở công cụ AI).
    - Khối kết luận biên tập: *"Chọn A nếu... / Chọn B nếu..."*.
 
 ### Kịch Bản 5: Quản Trị Viên Biên Tập Dữ Liệu Mẫu (Admin Demo)
@@ -61,9 +61,9 @@ Tài liệu này tổng hợp toàn bộ thông tin đăng nhập, dữ liệu m
 
 ---
 
-## 📋 3. Bảng Tổng Hợp Dữ Liệu Mẫu Đang Có Trong Hệ Thống
+## 📋 3. Bộ Dữ Liệu Tối Thiểu Dùng Để Nghiệm Thu
 
-### 📦 12 Sản Phẩm Mẫu:
+### 📦 12 Sản Phẩm Lõi (đáp ứng mức tối thiểu):
 | Tên Sản Phẩm | Phân Loại | Điểm | Giá Tham Khảo | URL Xem |
 | :--- | :--- | :--- | :--- | :--- |
 | **Aircook Pro 6L** | Vật lý (Gia dụng) | 9.5 | 2.490.000đ | `/review/aircook-pro-6l` |
@@ -81,7 +81,7 @@ Tài liệu này tổng hợp toàn bộ thông tin đăng nhập, dữ liệu m
 
 ---
 
-### 🏆 4 Bảng Xếp Hạng Top 10:
+### 🏆 4 Bảng Xếp Hạng Lõi (đáp ứng mức tối thiểu):
 - **Top 10 Nồi chiên không dầu tốt nhất 2026:** `/top/noi-chien-khong-dau`
 - **Top 10 Tai nghe không dây chống ồn:** `/top/tai-nghe-khong-day`
 - **Top 10 Công cụ AI tăng hiệu suất 2026:** `/top/cong-cu-ai-tot-nhat`
@@ -89,7 +89,7 @@ Tài liệu này tổng hợp toàn bộ thông tin đăng nhập, dữ liệu m
 
 ---
 
-### 📖 4 Cẩm Nang Hướng Dẫn Mua Hàng:
+### 📖 4 Cẩm Nang Hướng Dẫn Lõi (đáp ứng mức tối thiểu):
 - **Cách chọn tai nghe phù hợp:** `/huong-dan/cach-chon-tai-nghe`
 - **Cẩm nang chọn mua nồi chiên không dầu:** `/huong-dan/cach-chon-noi-chien`
 - **Lựa chọn công cụ AI cho văn phòng:** `/huong-dan/cach-chon-cong-cu-ai`

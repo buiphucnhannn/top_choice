@@ -2,8 +2,13 @@ import React from 'react';
 import './globals.css';
 
 export const metadata = {
-  title: 'TOP CHOICE - Đánh giá khách quan. Lựa chọn thông minh.',
+  metadataBase: new URL('https://topchoice.vn'),
+  title: {
+    default: 'TOP CHOICE - Đánh giá khách quan. Lựa chọn thông minh.',
+    template: '%s | TOP CHOICE'
+  },
   description: 'Chúng tôi mang đến các bài đánh giá chuyên sâu, bảng xếp hạng đáng tin cậy và hướng dẫn hữu ích để giúp bạn lựa chọn sản phẩm phù hợp nhất.',
+  robots: { index: true, follow: true },
 };
 
 const h = React.createElement;

@@ -1,6 +1,5 @@
-'use client';
-
 import React from 'react';
+import { notFound } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
@@ -8,9 +7,16 @@ import { rankings, products, authors } from '../../../data/mockData';
 
 const h = React.createElement;
 
+export function generateMetadata({ params }) {
+  const ranking = rankings.find((item) => item.slug === params.slug);
+  if (!ranking) return { title: 'Không tìm thấy bảng xếp hạng' };
+  return { title: ranking.title, description: ranking.intro };
+}
+
 export default function RankingDetailPage({ params }) {
   const { slug } = params;
-  const ranking = rankings.find((r) => r.slug === slug) || rankings[0];
+  const ranking = rankings.find((r) => r.slug === slug);
+  if (!ranking) notFound();
   const author = authors.find((a) => a.id === ranking.authorId) || authors[0];
 
   return h(
@@ -24,7 +30,7 @@ export default function RankingDetailPage({ params }) {
       h(Breadcrumb, {
         items: [
           { name: ranking.group === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số', href: ranking.group === 'vat-ly' ? '/san-pham-vat-ly' : '/san-pham-so' },
-          { name: 'Bảng xếp hạng', href: '#' },
+          { name: 'Bảng xếp hạng', href: '/top' },
           { name: ranking.title }
         ]
       }),
@@ -87,6 +93,38 @@ export default function RankingDetailPage({ params }) {
               h('div', { className: 'font-bold text-slate-900 text-sm' }, (ranking.quickPicks.budgetPick || ranking.quickPicks.bestCreative).name),
               h('p', { className: 'text-xs text-slate-600' }, (ranking.quickPicks.budgetPick || ranking.quickPicks.bestCreative).reason)
             )
+        )
+      ),
+
+      // Quick comparison table
+      h(
+        'section',
+        { className: 'bg-white border border-slate-200 rounded-lg p-5 sm:p-6 shadow-sm space-y-4' },
+        h('h2', { className: 'text-lg font-bold text-slate-900' }, 'So sánh nhanh các lựa chọn hàng đầu'),
+        h(
+          'div',
+          { className: 'overflow-x-auto' },
+          h(
+            'table',
+            { className: 'w-full min-w-[620px] text-left text-xs border-collapse' },
+            h('thead', { className: 'border-b border-slate-200 text-slate-500 uppercase tracking-wide' }, h('tr', null,
+              h('th', { className: 'px-3 py-3' }, 'Hạng'),
+              h('th', { className: 'px-3 py-3' }, 'Sản phẩm'),
+              h('th', { className: 'px-3 py-3' }, 'Điểm'),
+              h('th', { className: 'px-3 py-3' }, 'Giá tham khảo'),
+              h('th', { className: 'px-3 py-3 text-right' }, 'Chi tiết')
+            )),
+            h('tbody', { className: 'divide-y divide-slate-100' }, ranking.items.map((item) => {
+              const product = products.find((entry) => entry.id === item.productId) || products[0];
+              return h('tr', { key: item.productId, className: 'hover:bg-slate-50/70' },
+                h('td', { className: 'px-3 py-3 font-black text-blue-600' }, `#${item.rank}`),
+                h('td', { className: 'px-3 py-3 font-bold text-slate-900' }, product.name),
+                h('td', { className: 'px-3 py-3 font-bold text-slate-700' }, `${product.overallScore}/10`),
+                h('td', { className: 'px-3 py-3 text-slate-600' }, product.priceRef),
+                h('td', { className: 'px-3 py-3 text-right' }, h('a', { href: `/review/${product.slug}`, className: 'font-bold text-blue-600 hover:underline' }, 'Xem review →'))
+              );
+            }))
+          )
         )
       ),
 

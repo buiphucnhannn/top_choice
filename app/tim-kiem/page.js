@@ -4,13 +4,18 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import Breadcrumb from '../../components/Breadcrumb';
-import { products, rankings, guides, comparisons } from '../../data/mockData';
+import { products, rankings, guides, comparisons, categories } from '../../data/mockData';
 
 const h = React.createElement;
 
 export default function SearchPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('all'); // all, product, ranking, guide, comparison
+  const [groupFilter, setGroupFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [minScore, setMinScore] = useState('all');
+  const [updatedFilter, setUpdatedFilter] = useState('all');
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -23,23 +28,30 @@ export default function SearchPage() {
   // Filter items matching search term
   const term = searchTerm.toLowerCase().trim();
 
-  const filteredProducts = products.filter(
-    (p) => !term || p.name.toLowerCase().includes(term) || p.summary.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term)
+  const matchesGroup = (item) => groupFilter === 'all' || item.type === groupFilter || item.group === groupFilter;
+  const matchesCategory = (item) => categoryFilter === 'all' || item.categorySlug === categoryFilter;
+  const matchesUpdated = (item) => updatedFilter === 'all' || (item.updatedAt && item.updatedAt.endsWith('/09/2026'));
+  const filteredProducts = products.filter((p) =>
+    (!term || p.name.toLowerCase().includes(term) || p.summary.toLowerCase().includes(term) || p.brand.toLowerCase().includes(term)) && matchesGroup(p) && matchesCategory(p) && (minScore === 'all' || p.overallScore >= Number(minScore)) && matchesUpdated(p)
   );
 
   const filteredRankings = rankings.filter(
-    (r) => !term || r.title.toLowerCase().includes(term) || r.intro.toLowerCase().includes(term)
+    (r) => (!term || r.title.toLowerCase().includes(term) || r.intro.toLowerCase().includes(term)) && matchesGroup(r) && matchesUpdated(r)
   );
 
   const filteredGuides = guides.filter(
-    (g) => !term || g.title.toLowerCase().includes(term) || g.excerpt.toLowerCase().includes(term)
+    (g) => (!term || g.title.toLowerCase().includes(term) || g.excerpt.toLowerCase().includes(term)) && matchesGroup(g) && matchesUpdated(g)
   );
 
   const filteredComparisons = comparisons.filter(
-    (c) => !term || c.title.toLowerCase().includes(term)
+    (c) => (!term || c.title.toLowerCase().includes(term)) && matchesGroup(c) && matchesUpdated(c)
   );
 
   const totalCount = filteredProducts.length + filteredRankings.length + filteredGuides.length + filteredComparisons.length;
+  const pageSize = 6;
+  const totalPages = Math.max(1, Math.ceil(Math.max(filteredProducts.length, filteredRankings.length, filteredGuides.length, filteredComparisons.length) / pageSize));
+  const pageSlice = (items) => items.slice((page - 1) * pageSize, page * pageSize);
+  const resetFilters = () => { setGroupFilter('all'); setCategoryFilter('all'); setMinScore('all'); setUpdatedFilter('all'); setPage(1); };
 
   return h(
     'div',
@@ -73,7 +85,7 @@ export default function SearchPage() {
           h('input', {
             type: 'text',
             value: searchTerm,
-            onChange: (e) => setSearchTerm(e.target.value),
+            onChange: (e) => { setSearchTerm(e.target.value); setPage(1); },
             placeholder: 'Nhập tên sản phẩm, thương hiệu hoặc chủ đề...',
             className: 'w-full pl-3 pr-4 py-2.5 text-base bg-transparent focus:outline-none text-slate-800 placeholder:text-slate-400'
           }),
@@ -87,6 +99,19 @@ export default function SearchPage() {
               '✕'
             )
         )
+      ),
+
+      // Advanced filters
+      h(
+        'section',
+        { className: 'bg-white border border-slate-200 rounded-md p-4 shadow-sm flex flex-col lg:flex-row gap-3 lg:items-end' },
+        h('div', { className: 'grid grid-cols-2 sm:grid-cols-4 gap-3 flex-1' },
+          h('label', { className: 'text-xs font-semibold text-slate-600 space-y-1' }, 'Nhóm', h('select', { value: groupFilter, onChange: (e) => { setGroupFilter(e.target.value); setPage(1); }, className: 'block w-full rounded border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs' }, h('option', { value: 'all' }, 'Tất cả'), h('option', { value: 'vat-ly' }, 'Vật lý'), h('option', { value: 'so' }, 'Sản phẩm số'))),
+          h('label', { className: 'text-xs font-semibold text-slate-600 space-y-1' }, 'Danh mục', h('select', { value: categoryFilter, onChange: (e) => { setCategoryFilter(e.target.value); setPage(1); }, className: 'block w-full rounded border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs' }, h('option', { value: 'all' }, 'Mọi danh mục'), categories.map((category) => h('option', { key: category.id, value: category.slug }, category.name)))),
+          h('label', { className: 'text-xs font-semibold text-slate-600 space-y-1' }, 'Điểm tối thiểu', h('select', { value: minScore, onChange: (e) => { setMinScore(e.target.value); setPage(1); }, className: 'block w-full rounded border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs' }, h('option', { value: 'all' }, 'Mọi mức điểm'), h('option', { value: '9' }, 'Từ 9.0'), h('option', { value: '8' }, 'Từ 8.0'))),
+          h('label', { className: 'text-xs font-semibold text-slate-600 space-y-1' }, 'Cập nhật', h('select', { value: updatedFilter, onChange: (e) => { setUpdatedFilter(e.target.value); setPage(1); }, className: 'block w-full rounded border border-slate-200 bg-slate-50 px-2.5 py-2 text-xs' }, h('option', { value: 'all' }, 'Mọi thời điểm'), h('option', { value: 'september' }, 'Tháng 09/2026')))
+        ),
+        h('button', { type: 'button', onClick: resetFilters, className: 'px-3 py-2 text-xs font-bold text-slate-600 hover:text-blue-600' }, 'Xóa bộ lọc')
       ),
 
       // Filter Tabs

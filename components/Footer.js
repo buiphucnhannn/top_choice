@@ -19,6 +19,8 @@ export default function Footer() {
       { name: 'Hướng dẫn sử dụng', href: '/huong-dan' }
     ],
     about: [
+      { name: 'Đội ngũ chuyên gia', href: '/chuyen-gia' },
+      { name: 'Nguyên tắc biên tập', href: '/nguyen-tac-bien-tap' },
       { name: 'Giới thiệu', href: '/ve-chung-toi' },
       { name: 'Phương pháp đánh giá', href: '/phuong-phap-danh-gia' },
       { name: 'Câu hỏi thường gặp', href: '/cau-hoi-thuong-gap' },

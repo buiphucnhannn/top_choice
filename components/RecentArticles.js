@@ -18,11 +18,11 @@ export default function RecentArticles() {
     {
       badge: 'SO SÁNH',
       badgeClass: 'bg-indigo-50 text-indigo-700 border border-indigo-200/60',
-      title: 'MacBook Air M4 vs Dell XPS 13: Đâu là lựa chọn tốt hơn?',
-      desc: 'So sánh chi tiết về thiết kế, hiệu năng, pin và giá bán.',
+      title: 'ChatGPT Plus vs Notion AI: Nên Chọn Công Cụ Nào?',
+      desc: 'So sánh chi tiết trợ lý AI đa năng và AI tích hợp trong không gian làm việc.',
       date: '10/09/2026',
-      image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=80',
-      href: '/so-sanh/macbook-air-m4-vs-dell-xps-13'
+      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&auto=format&fit=crop&q=80',
+      href: '/so-sanh/chatgpt-plus-vs-notion-ai'
     },
     {
       badge: 'HƯỚNG DẪN',

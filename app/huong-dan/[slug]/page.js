@@ -1,6 +1,5 @@
-'use client';
-
 import React from 'react';
+import { notFound } from 'next/navigation';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
@@ -8,9 +7,16 @@ import { guides, authors, products } from '../../../data/mockData';
 
 const h = React.createElement;
 
+export function generateMetadata({ params }) {
+  const guide = guides.find((item) => item.slug === params.slug);
+  if (!guide) return { title: 'Không tìm thấy bài hướng dẫn' };
+  return { title: guide.title, description: guide.excerpt };
+}
+
 export default function GuideDetailPage({ params }) {
   const { slug } = params;
-  const guide = guides.find((g) => g.slug === slug) || guides[0];
+  const guide = guides.find((g) => g.slug === slug);
+  if (!guide) notFound();
   const author = authors.find((a) => a.id === guide.authorId) || authors[0];
   const suggestedProds = products.filter((p) => guide.suggestedProducts?.includes(p.id));
 
