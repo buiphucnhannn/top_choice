@@ -229,8 +229,9 @@ export default function RankingAndEditorPicks() {
             h('h2', { className: 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight' }, 'Lựa chọn biên tập viên'),
             h(
               'a',
-              { href: '/top', className: 'text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors' },
-              'Xem tất cả →'
+              { href: '/huong-dan', className: 'text-xs font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 transition-colors' },
+              'Xem cẩm nang chọn mua',
+              h('span', null, '→')
             )
           ),
 

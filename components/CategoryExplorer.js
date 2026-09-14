@@ -159,13 +159,24 @@ export default function CategoryExplorer() {
       // Section Header
       h(
         'div',
-        { className: 'flex items-center justify-between' },
+        { className: 'flex flex-wrap items-center justify-between gap-2' },
         h('h2', { className: 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight' }, 'Khám phá theo danh mục'),
         h(
-          'a',
-          { href: '/san-pham-vat-ly', className: 'text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 transition-colors' },
-          'Xem tất cả danh mục',
-          h('span', null, '→')
+          'div',
+          { className: 'flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-semibold' },
+          h(
+            'a',
+            { href: '/san-pham-vat-ly', className: 'text-blue-600 hover:text-blue-700 hover:underline inline-flex items-center gap-0.5 transition-colors' },
+            'Sản phẩm vật lý',
+            h('span', null, '→')
+          ),
+          h('span', { className: 'text-slate-300' }, '•'),
+          h(
+            'a',
+            { href: '/san-pham-so', className: 'text-blue-600 hover:text-blue-700 hover:underline inline-flex items-center gap-0.5 transition-colors' },
+            'Sản phẩm số',
+            h('span', null, '→')
+          )
         )
       ),
 
