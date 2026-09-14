@@ -24,7 +24,7 @@ export default function GuideDetailPage({ params }) {
       // Breadcrumb
       h(Breadcrumb, {
         items: [
-          { name: 'Hướng dẫn chọn mua', href: '#' },
+          { name: 'Hướng dẫn chọn mua', href: '/huong-dan' },
           { name: guide.title }
         ]
       }),

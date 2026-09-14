@@ -120,7 +120,7 @@ export default function RankingAndEditorPicks() {
               h('span', { className: 'text-slate-400' }, 'Cập nhật 14/09/2026'),
               h(
                 'a',
-                { href: '/top/noi-chien-khong-dau', className: 'font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 transition-colors' },
+                { href: '/top', className: 'font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 transition-colors' },
                 'Xem tất cả bảng xếp hạng',
                 h('span', null, '→')
               )
@@ -229,7 +229,7 @@ export default function RankingAndEditorPicks() {
             h('h2', { className: 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight' }, 'Lựa chọn biên tập viên'),
             h(
               'a',
-              { href: '/top/noi-chien-khong-dau', className: 'text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors' },
+              { href: '/top', className: 'text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors' },
               'Xem tất cả →'
             )
           ),

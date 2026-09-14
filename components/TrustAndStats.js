@@ -27,7 +27,7 @@ export default function TrustAndStats() {
       // Stats row
       h(
         'div',
-        { className: 'grid grid-cols-3 gap-6 sm:gap-12 mb-12 text-center' },
+        { className: 'grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 mb-12 text-center' },
         stats.map((s, idx) =>
           h(
             'div',

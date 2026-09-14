@@ -196,6 +196,31 @@ export default function Header() {
   const [mobileVatLyOpen, setMobileVatLyOpen] = useState(false);
   const [mobileSoOpen, setMobileSoOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const timeoutRef = React.useRef(null);
+
+  const handleMouseEnter = (menuKey) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    setActiveDropdown(menuKey);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 200);
+  };
+
+  const handleDropdownMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -208,18 +233,22 @@ export default function Header() {
     setActiveDropdown(activeDropdown === name ? null : name);
   };
 
-  const renderMegaMenu = (title, hubHref, hubLabel, menuData, hotRankings, leftOffsetClass) => {
+  const renderMegaMenu = (title, hubHref, hubLabel, menuData, hotRankings) => {
     return h(
       'div',
-      { className: `absolute ${leftOffsetClass} top-full pt-2 w-[820px] lg:w-[880px] z-50 animate-fadeIn` },
+      {
+        className: 'absolute left-0 right-0 mx-auto top-full pt-1.5 w-[920px] lg:w-[960px] max-w-[calc(100vw-2rem)] z-50 animate-fadeIn',
+        onMouseEnter: handleDropdownMouseEnter,
+        onMouseLeave: handleMouseLeave
+      },
       h(
         'div',
-        { className: 'bg-white rounded-md shadow-2xl border border-slate-200 overflow-hidden' },
+        { className: 'bg-white rounded-md shadow-2xl border border-slate-200 overflow-hidden ring-1 ring-slate-900/5' },
         
         // Top Header of Mega Menu
         h(
           'div',
-          { className: 'flex items-center justify-between px-5 py-2.5 bg-slate-50/90 border-b border-slate-200/80' },
+          { className: 'flex items-center justify-between px-6 py-2.5 bg-slate-50/90 border-b border-slate-200/80' },
           h(
             'div',
             { className: 'flex items-center gap-2' },
@@ -230,6 +259,7 @@ export default function Header() {
             'a',
             {
               href: hubHref,
+              onClick: () => setActiveDropdown(null),
               className: 'text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 transition-colors'
             },
             hubLabel,
@@ -253,6 +283,7 @@ export default function Header() {
                 'a',
                 {
                   href: cat.href,
+                  onClick: () => setActiveDropdown(null),
                   className: 'flex items-center gap-2.5 pb-2 border-b border-slate-200/60 group/header'
                 },
                 h(
@@ -284,6 +315,7 @@ export default function Header() {
                       'a',
                       {
                         href: sub.href,
+                        onClick: () => setActiveDropdown(null),
                         className: 'text-xs text-slate-600 hover:text-blue-600 hover:bg-blue-50/80 px-2 py-1 rounded flex items-center justify-between transition-all group/item'
                       },
                       h('span', { className: 'truncate font-normal group-hover/item:font-medium' }, sub.name),
@@ -299,7 +331,7 @@ export default function Header() {
         // Bottom Strip: Hot Rankings Pills
         h(
           'div',
-          { className: 'px-5 py-2.5 bg-slate-50 border-t border-slate-200/80 flex items-center justify-between text-xs' },
+          { className: 'px-6 py-2.5 bg-slate-50 border-t border-slate-200/80 flex items-center justify-between text-xs' },
           h(
             'div',
             { className: 'flex items-center gap-2 text-slate-600 flex-wrap' },
@@ -310,6 +342,7 @@ export default function Header() {
                 {
                   key: rIdx,
                   href: r.href,
+                  onClick: () => setActiveDropdown(null),
                   className: 'px-2 py-0.5 bg-white border border-slate-200 rounded text-slate-700 hover:text-blue-600 hover:border-blue-300 text-xs font-medium transition-all shadow-2xs'
                 },
                 r.name
@@ -318,7 +351,11 @@ export default function Header() {
           ),
           h(
             'a',
-            { href: '/top', className: 'font-bold text-blue-600 hover:text-blue-700 hover:underline flex-shrink-0 ml-2' },
+            {
+              href: '/top',
+              onClick: () => setActiveDropdown(null),
+              className: 'font-bold text-blue-600 hover:text-blue-700 hover:underline flex-shrink-0 ml-2'
+            },
             'Tất cả bảng xếp hạng →'
           )
         )
@@ -328,7 +365,7 @@ export default function Header() {
 
   return h(
     'header',
-    { className: 'w-full bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm' },
+    { className: 'w-full bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50 shadow-sm transition-all relative' },
     // Main header bar
     h(
       'div',
@@ -349,15 +386,15 @@ export default function Header() {
       // Desktop Nav Links
       h(
         'nav',
-        { className: 'hidden md:flex items-center gap-5 lg:gap-7 text-sm font-semibold text-slate-700 relative' },
+        { className: 'hidden md:flex items-center gap-5 lg:gap-7 text-sm font-semibold text-slate-700' },
         
-        // Dropdown Sản phẩm vật lý
+        // Nav Item: Sản phẩm vật lý
         h(
           'div',
           {
-            className: 'relative group',
-            onMouseEnter: () => setActiveDropdown('vat-ly'),
-            onMouseLeave: () => setActiveDropdown(null)
+            className: 'group py-1',
+            onMouseEnter: () => handleMouseEnter('vat-ly'),
+            onMouseLeave: handleMouseLeave
           },
           h(
             'button',
@@ -378,30 +415,16 @@ export default function Header() {
               },
               h('path', { strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: 2, d: 'M19 9l-7 7-7-7' })
             )
-          ),
-          // Mega menu vật lý
-          activeDropdown === 'vat-ly' &&
-            renderMegaMenu(
-              'Danh Mục Sản Phẩm Vật Lý',
-              '/san-pham-vat-ly',
-              'Xem trang Hub Vật Lý',
-              physicalMegaMenu,
-              [
-                { name: 'Top 10 Nồi chiên', href: '/top/noi-chien-khong-dau' },
-                { name: 'Top 10 Tai nghe', href: '/top/tai-nghe-khong-day' },
-                { name: 'Top 10 Balo', href: '/top/balo-laptop-chong-soc' }
-              ],
-              'left-0'
-            )
+          )
         ),
 
-        // Dropdown Sản phẩm số
+        // Nav Item: Sản phẩm số
         h(
           'div',
           {
-            className: 'relative group',
-            onMouseEnter: () => setActiveDropdown('so'),
-            onMouseLeave: () => setActiveDropdown(null)
+            className: 'group py-1',
+            onMouseEnter: () => handleMouseEnter('so'),
+            onMouseLeave: handleMouseLeave
           },
           h(
             'button',
@@ -422,21 +445,7 @@ export default function Header() {
               },
               h('path', { strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: 2, d: 'M19 9l-7 7-7-7' })
             )
-          ),
-          // Mega menu số
-          activeDropdown === 'so' &&
-            renderMegaMenu(
-              'Dịch Vụ Số & Công Cụ Công Nghệ',
-              '/san-pham-so',
-              'Xem trang Hub Số',
-              digitalMegaMenu,
-              [
-                { name: 'Top Công cụ AI', href: '/top/cong-cu-ai-van-phong' },
-                { name: 'Top 5 VPN', href: '/top/vpn-tot-nhat' },
-                { name: 'Top Cloud Hosting', href: '/top/cloud-hosting-toc-do-cao' }
-              ],
-              '-left-32 lg:-left-24'
-            )
+          )
         ),
 
         // Link Bảng xếp hạng
@@ -508,6 +517,33 @@ export default function Header() {
         )
       )
     ),
+
+    // Desktop Mega Menus (centered across the viewport directly under header)
+    activeDropdown === 'vat-ly' &&
+      renderMegaMenu(
+        'Danh Mục Sản Phẩm Vật Lý',
+        '/san-pham-vat-ly',
+        'Xem trang Hub Vật Lý',
+        physicalMegaMenu,
+        [
+          { name: 'Top 10 Robot hút bụi', href: '/top/robot-hut-bui-thong-minh' },
+          { name: 'Top 10 Nồi chiên', href: '/top/noi-chien-khong-dau' },
+          { name: 'Top 10 Tai nghe', href: '/top/tai-nghe-khong-day' }
+        ]
+      ),
+
+    activeDropdown === 'so' &&
+      renderMegaMenu(
+        'Dịch Vụ Số & Công Cụ Công Nghệ',
+        '/san-pham-so',
+        'Xem trang Hub Số',
+        digitalMegaMenu,
+        [
+          { name: 'Top Công cụ AI', href: '/top/cong-cu-ai-tot-nhat' },
+          { name: 'Top 5 VPN', href: '/top/vpn-tot-nhat' },
+          { name: 'Top Cloud Hosting', href: '/top/cloud-hosting-toc-do-cao' }
+        ]
+      ),
 
     // Mobile Menu Drawer
     mobileMenuOpen &&

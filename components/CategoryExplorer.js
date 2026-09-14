@@ -183,17 +183,17 @@ export default function CategoryExplorer() {
         // Cards Grid
         h(
           'div',
-          { className: 'grid grid-cols-3 sm:grid-cols-6 gap-3 flex-1' },
+          { className: 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-3 flex-1' },
           physicalCategories.map((item, idx) =>
             h(
               'a',
               {
                 key: idx,
                 href: item.href,
-                className: 'flex flex-col items-center justify-center p-3 bg-white border border-slate-200 rounded-md hover:border-blue-500 hover:shadow-md hover:text-blue-600 transition-all duration-200 group text-slate-700'
+                className: 'flex flex-col items-center justify-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-md hover:border-blue-500 hover:shadow-md hover:text-blue-600 transition-all duration-200 group text-slate-700'
               },
-              item.icon({ className: 'w-6 h-6 text-slate-500 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-200' }),
-              h('span', { className: 'text-xs font-semibold mt-2' }, item.name)
+              item.icon({ className: 'w-5 h-5 sm:w-6 sm:h-6 text-slate-500 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-200' }),
+              h('span', { className: 'text-[11px] sm:text-xs font-semibold mt-1.5 sm:mt-2 text-center truncate w-full px-1' }, item.name)
             )
           )
         )
@@ -213,17 +213,17 @@ export default function CategoryExplorer() {
         // Cards Grid
         h(
           'div',
-          { className: 'grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 flex-1' },
+          { className: 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 flex-1' },
           digitalCategories.map((item, idx) =>
             h(
               'a',
               {
                 key: idx,
                 href: item.href,
-                className: 'flex flex-col items-center justify-center p-3 bg-white border border-slate-200 rounded-md hover:border-blue-500 hover:shadow-md hover:text-blue-600 transition-all duration-200 group text-slate-700'
+                className: 'flex flex-col items-center justify-center p-2.5 sm:p-3 bg-white border border-slate-200 rounded-md hover:border-blue-500 hover:shadow-md hover:text-blue-600 transition-all duration-200 group text-slate-700'
               },
-              item.icon({ className: 'w-6 h-6 text-slate-500 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-200' }),
-              h('span', { className: 'text-xs font-semibold mt-2 text-center' }, item.name)
+              item.icon({ className: 'w-5 h-5 sm:w-6 sm:h-6 text-slate-500 group-hover:text-blue-600 group-hover:scale-110 transition-all duration-200' }),
+              h('span', { className: 'text-[11px] sm:text-xs font-semibold mt-1.5 sm:mt-2 text-center truncate w-full px-1' }, item.name)
             )
           )
         )

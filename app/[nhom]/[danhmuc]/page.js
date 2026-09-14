@@ -8,65 +8,7 @@ import { categories, products, rankings, guides } from '../../../data/mockData';
 
 const h = React.createElement;
 
-const extraCategories = [
-  {
-    id: 'cat-me-be',
-    name: 'Mẹ & Bé',
-    slug: 'me-be',
-    group: 'vat-ly',
-    desc: 'Máy tiệt trùng, bình sữa thông minh, máy hút sữa và đồ dùng cao cấp cho mẹ và bé.',
-    subcategories: [
-      { name: 'Máy tiệt trùng & sấy khô', slug: 'may-tiet-trung' },
-      { name: 'Xe đẩy & Ghế ngồi ô tô', slug: 'xe-day' }
-    ]
-  },
-  {
-    id: 'cat-the-thao',
-    name: 'Thể Thao & Dã Ngoại',
-    slug: 'the-thao',
-    group: 'vat-ly',
-    desc: 'Dụng cụ thể hình tại nhà, đồ dã ngoại cắm trại, đồng hồ định vị GPS và phụ kiện thể thao.',
-    subcategories: [
-      { name: 'Dụng cụ tập thể hình', slug: 'tap-gym' },
-      { name: 'Đồ dã ngoại cắm trại', slug: 'da-ngoai' }
-    ]
-  },
-  {
-    id: 'cat-ung-dung',
-    name: 'Ứng Dụng & Tiện Ích',
-    slug: 'ung-dung',
-    group: 'so',
-    desc: 'Ứng dụng quản lý tài chính, ghi chú thông minh, đọc sách số và các tiện ích nâng cao hiệu suất cá nhân.',
-    subcategories: [
-      { name: 'Ứng dụng ghi chú & Notion', slug: 'ghi-chu' },
-      { name: 'Ứng dụng tài chính cá nhân', slug: 'tai-chinh' }
-    ]
-  },
-  {
-    id: 'cat-marketing',
-    name: 'Công Cụ Marketing & SEO',
-    slug: 'marketing',
-    group: 'so',
-    desc: 'Nền tảng email marketing tự động, công cụ nghiên cứu từ khóa SEO và đo lường chuyển đổi doanh thu.',
-    subcategories: [
-      { name: 'Email Marketing tự động', slug: 'email-marketing' },
-      { name: 'Nghiên cứu SEO & Backlink', slug: 'seo-analytics' }
-    ]
-  },
-  {
-    id: 'cat-khoa-hoc',
-    name: 'Khóa Học & Giáo Dục Số',
-    slug: 'khoa-hoc',
-    group: 'so',
-    desc: 'Các nền tảng học lập trình, kỹ năng AI thực chiến, chứng chỉ quốc tế và kinh doanh số.',
-    subcategories: [
-      { name: 'Lập trình & Kỹ năng AI', slug: 'lap-trinh' },
-      { name: 'Kinh doanh & Quản trị số', slug: 'kinh-doanh' }
-    ]
-  }
-];
-
-const allCategories = [...categories, ...extraCategories];
+const allCategories = categories;
 
 export default function SubCategoryPage({ params }) {
   const { nhom, danhmuc } = params;
@@ -93,20 +35,30 @@ export default function SubCategoryPage({ params }) {
     isSubcategoryView = true;
   }
 
-  // Filter items
-  let matchedProducts = products.filter((p) => {
-    if (isSubcategoryView) {
-      return p.subCategorySlug === danhmuc || p.categorySlug === currentCategory.slug;
-    }
-    return p.categorySlug === currentCategory.slug || p.subCategorySlug === danhmuc;
-  });
-
-  if (matchedProducts.length === 0) {
-    matchedProducts = products.filter((p) => p.type === currentCategory.group).slice(0, 3);
+  // Filter items: When viewing a subcategory, strictly match only products belonging to that subcategory
+  let matchedProducts = [];
+  if (isSubcategoryView) {
+    matchedProducts = products.filter(
+      (p) => p.subCategorySlug === danhmuc || (currentSub && p.subCategorySlug === currentSub.slug)
+    );
+  } else {
+    matchedProducts = products.filter((p) => p.categorySlug === currentCategory.slug);
   }
 
-  const matchedRankings = rankings.filter((r) => r.group === currentCategory.group);
-  const matchedGuides = guides.filter((g) => g.type === currentCategory.group);
+  // Filter rankings: prioritize subcategory, fallback to category/group
+  let matchedRankings = rankings.filter((r) => {
+    if (isSubcategoryView) {
+      return (
+        r.slug.includes(danhmuc) ||
+        (currentSub && r.slug.includes(currentSub.slug)) ||
+        (r.title && r.title.toLowerCase().includes(currentSub.name.toLowerCase()))
+      );
+    }
+    return r.categoryName === currentCategory.name;
+  });
+  if (matchedRankings.length === 0) {
+    matchedRankings = rankings.filter((r) => r.group === currentCategory.group);
+  }
 
   const groupLabel = currentCategory.group === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số';
   const groupHref = currentCategory.group === 'vat-ly' ? '/san-pham-vat-ly' : '/san-pham-so';
@@ -121,6 +73,10 @@ export default function SubCategoryPage({ params }) {
         { name: groupLabel, href: groupHref },
         { name: currentCategory.name }
       ];
+
+  const bannerDesc = isSubcategoryView
+    ? `Tổng hợp các bài đánh giá chuyên sâu, thử nghiệm thực tế và bảng xếp hạng những sản phẩm ${currentSub.name.toLowerCase()} đáng mua nhất trên thị trường hiện nay.`
+    : (currentCategory.desc || `Tổng hợp các bài đánh giá khách quan và bảng xếp hạng độc lập mới nhất.`);
 
   return h(
     'div',
@@ -143,20 +99,25 @@ export default function SubCategoryPage({ params }) {
           groupLabel
         ),
         h('h1', { className: 'text-2xl sm:text-3xl font-black text-slate-900 tracking-tight' }, `Đánh Giá & Xếp Hạng: ${currentSub.name}`),
-        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed' }, currentCategory.desc || `Tổng hợp các bài đánh giá khách quan, so sánh chi tiết và bảng xếp hạng những sản phẩm ${currentSub.name.toLowerCase()} đáng mua nhất trên thị trường hiện nay.`),
+        h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed' }, bannerDesc),
 
         // Subcategories Chips
         currentCategory.subcategories && currentCategory.subcategories.length > 0 &&
           h(
             'div',
             { className: 'flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100' },
-            h('span', { className: 'text-xs text-slate-500 font-semibold mr-1' }, 'Nhánh sản phẩm tiêu biểu:'),
+            h('span', { className: 'text-xs text-slate-500 font-semibold mr-1' }, 'Nhánh sản phẩm:'),
             currentCategory.subcategories.map((sub, sIdx) =>
               h(
-                'span',
+                'a',
                 {
                   key: sIdx,
-                  className: 'px-2.5 py-1 bg-slate-50 text-slate-700 border border-slate-200 rounded text-xs font-semibold'
+                  href: `/${currentCategory.slug}/${sub.slug}`,
+                  className: `px-2.5 py-1 rounded text-xs font-semibold transition-all border ${
+                    sub.slug === danhmuc
+                      ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                      : 'bg-slate-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 text-slate-700 border-slate-200'
+                  }`
                 },
                 sub.name
               )

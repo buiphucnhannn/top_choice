@@ -137,6 +137,63 @@ export const categories = [
       { name: 'VPN cá nhân', slug: 'vpn-ca-nhan' },
       { name: 'Antivirus', slug: 'antivirus' }
     ]
+  },
+
+  // 2 Danh mục vật lý mở rộng
+  {
+    id: 'cat-9',
+    name: 'Mẹ & Bé',
+    slug: 'me-be',
+    group: 'vat-ly',
+    desc: 'Máy tiệt trùng, bình sữa thông minh, máy hút sữa và xe đẩy cho bé.',
+    icon: 'baby',
+    featured: false,
+    subcategories: [
+      { name: 'Máy tiệt trùng bình sữa', slug: 'may-tiet-trung' },
+      { name: 'Xe đẩy & Ghế ngồi ô tô', slug: 'xe-day' }
+    ]
+  },
+  {
+    id: 'cat-10',
+    name: 'Thể Thao & Dã Ngoại',
+    slug: 'the-thao',
+    group: 'vat-ly',
+    desc: 'Dụng cụ thể hình tại nhà, đồ dã ngoại cắm trại và phụ kiện thể thao.',
+    icon: 'sports',
+    featured: false,
+    subcategories: [
+      { name: 'Dụng cụ tập thể hình tại nhà', slug: 'tap-gym' },
+      { name: 'Đồ dã ngoại & lều trại', slug: 'da-ngoai' }
+    ]
+  },
+
+  // 2 Danh mục số mở rộng
+  {
+    id: 'cat-11',
+    name: 'Ứng Dụng & Tiện Ích',
+    slug: 'ung-dung',
+    group: 'so',
+    desc: 'Ứng dụng quản lý tài chính, ghi chú thông minh và tiện ích số tiện lợi.',
+    icon: 'app',
+    featured: false,
+    subcategories: [
+      { name: 'Ứng dụng ghi chú & Notion', slug: 'ghi-chu' },
+      { name: 'Quản lý tài chính cá nhân', slug: 'tai-chinh' }
+    ]
+  },
+  {
+    id: 'cat-12',
+    name: 'Marketing & Khóa Học Số',
+    slug: 'marketing',
+    group: 'so',
+    desc: 'Email marketing tự động, công cụ SEO website và khóa học kỹ năng số.',
+    icon: 'chart',
+    featured: false,
+    subcategories: [
+      { name: 'Email Marketing tự động', slug: 'email-marketing' },
+      { name: 'Nghiên cứu từ khóa & SEO', slug: 'seo-analytics' },
+      { name: 'Khóa học lập trình & AI', slug: 'lap-trinh' }
+    ]
   }
 ];
 
@@ -595,6 +652,362 @@ export const products = [
       'Gói giá': 'Basic $10 / Standard $30 / Pro $60'
     },
     officialUrl: 'https://midjourney.com'
+  },
+  {
+    id: 'prod-13',
+    name: 'RoboVac Ultra S2',
+    slug: 'robovac-ultra-s2',
+    type: 'vat-ly',
+    categorySlug: 'gia-dung',
+    subCategorySlug: 'robot-hut-bui',
+    brand: 'RoboVac',
+    summary: 'Robot hút bụi lau nhà xoay 360 độ thế hệ mới, lực hút cực đại 6000Pa kèm trạm giặt giẻ nước nóng tự động.',
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.4,
+    priceRef: '12.490.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '12/09/2026',
+    scores: [
+      { criterion: 'Lực hút & Độ sạch', value: 9.6 },
+      { criterion: 'Trạm giặt sấy giẻ tự động', value: 9.5 },
+      { criterion: 'Bản đồ & Tránh vật cản AI', value: 9.4 },
+      { criterion: 'Thời lượng Pin', value: 9.2 },
+      { criterion: 'Giá trị / Hiệu năng', value: 9.1 }
+    ],
+    pros: [
+      'Lực hút khủng 6000Pa hút sạch rãnh gạch và bụi mịn',
+      'Trạm sạc tự động hút rác, giặt giẻ và sấy khô khí nóng 45°C',
+      'Hệ thống tránh vật cản 3D AI phát hiện dây điện, đồ chơi',
+      'Lau xoay kép ép sát sàn mô phỏng lực lau tay'
+    ],
+    cons: [
+      'Trạm sạc đa năng có kích thước tương đối lớn',
+      'Giá thành thuộc phân khúc cao cấp'
+    ],
+    specs: {
+      'Lực hút': '6000 Pa',
+      'Pin': '5200 mAh (hoạt động 180 phút)',
+      'Công nghệ lau': 'Xoay kép 180 vòng/phút',
+      'Dung tích túi rác': '2.5 Lít (dùng 60 ngày)',
+      'Bảo hành': '24 tháng chính hãng'
+    },
+    officialUrl: 'https://robovac.example.com'
+  },
+  {
+    id: 'prod-14',
+    name: 'DreameBot D9 Max',
+    slug: 'dreamebot-d9-max',
+    type: 'vat-ly',
+    categorySlug: 'gia-dung',
+    subCategorySlug: 'robot-hut-bui',
+    brand: 'Dreame',
+    summary: 'Robot hút bụi lau nhà thông minh tầm trung, định vị laser LDS 3.0, vượt gờ 20mm và hỗ trợ tiếng Việt.',
+    image: 'https://images.unsplash.com/photo-1558317374-067fb5f30001?w=600&auto=format&fit=crop&q=80',
+    overallScore: 8.9,
+    priceRef: '6.490.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '10/09/2026',
+    scores: [
+      { criterion: 'Lực hút & Độ sạch', value: 9.0 },
+      { criterion: 'Định vị bản đồ Laser', value: 9.1 },
+      { criterion: 'Độ êm & Tiếng ồn', value: 8.7 },
+      { criterion: 'Khả năng vượt gờ cản', value: 9.2 },
+      { criterion: 'Tỉ lệ giá tiền / Hiệu năng', value: 9.4 }
+    ],
+    pros: [
+      'Giá thành cực tốt trong phân khúc điều hướng Laser LDS',
+      'Khay chứa bụi dung tích lớn 570ml ít phải đổ rác',
+      'Khả năng leo thảm và vượt gờ cửa lên đến 20mm',
+      'Hỗ trợ thông báo giọng nói tiếng Việt dễ hiểu'
+    ],
+    cons: [
+      'Không trang bị trạm gom rác tự động',
+      'Khả năng lau sàn ở mức cơ bản (lau kéo thông thường)'
+    ],
+    specs: {
+      'Lực hút': '4000 Pa',
+      'Hộp chứa bụi': '570 ml',
+      'Bình chứa nước': '270 ml',
+      'Pin': '5200 mAh',
+      'Bảo hành': '12 tháng chính hãng'
+    },
+    officialUrl: 'https://dreame.example.com'
+  },
+  {
+    id: 'prod-15',
+    name: 'AirPure Pro H13',
+    slug: 'airpure-pro-h13',
+    type: 'vat-ly',
+    categorySlug: 'gia-dung',
+    subCategorySlug: 'may-loc-khong-khi',
+    brand: 'AirPure',
+    summary: 'Máy lọc không khí màng lọc True HEPA H13 kháng khuẩn, khử mùi than hoạt tính và cảm biến bụi mịn PM2.5 nhạy bén.',
+    image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.2,
+    priceRef: '3.690.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '09/09/2026',
+    scores: [
+      { criterion: 'Tốc độ lọc không khí CADR', value: 9.4 },
+      { criterion: 'Khử mùi & Lọc bụi PM2.5', value: 9.3 },
+      { criterion: 'Độ ồn ban đêm (Chế độ ngủ)', value: 9.5 },
+      { criterion: 'Tiết kiệm điện năng', value: 9.0 }
+    ],
+    pros: [
+      'Màng lọc 3 lớp lọc sạch 99.97% hạt bụi kích thước siêu nhỏ 0.3 micromet',
+      'Vận hành siêu êm chỉ 24dB ở chế độ ban đêm',
+      'Đèn LED hiển thị chất lượng không khí 4 màu trực quan'
+    ],
+    cons: [
+      'Màng lọc thay thế định kỳ sau 6-9 tháng (chi phí ~500k)'
+    ],
+    specs: {
+      'Diện tích sử dụng': '35 - 50 m²',
+      'Chỉ số CADR': '380 m³/h',
+      'Màng lọc': 'True HEPA H13 + Than hoạt tính',
+      'Độ ồn': '24 - 58 dB',
+      'Bảo hành': '24 tháng'
+    },
+    officialUrl: 'https://airpure.example.com'
+  },
+  {
+    id: 'prod-macbook-air-m4',
+    name: 'MacBook Air M4',
+    slug: 'macbook-air-m4',
+    type: 'vat-ly',
+    categorySlug: 'dien-tu',
+    subCategorySlug: 'laptop',
+    brand: 'Apple',
+    summary: 'Laptop mỏng nhẹ cao cấp trang bị vi xử lý Apple M4 thế hệ mới, màn hình Liquid Retina sắc nét và pin 18 giờ liên tục.',
+    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.6,
+    priceRef: '28.990.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '13/09/2026',
+    scores: [
+      { criterion: 'Hiệu năng vi xử lý M4', value: 9.8 },
+      { criterion: 'Thời lượng Pin', value: 9.9 },
+      { criterion: 'Màn hình Liquid Retina', value: 9.4 },
+      { criterion: 'Thiết kế nhôm nguyên khối', value: 9.7 },
+      { criterion: 'Giá trị đầu tư dài hạn', value: 9.2 }
+    ],
+    pros: [
+      'Chip Apple M4 cực mạnh, cân mượt mà dựng phim 4K và lập trình',
+      'Thời lượng pin thực tế 16-18 tiếng không cần cắm sạc',
+      'Hoàn toàn không có quạt tản nhiệt, vận hành êm ái 100%',
+      'Vỏ nhôm tái chế cao cấp mỏng chỉ 11.3mm, nặng 1.24kg'
+    ],
+    cons: [
+      'Chỉ hỗ trợ tối đa 2 màn hình ngoài khi gập máy',
+      'RAM và ổ cứng hàn chết không thể nâng cấp sau mua'
+    ],
+    specs: {
+      'CPU': 'Apple M4 (10-Core CPU, 10-Core GPU)',
+      'RAM': '16GB Unified Memory',
+      'Ổ cứng': '512GB SSD tốc độ cao',
+      'Màn hình': '13.6 inch Liquid Retina 500 nits True Tone',
+      'Trọng lượng': '1.24 kg',
+      'Bảo hành': '12 tháng chính hãng Apple'
+    },
+    officialUrl: 'https://apple.com'
+  },
+  {
+    id: 'prod-dell-xps-13',
+    name: 'Dell XPS 13 (9340)',
+    slug: 'dell-xps-13',
+    type: 'vat-ly',
+    categorySlug: 'dien-tu',
+    subCategorySlug: 'laptop',
+    brand: 'Dell',
+    summary: 'Laptop Windows siêu cao cấp với màn hình OLED InfinityEdge 3K viền vô cực, touchpad kính ẩn và chip Intel Core Ultra AI.',
+    image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.2,
+    priceRef: '32.490.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '12/09/2026',
+    scores: [
+      { criterion: 'Thiết kế viền vô cực OLED', value: 9.8 },
+      { criterion: 'Hiệu năng Intel Core Ultra', value: 9.0 },
+      { criterion: 'Bàn phím & Touchpad ẩn', value: 8.8 },
+      { criterion: 'Thời lượng Pin', value: 8.9 },
+      { criterion: 'Chất lượng gia công', value: 9.5 }
+    ],
+    pros: [
+      'Màn hình cảm ứng OLED 3K hiển thị màu đen tuyệt đối',
+      'Thiết kế tương lai với viền siêu mỏng và touchpad ẩn dưới kính Gorilla Glass',
+      'Trọng lượng chỉ 1.19kg cực kỳ thuận tiện di chuyển',
+      'Tương thích hoàn hảo với hệ sinh thái phần mềm Windows 11'
+    ],
+    cons: [
+      'Thời lượng pin khoảng 10-11 tiếng, thấp hơn MacBook Air M4',
+      'Dãy phím Function cảm ứng điện dung cần thời gian làm quen'
+    ],
+    specs: {
+      'CPU': 'Intel Core Ultra 7 155H (16 nhân, 22 luồng, NPU AI)',
+      'RAM': '16GB LPDDR5x 7467MHz',
+      'Ổ cứng': '512GB PCIe Gen4 NVMe SSD',
+      'Màn hình': '13.4 inch 3K+ (2880x1800) OLED Touch 60Hz 400 nits',
+      'Trọng lượng': '1.19 kg',
+      'Bảo hành': '24 tháng Dell ProSupport'
+    },
+    officialUrl: 'https://dell.com'
+  },
+  {
+    id: 'prod-aircook-mini',
+    name: 'AirCook Mini 3.5L',
+    slug: 'aircook-mini-3-5l',
+    type: 'vat-ly',
+    categorySlug: 'gia-dung',
+    subCategorySlug: 'noi-chien',
+    brand: 'AirCook',
+    summary: 'Nồi chiên không dầu mini 3.5L nhỏ gọn, công nghệ đối lưu nhanh, giải pháp kinh tế cho người độc thân hoặc gia đình 2 người.',
+    image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=600&auto=format&fit=crop&q=80',
+    overallScore: 8.8,
+    priceRef: '1.290.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '11/09/2026',
+    scores: [
+      { criterion: 'Tốc độ làm chín thức ăn', value: 9.0 },
+      { criterion: 'Thiết kế nhỏ gọn tiết kiệm chỗ', value: 9.5 },
+      { criterion: 'Độ dễ vệ sinh giỏ chiên', value: 9.2 },
+      { criterion: 'Giá trị / Giá tiền', value: 9.6 }
+    ],
+    pros: [
+      'Kích thước nhỏ gọn đặt vừa mọi gian bếp nhỏ hoặc phòng trọ',
+      'Công suất 1400W làm nóng cực nhanh, không cần làm nóng trước',
+      'Lòng nồi chống dính tháo rời vệ sinh trong 1 phút',
+      'Giá thành cực mềm dưới 1.5 triệu đồng'
+    ],
+    cons: [
+      'Dung tích 3.5L chỉ vừa nướng đùi gà hoặc 500g khoai tây, không nướng gà nguyên con',
+      'Điều khiển núm vặn cơ bản, không có màn hình LED'
+    ],
+    specs: {
+      'Dung tích': '3.5 Lít',
+      'Công suất': '1400W',
+      'Điều khiển': 'Núm vặn cơ học hẹn giờ 30 phút',
+      'Trọng lượng': '3.2 kg',
+      'Bảo hành': '12 tháng chính hãng'
+    },
+    officialUrl: 'https://aircook.example.com'
+  },
+  {
+    id: 'prod-philips-hd9200',
+    name: 'Philips Essential HD9200',
+    slug: 'philips-essential-hd9200',
+    type: 'vat-ly',
+    categorySlug: 'gia-dung',
+    subCategorySlug: 'noi-chien',
+    brand: 'Philips',
+    summary: 'Nồi chiên không dầu thương hiệu châu Âu với công nghệ Rapid Air hình sao độc quyền giúp món chiên giòn rụm bên ngoài và mềm mọng bên trong.',
+    image: 'https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.0,
+    priceRef: '1.890.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '09/09/2026',
+    scores: [
+      { criterion: 'Độ giòn đều công nghệ Rapid Air', value: 9.5 },
+      { criterion: 'Độ bền linh kiện Philips', value: 9.4 },
+      { criterion: 'Lớp chống dính QuickClean', value: 9.1 },
+      { criterion: 'Độ tin cậy thương hiệu', value: 9.6 }
+    ],
+    pros: [
+      'Đáy nồi thiết kế hình sao độc quyền lưu chuyển luồng khí nóng tối ưu',
+      'Lớp chống dính siêu bền khó trầy xước, dùng an toàn cho máy rửa bát',
+      'Độ hoàn thiện nhựa cao cấp chịu nhiệt, không có mùi nhựa khi đun nấu mới'
+    ],
+    cons: [
+      'Dung tích 4.1L ở mức vừa phải cho gia đình 3-4 người'
+    ],
+    specs: {
+      'Dung tích': '4.1 Lít',
+      'Công suất': '1400W',
+      'Công nghệ': 'Rapid Air hình sao độc quyền Philips',
+      'Bảo hành': '24 tháng toàn cầu'
+    },
+    officialUrl: 'https://philips.vn'
+  },
+  {
+    id: 'prod-sony-wf1000xm5',
+    name: 'Sony WF-1000XM5',
+    slug: 'sony-wf-1000xm5',
+    type: 'vat-ly',
+    categorySlug: 'dien-tu',
+    subCategorySlug: 'tai-nghe',
+    brand: 'Sony',
+    summary: 'Tai nghe chống ồn chủ động đỉnh cao với bộ vi xử lý V2 + QN2e kép, driver Dynamic X và hỗ trợ codec âm thanh Hi-Res LDAC.',
+    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.6,
+    priceRef: '5.490.000đ',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '12/09/2026',
+    scores: [
+      { criterion: 'Khử ồn chủ động ANC kép', value: 9.9 },
+      { criterion: 'Chất âm Hi-Res LDAC', value: 9.7 },
+      { criterion: 'Thời lượng pin & Sạc nhanh', value: 9.3 },
+      { criterion: 'Độ êm ái mút tai bọt biển', value: 9.4 }
+    ],
+    pros: [
+      'Khả năng chống ồn chủ động top 1 thế giới hiện nay',
+      'Chất âm chi tiết, dải bass uy lực mà không lấn át dải trung',
+      'Đệm tai Polyurethane cách âm thụ động tuyệt vời'
+    ],
+    cons: [
+      'Mức giá thuộc phân khúc cao cấp'
+    ],
+    specs: {
+      'Driver': 'Dynamic Driver X 8.4mm',
+      'Vi xử lý': 'Sony V2 + QN2e',
+      'Pin': '8h tai lẻ + 16h hộp sạc (bật ANC)',
+      'Chống nước': 'IPX4',
+      'Bảo hành': '12 tháng chính hãng Sony'
+    },
+    officialUrl: 'https://sony.com.vn'
+  },
+  {
+    id: 'prod-surfshark-one',
+    name: 'Surfshark One',
+    slug: 'surfshark-one',
+    type: 'so',
+    categorySlug: 'vpn',
+    subCategorySlug: 'vpn-ca-nhan',
+    brand: 'Surfshark',
+    summary: 'Giải pháp an ninh mạng toàn diện kết hợp VPN không giới hạn thiết bị kết nối, phần mềm Antivirus và bảo vệ danh tính số Alert.',
+    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&auto=format&fit=crop&q=80',
+    overallScore: 9.3,
+    priceRef: '69.000đ/tháng',
+    currency: 'VND',
+    status: 'Published',
+    updatedAt: '11/09/2026',
+    scores: [
+      { criterion: 'Không giới hạn thiết bị', value: 9.9 },
+      { criterion: 'Tốc độ máy chủ 10Gbps WireGuard', value: 9.2 },
+      { criterion: 'Bảo vệ danh tính & Antivirus', value: 9.1 },
+      { criterion: 'Giá cước & Khuyến mãi', value: 9.5 }
+    ],
+    pros: [
+      'Dùng đồng thời trên bao nhiêu điện thoại, laptop, TV tùy ý',
+      'Tính năng CleanWeb chặn sạch quảng cáo độc hại và mã theo dõi',
+      'Bảo hiểm dữ liệu cá nhân với tính năng cảnh báo rò rỉ email'
+    ],
+    cons: [
+      'Để có giá tốt nhất cần đăng ký gói 2 năm'
+    ],
+    specs: {
+      'Thiết bị đồng thời': 'Không giới hạn',
+      'Máy chủ': '3200+ máy chủ tại 100 quốc gia',
+      'Giao thức': 'WireGuard, OpenVPN, IKEv2',
+      'Bảo hành': 'Hoàn tiền 30 ngày'
+    },
+    officialUrl: 'https://surfshark.com'
   }
 ];
 
@@ -617,7 +1030,9 @@ export const rankings = [
     },
     items: [
       { rank: 1, productId: 'prod-1', label: 'TỐT NHẤT TỔNG THỂ', rationale: 'Dung tích 6L chuẩn gia đình, công nghệ Rapid Air giòn rụm bên ngoài và mềm mọng bên trong.' },
-      { rank: 2, productId: 'prod-6', label: 'LINH HOẠT NHẤT', rationale: '2 ngăn nấu 2 món cùng lúc không bị lẫn mùi, tính năng Sync Finish cực kỳ thông minh.' }
+      { rank: 2, productId: 'prod-6', label: 'LINH HOẠT NHẤT', rationale: '2 ngăn nấu 2 món cùng lúc không bị lẫn mùi, tính năng Sync Finish cực kỳ thông minh.' },
+      { rank: 3, productId: 'prod-aircook-mini', label: 'GIÁ TỐT CHO 1-2 NGƯỜI', rationale: 'Kích thước 3.5L nhỏ gọn đặt vừa mọi gian bếp nhỏ, làm nóng nhanh và giá cực kỳ dễ tiếp cận.' },
+      { rank: 4, productId: 'prod-philips-hd9200', label: 'BỀN BỈ & ĐỘ HOÀN THIỆN CAO', rationale: 'Đáy nồi hình sao Rapid Air độc quyền của Philips giúp luồng khí tuần hoàn tối đa, lớp chống dính siêu bền an toàn sức khỏe.' }
     ]
   },
   {
@@ -631,11 +1046,12 @@ export const rankings = [
     intro: 'Trải nghiệm âm nhạc tuyệt đỉnh và khả năng chống ồn tách biệt với thế giới bên ngoài cùng danh sách các tai nghe True Wireless được chấm điểm cao nhất.',
     methodology: 'Thử nghiệm chống ồn trong môi trường tiếng ồn quán cafe, văn phòng và trên máy bay; đo đạc chất lượng mic thoại khi có gió mạnh.',
     quickPicks: {
-      bestOverall: { name: 'SoundMax Air', reason: 'Chống ồn đỉnh cao, thời lượng pin 36 tiếng' },
-      bestValue: { name: 'SoundMax Air', reason: 'Giá chỉ dưới 2 triệu đồng nhưng âm thanh tương đương phân khúc 4 triệu' }
+      bestOverall: { name: 'Sony WF-1000XM5', reason: 'Chống ồn đỉnh cao top 1 thế giới, chất âm Hi-Res LDAC' },
+      bestValue: { name: 'SoundMax Air', reason: 'Giá chỉ dưới 2 triệu đồng nhưng chống ồn 42dB và pin 36 tiếng' }
     },
     items: [
-      { rank: 1, productId: 'prod-2', label: 'TỐT NHẤT TẦM GIÁ', rationale: 'Khử ồn sâu 42dB, đeo cả ngày êm ái không đau tai, pin cực trâu.' }
+      { rank: 1, productId: 'prod-sony-wf1000xm5', label: 'CHỐNG ỒN ĐỈNH CAO', rationale: 'Bộ xử lý V2 + QN2e kép khử ồn sâu nhất phân khúc, âm thanh Hi-Res LDAC tuyệt đỉnh cho audiophile.' },
+      { rank: 2, productId: 'prod-2', label: 'P/P VƯỢT TRỘI', rationale: 'Khử ồn sâu 42dB, đeo cả ngày êm ái không đau tai, pin cực trâu 36 tiếng.' }
     ]
   },
 
@@ -672,10 +1088,50 @@ export const rankings = [
     intro: 'Bảo vệ quyền riêng tư số và mã hóa toàn bộ dữ liệu truy cập internet của bạn với những dịch vụ VPN uy tín nhất thế giới.',
     methodology: 'Kiểm tra rò rỉ DNS/IP, đo lường tốc độ suy giảm khi kết nối máy chủ quốc tế tại Mỹ, Nhật Bản, Singapore và Châu Âu.',
     quickPicks: {
-      bestOverall: { name: 'NordVPN Pro', reason: 'Tốc độ nhanh nhất, chính sách No-Logs bảo mật cao' }
+      bestOverall: { name: 'NordVPN Pro', reason: 'Tốc độ nhanh nhất, chính sách No-Logs bảo mật cao' },
+      bestValue: { name: 'Surfshark One', reason: 'Không giới hạn thiết bị, giá rẻ và tích hợp diệt virus' }
     },
     items: [
-      { rank: 1, productId: 'prod-9', label: 'VPN TOÀN DIỆN NHẤT', rationale: 'Tốc độ mạng gần như không đổi khi bật VPN, mở khóa mọi nội dung streaming.' }
+      { rank: 1, productId: 'prod-9', label: 'VPN TOÀN DIỆN NHẤT', rationale: 'Tốc độ mạng gần như không đổi khi bật VPN, mở khóa mọi nội dung streaming.' },
+      { rank: 2, productId: 'prod-surfshark-one', label: 'TIẾT KIỆM CHO GIA ĐÌNH', rationale: 'Cho phép kết nối vô số thiết bị cùng lúc với 1 tài khoản, tích hợp CleanWeb chặn quảng cáo rác.' }
+    ]
+  },
+  {
+    id: 'rank-5',
+    title: 'Top 10 Robot Hút Bụi Lau Nhà Thông Minh Tốt Nhất 2026',
+    slug: 'robot-hut-bui-thong-minh',
+    group: 'vat-ly',
+    categoryName: 'Gia dụng & Nhà bếp',
+    authorId: 'author-2',
+    updatedAt: '14/09/2026',
+    intro: 'Thử nghiệm thực tế 15 robot hút bụi lau nhà hàng đầu: kiểm tra khả năng hút tóc, bụi mịn, vượt thảm và độ thông minh của trạm sạc tự động gom rác.',
+    methodology: 'Đánh giá dựa trên: Lực hút và khả năng làm sạch tóc/lông thú (35%), Tránh vật cản và lập bản đồ (30%), Độ tiện lợi của Dock sạc (20%), Độ ồn và độ bền (15%).',
+    quickPicks: {
+      bestOverall: { name: 'RoboVac Ultra S2', reason: 'Lực hút 6000Pa mạnh nhất, trạm giặt giẻ nước nóng toàn diện' },
+      bestValue: { name: 'DreameBot D9 Max', reason: 'Hiệu năng laser đỉnh cao với giá thành dưới 7 triệu' },
+      budgetPick: { name: 'CleanBot X1', reason: 'Đầy đủ trạm gom rác tự động trong tầm giá mềm' }
+    },
+    items: [
+      { rank: 1, productId: 'prod-13', label: 'TỐT NHẤT TỔNG THỂ', rationale: 'Công nghệ lau xoay kép 360 độ và trạm giặt giẻ sấy khí nóng hoàn hảo cho gia đình bận rộn.' },
+      { rank: 2, productId: 'prod-14', label: 'P/P XUẤT SẮC', rationale: 'Định vị LiDAR chính xác, vượt chướng ngại vật cực êm và pin trâu 180 phút.' },
+      { rank: 3, productId: 'prod-5', label: 'TIỆN DỤNG NHẤT', rationale: 'Trạm gom rác 2.5L dùng cả tháng không cần đổ rác.' }
+    ]
+  },
+  {
+    id: 'rank-6',
+    title: 'Top 10 Dịch Vụ Cloud Hosting Tốc Độ Cao 2026',
+    slug: 'cloud-hosting-toc-do-cao',
+    group: 'so',
+    categoryName: 'Hosting & Tên miền',
+    authorId: 'author-3',
+    updatedAt: '12/09/2026',
+    intro: 'So sánh tốc độ tải trang Time to First Byte (TTFB), chỉ số Uptime và chất lượng hỗ trợ kỹ thuật của các nhà cung cấp Hosting đám mây hàng đầu.',
+    methodology: 'Đo lường hiệu năng thực tế thông qua 10,000 lượt truy cập ảo đồng thời, kiểm tra tốc độ phản hồi máy chủ từ Việt Nam, Singapore và Mỹ.',
+    quickPicks: {
+      bestOverall: { name: 'Hostinger Cloud', reason: 'Tối ưu LiteSpeed, bảng điều khiển hPanel trực quan và giá mềm' }
+    },
+    items: [
+      { rank: 1, productId: 'prod-10', label: 'TỐC ĐỘ HÀNG ĐẦU', rationale: 'Công nghệ LiteSpeed Web Server tải trang dưới 0.8 giây, tích hợp CDN toàn cầu.' }
     ]
   }
 ];
@@ -712,21 +1168,23 @@ export const comparisons = [
     slug: 'macbook-air-m4-vs-dell-xps-13',
     title: 'MacBook Air M4 vs Dell XPS 13: Đâu Là Chiếc Laptop Văn Phòng Hoàn Hảo?',
     type: 'so',
-    productAId: 'prod-3', // Dùng đại diện laptop
-    productBId: 'prod-3',
-    winnerId: 'prod-3',
-    summaryWinner: 'MacBook Air M4 vượt trội về thời lượng pin và độ êm ái (không quạt); Dell XPS 13 vượt trội về màn hình viền siêu mỏng và khả năng tương thích phần mềm Windows.',
+    productAId: 'prod-macbook-air-m4',
+    productBId: 'prod-dell-xps-13',
+    winnerId: 'prod-macbook-air-m4',
+    summaryWinner: 'MacBook Air M4 chiến thắng nhờ thời lượng pin vượt trội 18 tiếng, thiết kế không quạt hoàn toàn yên tĩnh và độ mượt mà của chip M4; Dell XPS 13 vượt trội về màn hình viền siêu mỏng InfinityEdge OLED 3K và khả năng tương thích phần mềm Windows.',
     updatedAt: '12/09/2026',
     matrix: [
       { criterion: 'Hệ điều hành', productA: 'macOS Sequoia', productB: 'Windows 11 Home/Pro', winner: 'Hòa' },
       { criterion: 'Thời lượng Pin', productA: '16-18 tiếng thực tế', productB: '10-12 tiếng thực tế', winner: 'A' },
-      { criterion: 'Độ sáng màn hình', productA: '500 nits Liquid Retina', productB: '500 nits OLED Touch', winner: 'B' },
+      { criterion: 'Màn hình hiển thị', productA: '13.6" Liquid Retina 500 nits', productB: '13.4" 3K+ OLED Touch', winner: 'B' },
       { criterion: 'Khả năng tản nhiệt', productA: 'Không quạt (hoàn toàn yên tĩnh)', productB: '2 quạt làm mát', winner: 'A' },
-      { criterion: 'Cổng kết nối', productA: '2x Thunderbolt, MagSafe', productB: '2x Thunderbolt 4', winner: 'A' }
+      { criterion: 'Trọng lượng máy', productA: '1.24 kg', productB: '1.19 kg', winner: 'B' },
+      { criterion: 'Cổng kết nối', productA: '2x Thunderbolt, MagSafe 3', productB: '2x Thunderbolt 4', winner: 'A' },
+      { criterion: 'Giá bán tham khảo', productA: '28.990.000đ', productB: '32.490.000đ', winner: 'A' }
     ],
     verdict: {
       chooseAIf: 'Bạn ưu tiên thời lượng pin làm việc cả ngày không cần mang sạc, máy mát rượi và hệ sinh thái Apple đồng bộ.',
-      chooseBIf: 'Bạn phụ thuộc vào các phần mềm chuyên biệt chỉ có trên Windows hoặc quen thuộc với hệ sinh thái Microsoft.'
+      chooseBIf: 'Bạn phụ thuộc vào các phần mềm chuyên biệt chỉ có trên Windows hoặc yêu thích màn hình cảm ứng OLED viền siêu mỏng.'
     }
   }
 ];
@@ -798,5 +1256,21 @@ export const guides = [
     ],
     suggestedRankings: ['vpn-tot-nhat'],
     suggestedProducts: ['prod-9']
+  },
+  {
+    id: 'guide-5',
+    slug: 'kinh-nghiem-chon-robot-hut-bui',
+    title: 'Kinh Nghiệm Chọn Mua Robot Hút Bụi Lau Nhà Thông Minh 2026',
+    type: 'vat-ly',
+    authorId: 'author-2',
+    updatedAt: '13/09/2026',
+    excerpt: 'Hướng dẫn chi tiết cách chọn robot hút bụi cho chung cư, nhà tầng, nhà nuôi thú cưng và cách chọn dock sạc tự động.',
+    sections: [
+      { title: '1. Chọn lực hút theo nhu cầu sàn nhà', content: 'Với sàn gạch và sàn gỗ thông thường, lực hút từ 3000Pa - 4000Pa là đủ sạch bụi mịn. Nếu nhà có trải thảm hoặc nuôi chó mèo rụng nhiều lông, nên ưu tiên các mẫu có lực hút từ 5000Pa - 6000Pa.' },
+      { title: '2. Công nghệ điều hướng: Laser LDS vs Camera AI', content: 'Điều hướng Laser LDS giúp robot vẽ bản đồ chính xác cả trong bóng tối. Các dòng cao cấp kết hợp thêm Camera RGB và AI giúp nhận diện chính xác dây sạc, dép và phân thú cưng để chủ động né tránh.' },
+      { title: '3. Có nên mua trạm tự động gom rác và giặt giẻ?', content: 'Nếu ngân sách cho phép, trạm sạc tự động là nâng cấp đáng giá nhất. Bạn sẽ không phải đổ bụi mỗi ngày và không lo giẻ lau bị ẩm mốc bốc mùi hôi nhờ tính năng sấy khí nóng.' }
+    ],
+    suggestedRankings: ['robot-hut-bui-thong-minh'],
+    suggestedProducts: ['prod-13', 'prod-14', 'prod-5']
   }
 ];

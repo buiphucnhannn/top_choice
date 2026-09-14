@@ -35,11 +35,11 @@ export default function HeroSection() {
       h(
         'div',
         { className: 'max-w-xl md:max-w-2xl space-y-6 md:space-y-7' },
-        // Top tag
+        // Eyebrow text
         h(
           'div',
-          { className: 'inline-flex items-center gap-2 text-[11px] sm:text-xs font-bold uppercase tracking-widest text-blue-700 bg-white/90 px-3.5 py-1.5 rounded-sm border border-blue-200/80 shadow-sm' },
-          'ĐÁNH GIÁ  •  SO SÁNH  •  HƯỚNG DẪN CHUYÊN SÂU'
+          { className: 'text-xs sm:text-sm font-extrabold uppercase tracking-wider text-blue-600' },
+          'TOP CHOICE - ĐÁNH GIÁ KHÁCH QUAN, LỰA CHỌN THÔNG MINH'
         ),
 
         // Main Title

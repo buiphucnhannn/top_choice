@@ -127,7 +127,7 @@ export default function RankingDetailPage({ params }) {
                 ),
                 h(
                   'div',
-                  { className: 'text-right' },
+                  { className: 'text-left sm:text-right' },
                   h('div', { className: 'text-2xl font-black text-slate-900' }, `${prod.overallScore}/10`),
                   h('div', { className: 'text-xs text-slate-500 font-medium' }, `Giá tham khảo: ${prod.priceRef}`)
                 )

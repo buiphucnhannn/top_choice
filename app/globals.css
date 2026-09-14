@@ -11,6 +11,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 body {
@@ -21,6 +23,8 @@ body {
   color: #0f172a;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  max-width: 100vw;
 }
 
 /* Section alternating backgrounds */

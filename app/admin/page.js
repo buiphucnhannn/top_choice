@@ -16,11 +16,11 @@ export default function AdminDashboardPage() {
 
   return h(
     'div',
-    { className: 'min-h-screen flex bg-slate-100 font-sans' },
+    { className: 'min-h-screen flex flex-col md:flex-row bg-slate-100 font-sans' },
     h(AdminSidebar, { active: 'dashboard' }),
     h(
       'main',
-      { className: 'flex-1 p-8 space-y-8 overflow-y-auto' },
+      { className: 'flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 overflow-y-auto' },
       // Top header
       h(
         'header',
