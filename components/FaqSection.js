@@ -83,10 +83,10 @@ export default function FaqSection() {
 
   return h(
     'section',
-    { className: 'w-full py-12 bg-[#edf4fb]' },
+    { className: 'w-full pt-12 pb-16 bg-[#edf4fb]' },
     h(
       'div',
-      { className: 'max-w-7xl mx-auto px-4 sm:px-8 space-y-6' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-6' },
       // Header
       h(
         'div',

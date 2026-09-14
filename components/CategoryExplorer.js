@@ -155,7 +155,7 @@ export default function CategoryExplorer() {
     { className: 'w-full py-10 bg-[#edf4fb]' },
     h(
       'div',
-      { className: 'max-w-7xl mx-auto px-4 sm:px-8 space-y-6' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-6' },
       // Section Header
       h(
         'div',

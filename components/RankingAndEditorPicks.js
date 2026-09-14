@@ -101,7 +101,7 @@ export default function RankingAndEditorPicks() {
     { className: 'w-full py-10 bg-[#edf4fb]' },
     h(
       'div',
-      { className: 'max-w-7xl mx-auto px-4 sm:px-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
       h(
         'div',
         { className: 'grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch' },

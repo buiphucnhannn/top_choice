@@ -30,7 +30,7 @@ export default function HeroSection() {
     // Inner Container
     h(
       'div',
-      { className: 'relative max-w-7xl mx-auto px-4 sm:px-8 py-12 md:py-16 w-full z-10 flex flex-col justify-center' },
+      { className: 'relative max-w-[1400px] mx-auto px-4 sm:px-8 py-12 md:py-16 w-full z-10 flex flex-col justify-center' },
       // Left column content
       h(
         'div',

@@ -114,27 +114,21 @@ export default function FAQPage() {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-4xl mx-auto px-4 sm:px-8 py-6 w-full space-y-8' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       h(Breadcrumb, { items: [{ name: 'Câu hỏi thường gặp' }] }),
 
       // Header
       h(
         'header',
-        { className: 'space-y-4 text-center max-w-2xl mx-auto' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-700 rounded text-xs font-bold uppercase tracking-wider' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'Trung Tâm Hỗ Trợ & Giải Đáp'
-        ),
-        h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Câu Hỏi Thường Gặp (FAQ)'),
-        h('p', { className: 'text-sm sm:text-base text-slate-600 leading-relaxed' }, 'Tổng hợp các câu hỏi phổ biến nhất về quy trình đánh giá độc lập, nguồn gốc dữ liệu giá và các chính sách bảo đảm của Top Choice.')
+        { className: 'space-y-4 text-center max-w-4xl mx-auto' },
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]' }, 'Câu Hỏi Thường Gặp (FAQ)'),
+        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed' }, 'Tổng hợp các câu hỏi phổ biến nhất về quy trình đánh giá độc lập, nguồn gốc dữ liệu giá và các chính sách bảo đảm của Top Choice.')
       ),
 
       // Search Box inside FAQ page
       h(
         'div',
-        { className: 'relative max-w-xl mx-auto' },
+        { className: 'relative max-w-2xl mx-auto' },
         h(
           'div',
           { className: 'relative flex items-center bg-white border border-slate-300 rounded-md p-1 focus-within:ring-2 focus-within:ring-blue-500 shadow-sm' },
@@ -162,91 +156,193 @@ export default function FAQPage() {
         )
       ),
 
-      // Filter Tabs
       h(
         'div',
-        { className: 'flex items-center justify-center flex-wrap gap-2 border-b border-slate-200 pb-4 text-xs sm:text-sm font-semibold' },
-        categories.map((cat) =>
-          h(
-            'button',
-            {
-              key: cat.id,
-              onClick: () => setActiveCategory(cat.id),
-              className: `px-3.5 py-1.5 rounded transition-all ${
-                activeCategory === cat.id
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
-              }`
-            },
-            cat.label
-          )
-        )
-      ),
+        { className: 'grid grid-cols-1 lg:grid-cols-12 gap-8 items-start' },
 
-      // Accordion List
-      h(
-        'div',
-        { className: 'space-y-3 pt-2' },
-        filtered.length === 0
-          ? h(
-              'div',
-              { className: 'text-center py-12 bg-white rounded-md border border-slate-200 shadow-sm space-y-2' },
-              h('div', { className: 'text-3xl' }, '🔍'),
-              h('h3', { className: 'text-base font-bold text-slate-800' }, 'Không tìm thấy câu hỏi phù hợp'),
-              h('p', { className: 'text-xs text-slate-500' }, 'Hãy thử tìm bằng từ khóa khác hoặc liên hệ trực tiếp với chúng tôi.')
-            )
-          : filtered.map((item) => {
-              const isOpen = openIndex === item.id;
-              return h(
-                'div',
-                {
-                  key: item.id,
-                  className: 'bg-white border border-slate-200 rounded-md p-4 shadow-sm hover:border-blue-300 transition-all'
-                },
-                h(
-                  'button',
-                  {
-                    onClick: () => toggleAccordion(item.id),
-                    className: 'w-full text-left flex items-start justify-between gap-3 text-slate-800 hover:text-blue-600 transition-colors group'
-                  },
-                  h(
-                    'span',
-                    { className: 'text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors flex-1' },
-                    item.q
-                  ),
-                  h(
-                    'span',
-                    {
-                      className: `w-6 h-6 flex-shrink-0 flex items-center justify-center border rounded text-sm font-bold transition-all ${
-                        isOpen ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600'
-                      }`
-                    },
-                    isOpen ? '−' : '+'
-                  )
-                ),
-                isOpen &&
-                  h(
-                    'div',
-                    { className: 'mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-600 leading-relaxed animate-fadeIn' },
-                    item.a
-                  )
-              );
-            })
-      ),
-
-      // Help Box
-      h(
-        'div',
-        { className: 'bg-white border border-blue-200 rounded-lg p-6 text-center space-y-3 shadow-sm mt-8' },
-        h('h3', { className: 'text-base font-bold text-slate-900' }, 'Bạn vẫn còn thắc mắc cần giải đáp?'),
-        h('p', { className: 'text-xs text-slate-600 max-w-md mx-auto leading-relaxed' }, 'Nếu câu hỏi của bạn chưa có trong danh sách trên, đừng ngần ngại gửi tin nhắn cho ban biên tập. Chúng tôi sẽ phản hồi nhanh chóng.'),
+        // Left Column: Filter Tabs + Accordion List
         h(
-          'a',
-          {
-            href: '/lien-he',
-            className: 'inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded shadow-sm transition-all'
-          },
-          'Gửi câu hỏi / Liên hệ ngay →'
+          'div',
+          { className: 'lg:col-span-8 space-y-6' },
+
+          // Filter Tabs
+          h(
+            'div',
+            { className: 'flex items-center flex-wrap gap-2 border-b border-slate-200 pb-4 text-xs sm:text-sm font-semibold' },
+            categories.map((cat) =>
+              h(
+                'button',
+                {
+                  key: cat.id,
+                  onClick: () => setActiveCategory(cat.id),
+                  className: `px-3.5 py-1.5 rounded transition-all ${
+                    activeCategory === cat.id
+                      ? 'bg-blue-600 text-white shadow-sm'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200'
+                  }`
+                },
+                cat.label
+              )
+            )
+          ),
+
+          // Accordion List
+          h(
+            'div',
+            { className: 'space-y-3' },
+            filtered.length === 0
+              ? h(
+                  'div',
+                  { className: 'text-center py-12 bg-white rounded-md border border-slate-200 shadow-sm space-y-2' },
+                  h('div', { className: 'text-3xl' }, '🔍'),
+                  h('h3', { className: 'text-base font-bold text-slate-800' }, 'Không tìm thấy câu hỏi phù hợp'),
+                  h('p', { className: 'text-xs text-slate-500' }, 'Hãy thử tìm bằng từ khóa khác hoặc liên hệ trực tiếp với chúng tôi.')
+                )
+              : filtered.map((item) => {
+                  const isOpen = openIndex === item.id;
+                  return h(
+                    'div',
+                    {
+                      key: item.id,
+                      className: 'bg-white border border-slate-200 rounded-lg p-5 shadow-xs hover:border-blue-300 transition-all'
+                    },
+                    h(
+                      'button',
+                      {
+                        onClick: () => toggleAccordion(item.id),
+                        className: 'w-full text-left flex items-start justify-between gap-3 text-slate-800 hover:text-blue-600 transition-colors group'
+                      },
+                      h(
+                        'span',
+                        { className: 'text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors flex-1 leading-snug' },
+                        item.q
+                      ),
+                      h(
+                        'span',
+                        {
+                          className: `w-6 h-6 flex-shrink-0 flex items-center justify-center border rounded text-sm font-bold transition-all ${
+                            isOpen ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600'
+                          }`
+                        },
+                        isOpen ? '−' : '+'
+                      )
+                    ),
+                    isOpen &&
+                      h(
+                        'div',
+                        { className: 'mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-600 leading-relaxed animate-fadeIn text-justify' },
+                        item.a
+                      )
+                  );
+                })
+          ),
+
+          // Help Box at bottom of left column
+          h(
+            'div',
+            { className: 'bg-gradient-to-br from-blue-50 to-indigo-50/40 border border-blue-200 rounded-lg p-6 text-center space-y-3 shadow-xs' },
+            h('h3', { className: 'text-base font-bold text-slate-900' }, 'Bạn vẫn còn thắc mắc cần giải đáp?'),
+            h('p', { className: 'text-xs text-slate-600 max-w-md mx-auto leading-relaxed text-justify sm:text-center' }, 'Nếu câu hỏi của bạn chưa có trong danh sách trên, đừng ngần ngại gửi tin nhắn cho ban biên tập. Chúng tôi sẽ phản hồi trong vòng 24 giờ.'),
+            h(
+              'a',
+              {
+                href: '/lien-he',
+                className: 'inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded shadow-sm transition-all'
+              },
+              'Gửi câu hỏi / Liên hệ ngay →'
+            )
+          )
+        ),
+
+        // Right Sticky Sidebar (4 cols)
+        h(
+          'aside',
+          { className: 'lg:col-span-4 space-y-6 lg:sticky lg:top-24' },
+
+          // 1. Hộp hỗ trợ nhanh
+          h(
+            'div',
+            { className: 'p-5 bg-white border border-slate-200 rounded-lg shadow-sm space-y-3.5' },
+            h('h4', { className: 'text-xs font-bold text-slate-900 uppercase tracking-wider' },
+              'Hỗ trợ độc giả'
+            ),
+            h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' },
+              'Đội ngũ biên tập viên sẵn sàng hỗ trợ giải đáp thắc mắc về tiêu chí chấm điểm, cách tính giá và đề xuất sản phẩm mới.'
+            ),
+            h(
+              'div',
+              { className: 'pt-2 border-t border-slate-100 space-y-2 text-xs' },
+              h('div', { className: 'text-slate-700 font-semibold' },
+                'Email: hotro@topchoice.vn'
+              ),
+              h('div', { className: 'text-slate-700 font-semibold' },
+                'Thời gian: 8:00 - 18:00 (Thứ 2 - Thứ 7)'
+              )
+            ),
+            h(
+              'a',
+              {
+                href: '/lien-he',
+                className: 'block text-center w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-bold shadow-xs transition-colors'
+              },
+              'Gửi yêu cầu trực tiếp →'
+            )
+          ),
+
+          // 2. Các trang tiêu chuẩn quan trọng
+          h(
+            'div',
+            { className: 'p-5 bg-white border border-slate-200 rounded-lg shadow-sm space-y-3' },
+            h('h4', { className: 'text-xs font-bold text-slate-900 uppercase tracking-wider' },
+              'Tiêu chuẩn Top Choice'
+            ),
+            h(
+              'div',
+              { className: 'space-y-2 text-xs font-semibold' },
+              [
+                { title: 'Phương pháp thử nghiệm thực tế', href: '/phuong-phap-danh-gia' },
+                { title: 'Nguyên tắc biên tập độc lập', href: '/nguyen-tac-bien-tap' },
+                { title: 'Hồ sơ đội ngũ chuyên gia', href: '/chuyen-gia' },
+                { title: 'Chính sách bảo mật & Dữ liệu', href: '/dieu-khoan-bao-mat' }
+              ].map((item, idx) =>
+                h(
+                  'a',
+                  {
+                    key: idx,
+                    href: item.href,
+                    className: 'flex items-center justify-between p-2.5 rounded hover:bg-slate-50 text-slate-700 hover:text-blue-600 border border-slate-100 transition-colors'
+                  },
+                  h('span', null, item.title),
+                  h('span', { className: 'text-slate-400' }, '→')
+                )
+              )
+            )
+          ),
+
+          // 3. Khám phá nhanh
+          h(
+            'div',
+            { className: 'p-5 bg-white border border-slate-200 rounded-lg shadow-sm space-y-3' },
+            h('span', { className: 'inline-flex items-center px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 rounded text-[10px] font-bold uppercase tracking-wider' },
+              'Bảng Xếp Hạng 2026'
+            ),
+            h(
+              'h4',
+              { className: 'font-bold text-sm text-slate-900 leading-snug' },
+              h('a', { href: '/top', className: 'hover:text-blue-600 transition-colors' }, 'Xem các sản phẩm đạt điểm cao nhất')
+            ),
+            h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' },
+              'Xem các bảng xếp hạng Top 10 thiết bị gia đình và công cụ số được cập nhật mới nhất.'
+            ),
+            h(
+              'a',
+              {
+                href: '/top',
+                className: 'inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:underline'
+              },
+              'Khám phá bảng xếp hạng →'
+            )
+          )
         )
       )
     ),

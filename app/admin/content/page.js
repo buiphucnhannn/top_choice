@@ -51,23 +51,18 @@ export default function AdminContentPage() {
   );
 
   return h(
-    'div',
-    { className: 'min-h-screen flex flex-col md:flex-row bg-slate-100 font-sans' },
-    h(AdminSidebar, { active: 'content' }),
+    React.Fragment,
+    null,
     h(
-      'main',
-      { className: 'flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 overflow-y-auto' },
-      toastMsg &&
-        h(
-          'div',
-          { className: 'fixed bottom-6 right-6 bg-slate-900 text-white px-5 py-3 rounded-md shadow-xl text-sm font-semibold flex items-center gap-2 z-50 animate-fadeIn' },
-          h('span', { className: 'text-emerald-400 font-bold' }, '✓'),
-          toastMsg
-        ),
-
-      // Header
+      'div',
+      { className: 'min-h-screen flex flex-col md:flex-row bg-slate-100 font-sans' },
+      h(AdminSidebar, { active: 'content' }),
       h(
-        'header',
+        'main',
+        { className: 'flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 overflow-y-auto' },
+        // Header
+        h(
+          'header',
         { className: 'flex flex-col sm:flex-row sm:items-center justify-between gap-4' },
         h(
           'div',
@@ -170,93 +165,103 @@ export default function AdminContentPage() {
             )
           )
         )
+      )
+    ),
+  ),
+
+    // Toast notification
+    toastMsg &&
+      h(
+        'div',
+        { className: 'fixed bottom-6 right-6 m-0 !m-0 bg-slate-900 text-white px-5 py-3 rounded-md shadow-xl text-sm font-semibold flex items-center gap-2 z-50 animate-fadeIn' },
+        h('span', { className: 'text-emerald-400 font-bold' }, '✓'),
+        toastMsg
       ),
 
-      // Modal Create Guide
-      showModal &&
+    // Modal Create Guide
+    showModal &&
+      h(
+        'div',
+        { className: 'fixed inset-0 m-0 !m-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn' },
         h(
           'div',
-          { className: 'fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fadeIn' },
+          { className: 'bg-white rounded-lg p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-200 space-y-4' },
           h(
             'div',
-            { className: 'bg-white rounded-lg p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-200 space-y-4' },
+            { className: 'flex justify-between items-center pb-3 border-b border-slate-100' },
+            h('h3', { className: 'text-lg font-bold text-slate-900' }, 'Soạn Bài Hướng Dẫn Mới (Demo Form)'),
+            h(
+              'button',
+              { onClick: () => setShowModal(false), className: 'text-slate-400 hover:text-slate-600 font-bold' },
+              '✕'
+            )
+          ),
+          h(
+            'form',
+            { onSubmit: handleSave, className: 'space-y-3 text-xs' },
             h(
               'div',
-              { className: 'flex justify-between items-center pb-3 border-b border-slate-100' },
-              h('h3', { className: 'text-lg font-bold text-slate-900' }, 'Soạn Bài Hướng Dẫn Mới (Demo Form)'),
+              { className: 'space-y-1' },
+              h('label', { className: 'font-bold text-slate-700' }, 'Tiêu Đề Bài Viết *'),
+              h('input', {
+                type: 'text',
+                required: true,
+                value: formData.title,
+                onChange: (e) => setFormData({ ...formData, title: e.target.value }),
+                placeholder: 'Ví dụ: Cách chọn màn hình đồ họa chuyên nghiệp...',
+                className: 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded focus:outline-none'
+              })
+            ),
+            h(
+              'div',
+              { className: 'space-y-1' },
+              h('label', { className: 'font-bold text-slate-700' }, 'Nhóm Chủ Đề'),
               h(
-                'button',
-                { onClick: () => setShowModal(false), className: 'text-slate-400 hover:text-slate-600 font-bold' },
-                '✕'
+                'select',
+                {
+                  value: formData.type,
+                  onChange: (e) => setFormData({ ...formData, type: e.target.value }),
+                  className: 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded focus:outline-none'
+                },
+                h('option', { value: 'vat-ly' }, 'Sản phẩm vật lý'),
+                h('option', { value: 'so' }, 'Phần mềm & AI')
               )
             ),
             h(
-              'form',
-              { onSubmit: handleSave, className: 'space-y-3 text-xs' },
+              'div',
+              { className: 'space-y-1' },
+              h('label', { className: 'font-bold text-slate-700' }, 'Đoạn Trích Tóm Tắt (Excerpt)'),
+              h('textarea', {
+                rows: 3,
+                value: formData.excerpt,
+                onChange: (e) => setFormData({ ...formData, excerpt: e.target.value }),
+                placeholder: 'Mô tả ngắn gọn nội dung hướng dẫn...',
+                className: 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded focus:outline-none'
+              })
+            ),
+            h(
+              'div',
+              { className: 'pt-3 flex justify-end gap-2' },
               h(
-                'div',
-                { className: 'space-y-1' },
-                h('label', { className: 'font-bold text-slate-700' }, 'Tiêu Đề Bài Viết *'),
-                h('input', {
-                  type: 'text',
-                  required: true,
-                  value: formData.title,
-                  onChange: (e) => setFormData({ ...formData, title: e.target.value }),
-                  placeholder: 'Ví dụ: Cách chọn màn hình đồ họa chuyên nghiệp...',
-                  className: 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded focus:outline-none'
-                })
+                'button',
+                {
+                  type: 'button',
+                  onClick: () => setShowModal(false),
+                  className: 'px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded'
+                },
+                'Hủy'
               ),
               h(
-                'div',
-                { className: 'space-y-1' },
-                h('label', { className: 'font-bold text-slate-700' }, 'Nhóm Chủ Đề'),
-                h(
-                  'select',
-                  {
-                    value: formData.type,
-                    onChange: (e) => setFormData({ ...formData, type: e.target.value }),
-                    className: 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded focus:outline-none'
-                  },
-                  h('option', { value: 'vat-ly' }, 'Sản phẩm vật lý'),
-                  h('option', { value: 'so' }, 'Phần mềm & AI')
-                )
-              ),
-              h(
-                'div',
-                { className: 'space-y-1' },
-                h('label', { className: 'font-bold text-slate-700' }, 'Đoạn Trích Tóm Tắt (Excerpt)'),
-                h('textarea', {
-                  rows: 3,
-                  value: formData.excerpt,
-                  onChange: (e) => setFormData({ ...formData, excerpt: e.target.value }),
-                  placeholder: 'Mô tả ngắn gọn nội dung hướng dẫn...',
-                  className: 'w-full p-2.5 bg-slate-50 border border-slate-300 rounded focus:outline-none'
-                })
-              ),
-              h(
-                'div',
-                { className: 'pt-3 flex justify-end gap-2' },
-                h(
-                  'button',
-                  {
-                    type: 'button',
-                    onClick: () => setShowModal(false),
-                    className: 'px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded'
-                  },
-                  'Hủy'
-                ),
-                h(
-                  'button',
-                  {
-                    type: 'submit',
-                    className: 'px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded shadow-sm'
-                  },
-                  'Xuất Bản Bài Viết'
-                )
+                'button',
+                {
+                  type: 'submit',
+                  className: 'px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded shadow-sm'
+                },
+                'Xuất Bản Bài Viết'
               )
             )
           )
         )
-    )
+      )
   );
 }

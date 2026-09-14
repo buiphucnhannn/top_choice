@@ -15,19 +15,13 @@ export default function AboutPage() {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-5xl mx-auto px-4 sm:px-8 py-6 w-full space-y-10' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       h(Breadcrumb, { items: [{ name: 'Về chúng tôi' }] }),
       h(
         'header',
-        { className: 'space-y-4 text-center max-w-3xl mx-auto' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-700 rounded text-xs font-bold uppercase tracking-wider' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'Sứ Mệnh Của Chúng Tôi'
-        ),
-        h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Đánh Giá Khách Quan. Lựa Chọn Thông Minh.'),
-        h('p', { className: 'text-base text-slate-600 leading-relaxed text-justify' }, 'Top Choice được xây dựng nhằm giúp người tiêu dùng Việt Nam tiết kiệm hàng chục giờ tìm kiếm và loại bỏ những băn khoăn khi lựa chọn sản phẩm vật lý cũng như phần mềm số.')
+        { className: 'space-y-4 text-center max-w-5xl mx-auto' },
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.2]' }, 'Đánh Giá Khách Quan. Lựa Chọn Thông\u00A0Minh.'),
+        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed text-center max-w-3xl mx-auto' }, 'Top Choice được xây dựng nhằm giúp người tiêu dùng Việt Nam tiết kiệm hàng chục giờ tìm kiếm và loại bỏ những băn khoăn khi lựa chọn sản phẩm vật lý cũng như phần mềm số.')
       ),
 
       // Values Grid

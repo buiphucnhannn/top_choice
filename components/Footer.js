@@ -9,14 +9,11 @@ export default function Footer() {
     categories: [
       { name: 'Sản phẩm vật lý', href: '/san-pham-vat-ly' },
       { name: 'Sản phẩm số', href: '/san-pham-so' },
-      { name: 'Bảng xếp hạng', href: '/top' },
-      { name: 'Hướng dẫn', href: '/huong-dan' }
+      { name: 'Bảng xếp hạng', href: '/top' }
     ],
     content: [
       { name: 'Bài viết mới', href: '/huong-dan' },
-      { name: 'Review sản phẩm', href: '/review/aircook-pro-6l' },
-      { name: 'So sánh sản phẩm', href: '/so-sanh/aircook-pro-vs-homechef-dual' },
-      { name: 'Hướng dẫn sử dụng', href: '/huong-dan' }
+      { name: 'So sánh sản phẩm', href: '/so-sanh' }
     ],
     about: [
       { name: 'Đội ngũ chuyên gia', href: '/chuyen-gia' },
@@ -39,7 +36,7 @@ export default function Footer() {
     { className: 'w-full bg-[#0B1528] text-slate-300 pt-14 pb-8 border-t-4 border-blue-600' },
     h(
       'div',
-      { className: 'max-w-7xl mx-auto px-4 sm:px-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
       // Top Grid: Brand & 4 Columns
       h(
         'div',

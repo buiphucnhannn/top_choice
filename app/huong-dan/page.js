@@ -11,6 +11,18 @@ const h = React.createElement;
 export default function GuidesArchivePage() {
   const [filter, setFilter] = useState('all');
 
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const grp = params.get('group') || params.get('type') || params.get('nhom');
+      if (grp === 'so' || grp === 'san-pham-so') {
+        setFilter('so');
+      } else if (grp === 'vat-ly' || grp === 'san-pham-vat-ly') {
+        setFilter('vat-ly');
+      }
+    }
+  }, []);
+
   const filteredGuides = guides.filter((g) => {
     if (filter === 'all') return true;
     return g.type === filter;
@@ -22,18 +34,12 @@ export default function GuidesArchivePage() {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-8' },
-      h(Breadcrumb, { items: [{ name: 'Hướng dẫn chọn mua' }] }),
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
+      h(Breadcrumb, { items: [{ name: 'Hướng dẫn' }] }),
       h(
         'header',
-        { className: 'space-y-3' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-700 rounded text-xs font-bold uppercase tracking-wider' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'Cẩm Nang Tiêu Dùng Thông Minh'
-        ),
-        h('h1', { className: 'text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight' }, 'Kinh Nghiệm Chọn Mua & Tiêu Chí Đánh Giá'),
+        { className: 'space-y-4' },
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]' }, 'Kinh Nghiệm Chọn Mua & Tiêu Chí Đánh Giá'),
         h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed text-justify' }, 'Các bài viết hướng dẫn chuyên sâu phân tích tiêu chí chọn mua, so sánh công nghệ và giải đáp những sai lầm thường gặp giúp bạn chọn đúng sản phẩm.')
       ),
 
@@ -85,7 +91,11 @@ export default function GuidesArchivePage() {
                 ),
                 h('span', { className: 'text-slate-400' }, `Cập nhật: ${guide.updatedAt}`)
               ),
-              h('h2', { className: 'text-xl font-bold text-slate-900 leading-snug' }, guide.title),
+              h(
+                'h2',
+                { className: 'text-xl font-bold text-slate-900 leading-snug' },
+                h('a', { href: `/huong-dan/${guide.slug}`, className: 'hover:text-blue-600 transition-colors' }, guide.title)
+              ),
               h('p', { className: 'text-xs text-slate-600 leading-relaxed line-clamp-3 text-justify' }, guide.excerpt)
             ),
             h(

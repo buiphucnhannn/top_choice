@@ -12,6 +12,9 @@ export default function ProductReviewPage({ params }) {
   const { slug } = params;
   const product = products.find((p) => p.slug === slug) || products[0];
   const category = categories.find((c) => c.slug === product.categorySlug) || categories[0];
+  const subCategory = category.subcategories?.find((s) => s.slug === product.subCategorySlug);
+  const groupHref = product.type === 'vat-ly' ? '/san-pham-vat-ly' : '/san-pham-so';
+  const groupLabel = product.type === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số';
   const author = authors[0];
   const alternatives = products.filter((item) => item.type === product.type && item.id !== product.id).slice(0, 3);
   const suitableFor = product.type === 'vat-ly'
@@ -27,17 +30,18 @@ export default function ProductReviewPage({ params }) {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-10' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       // Breadcrumb
       h(Breadcrumb, {
         items: [
-          { name: product.type === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số', href: product.type === 'vat-ly' ? '/san-pham-vat-ly' : '/san-pham-so' },
-          { name: category.name, href: `/${category.slug}/${product.subCategorySlug || ''}` },
+          { name: groupLabel, href: groupHref },
+          { name: category.name, href: `${groupHref}/${category.slug}` },
+          ...(subCategory ? [{ name: subCategory.name, href: `/${category.slug}/${subCategory.slug}` }] : []),
           { name: `Đánh giá ${product.name}` }
         ]
       }),
 
-      // Product Hero Section
+      // Product Hero Section (Distance to breadcrumb matches header-to-breadcrumb)
       h(
         'section',
         { className: 'bg-white border border-slate-200 rounded-lg p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center' },
@@ -54,34 +58,38 @@ export default function ProductReviewPage({ params }) {
         // Right Column: Details & Overall Score
         h(
           'div',
-          { className: 'lg:col-span-7 space-y-5' },
+          { className: 'lg:col-span-7 space-y-4' },
           h(
             'div',
-            { className: 'flex items-center justify-between gap-4 flex-wrap' },
-            h(
-              'div',
-              { className: 'inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200' },
-              h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-              product.brand
-            ),
-            h(
-              'div',
-              { className: 'flex items-baseline gap-1 bg-slate-50 px-3.5 py-1.5 rounded-md border border-slate-200 shadow-xs' },
-              h('span', { className: 'text-3xl font-black text-blue-600' }, product.overallScore),
-              h('span', { className: 'text-xs font-bold text-slate-500' }, '/10 Điểm Đánh Giá')
-            )
+            { className: 'flex items-center gap-2' },
+            h('span', { className: 'px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200' }, product.brand),
+            h('span', { className: 'text-xs text-slate-400 font-medium' }, `Mã SP: ${product.id}`)
           ),
-          h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight' }, `Đánh Giá Chi Tiết ${product.name}`),
-          h('p', { className: 'text-base text-slate-600 leading-relaxed text-justify' }, product.summary),
+          h('h1', { className: 'text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-snug' }, `Đánh Giá Chi Tiết ${product.name}`),
+          h('p', { className: 'text-slate-600 text-sm leading-relaxed text-justify' }, product.summary),
+
+          // Price & Verdict Box
           h(
             'div',
-            { className: 'p-4 bg-slate-50 rounded-md border border-slate-200 flex items-center justify-between gap-4 flex-wrap' },
+            { className: 'p-4 bg-slate-50 border border-slate-200/80 rounded-md flex flex-wrap items-center justify-between gap-4' },
             h(
               'div',
               null,
-              h('div', { className: 'text-xs text-slate-500 font-medium' }, 'Giá tham khảo chính thức'),
-              h('div', { className: 'text-xl font-black text-slate-900' }, product.priceRef)
+              h('div', { className: 'text-xs text-slate-500 font-medium' }, 'Mức giá tham khảo'),
+              h('div', { className: 'text-xl font-extrabold text-blue-600' }, product.priceRef)
             ),
+            h(
+              'div',
+              { className: 'text-right' },
+              h('div', { className: 'text-xs text-slate-500 font-medium' }, 'Điểm chuyên gia'),
+              h('div', { className: 'text-2xl font-black text-blue-600' }, `${product.overallScore}/10`)
+            )
+          ),
+
+          // Buy button
+          h(
+            'div',
+            { className: 'pt-2 flex items-center gap-4' },
             h(
               'a',
               {
@@ -96,59 +104,64 @@ export default function ProductReviewPage({ params }) {
         )
       ),
 
-      // Quick conclusion
+      // Remaining Sections Wrapper
       h(
-        'section',
-        { className: 'grid grid-cols-1 lg:grid-cols-3 gap-5' },
-        h(
-          'div',
-          { className: 'lg:col-span-2 bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
-          h('span', { className: 'inline-block text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded' }, 'Kết luận nhanh'),
-          h('h2', { className: 'text-xl font-bold text-slate-900' }, `${product.name} có đáng chọn không?`),
-          h('p', { className: 'text-sm leading-relaxed text-slate-700 text-justify' }, `${product.name} đạt ${product.overallScore}/10 nhờ ${product.pros[0]?.toLowerCase() || 'những điểm mạnh nổi bật'}. Sản phẩm phù hợp với ${suitableFor}`)
-        ),
-        h(
-          'div',
-          { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
-          h('h2', { className: 'text-sm font-bold text-slate-900' }, 'Cần cân nhắc nếu'),
-          h('ul', { className: 'space-y-2 text-xs text-slate-600' }, product.cons.slice(0, 3).map((item, index) => h('li', { key: index, className: 'flex gap-2' }, h('span', { className: 'text-rose-500 font-bold' }, '•'), item)))
-        )
-      ),
+        'div',
+        { className: 'space-y-10 pt-5' },
 
-      // Score Breakdown & Pros/Cons Grid
-      h(
-        'section',
-        { className: 'grid grid-cols-1 lg:grid-cols-12 gap-8' },
-        // Score Breakdown (6 cols)
+        // Quick conclusion
         h(
-          'div',
-          { className: 'lg:col-span-6 bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-4' },
-          h('h2', { className: 'text-xl font-bold text-slate-900' }, '📊 Đánh giá theo tiêu chí chi tiết'),
+          'section',
+          { className: 'grid grid-cols-1 lg:grid-cols-3 gap-5' },
           h(
             'div',
-            { className: 'space-y-3.5' },
-            product.scores.map((s, idx) =>
-              h(
-                'div',
-                { key: idx, className: 'space-y-1.5' },
+            { className: 'lg:col-span-2 bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
+            h('span', { className: 'inline-block text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded' }, 'Kết luận nhanh'),
+            h('h2', { className: 'text-xl font-bold text-slate-900' }, `${product.name} có đáng chọn không?`),
+            h('p', { className: 'text-sm leading-relaxed text-slate-700 text-justify' }, `${product.name} đạt ${product.overallScore}/10 nhờ ${product.pros[0]?.toLowerCase() || 'những điểm mạnh nổi bật'}. Sản phẩm phù hợp với ${suitableFor}`)
+          ),
+          h(
+            'div',
+            { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
+            h('h2', { className: 'text-sm font-bold text-slate-900' }, 'Cần cân nhắc nếu'),
+            h('ul', { className: 'space-y-2 text-xs text-slate-600' }, product.cons.slice(0, 3).map((item, index) => h('li', { key: index, className: 'flex gap-2' }, h('span', { className: 'text-rose-500 font-bold' }, '•'), item)))
+          )
+        ),
+
+        // Score Breakdown & Pros/Cons Grid
+        h(
+          'section',
+          { className: 'grid grid-cols-1 lg:grid-cols-12 gap-8' },
+          // Score Breakdown (6 cols)
+          h(
+            'div',
+            { className: 'lg:col-span-6 bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-4' },
+            h('h2', { className: 'text-xl font-bold text-slate-900' }, 'Đánh giá theo tiêu chí chi tiết'),
+            h(
+              'div',
+              { className: 'space-y-3.5' },
+              product.scores.map((s, idx) =>
                 h(
                   'div',
-                  { className: 'flex justify-between text-xs font-semibold' },
-                  h('span', { className: 'text-slate-700' }, s.criterion),
-                  h('span', { className: 'text-blue-600 font-bold' }, `${s.value}/10`)
-                ),
-                h(
-                  'div',
-                  { className: 'w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden' },
-                  h('div', {
-                    className: 'h-full bg-blue-600 rounded-sm transition-all duration-500',
-                    style: { width: `${(s.value / 10) * 100}%` }
-                  })
+                  { key: idx, className: 'space-y-1.5' },
+                  h(
+                    'div',
+                    { className: 'flex justify-between text-xs font-semibold' },
+                    h('span', { className: 'text-slate-700' }, s.criterion),
+                    h('span', { className: 'text-blue-600 font-bold' }, `${s.value}/10`)
+                  ),
+                  h(
+                    'div',
+                    { className: 'w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden' },
+                    h('div', {
+                      className: 'h-full bg-blue-600 rounded-sm transition-all duration-500',
+                      style: { width: `${(s.value / 10) * 100}%` }
+                    })
+                  )
                 )
               )
             )
-          )
-        ),
+          ),
 
         // Pros & Cons (6 cols)
         h(
@@ -273,7 +286,7 @@ export default function ProductReviewPage({ params }) {
                   : 'bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 text-slate-700 border-slate-200 shadow-xs active:scale-95'
               }`
             },
-            '👍 Hữu ích',
+            'Hữu ích',
             h('span', { className: 'ml-1 px-1.5 py-0.2 bg-slate-100 rounded font-mono' }, helpfulVotes)
           ),
           voted && h('span', { className: 'text-xs text-emerald-600 font-semibold' }, 'Cảm ơn phản hồi của bạn!')
@@ -297,6 +310,7 @@ export default function ProductReviewPage({ params }) {
           h('div', { className: 'font-bold text-slate-900' }, `Biên tập viên: ${author.name} • ${author.credentials}`),
           h('p', { className: 'text-xs text-slate-600 text-justify' }, author.bio)
         )
+      )
       )
     ),
     h(Footer, null)

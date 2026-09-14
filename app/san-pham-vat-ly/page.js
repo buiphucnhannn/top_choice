@@ -20,57 +20,72 @@ export default function PhysicalHubPage() {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-12' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       // Breadcrumb
       h(Breadcrumb, { items: [{ name: 'Sản phẩm vật lý' }] }),
 
-      // Hub Hero
+      // Hub Hero Card (Distance to breadcrumb matches header-to-breadcrumb)
       h(
         'section',
-        { className: 'bg-white border border-slate-200 rounded-lg p-6 sm:p-10 shadow-sm space-y-4' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-200 text-blue-700 rounded text-xs font-bold uppercase tracking-wider' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'Trung Tâm Đánh Giá Sản Phẩm Vật Lý'
-        ),
-        h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight' }, 'Thiết Bị Điện Tử, Đồ Gia Dụng & Phong Cách Sống'),
-        h('p', { className: 'text-slate-600 max-w-2xl leading-relaxed text-sm sm:text-base text-justify' }, 'Khám phá các bài thử nghiệm thực tế, bảng xếp hạng Top 10 và hướng dẫn chọn mua đồ dùng gia đình, thiết bị công nghệ với thông tin giá cập nhật chính xác.')
+        { className: 'bg-white border border-slate-200 rounded-lg p-6 sm:p-10 md:p-12 shadow-sm space-y-4' },
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]' }, 'Thiết Bị Điện Tử, Đồ Gia Dụng & Phong Cách Sống'),
+        h('p', { className: 'text-slate-600 max-w-3xl leading-relaxed text-sm sm:text-base md:text-lg text-justify' }, 'Khám phá các bài thử nghiệm thực tế, bảng xếp hạng Top 10 và hướng dẫn chọn mua đồ dùng gia đình, thiết bị công nghệ với thông tin giá cập nhật chính xác.')
       ),
 
-      // Categories Grid
+      // Remaining Sections Wrapper
       h(
-        'section',
-        { className: 'space-y-6' },
-        h('h2', { className: 'text-2xl font-bold text-slate-900 tracking-tight' }, 'Danh mục sản phẩm chính'),
+        'div',
+        { className: 'space-y-12 pt-6' },
+
+        // Categories Grid
         h(
-          'div',
-          { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6' },
-          physicalCategories.map((cat, idx) =>
-            h(
-              'div',
-              { key: idx, className: 'p-6 bg-white border border-slate-200 rounded-md shadow-sm hover:shadow-md hover:border-blue-400 transition-all space-y-3' },
-              h('h3', { className: 'font-bold text-lg text-slate-900' }, cat.name),
-              h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, cat.desc),
+          'section',
+          { className: 'space-y-6' },
+          h('h2', { className: 'text-2xl font-bold text-slate-900 tracking-tight' }, 'Danh mục sản phẩm chính'),
+          h(
+            'div',
+            { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6' },
+            physicalCategories.map((cat, idx) =>
               h(
                 'div',
-                { className: 'pt-2 flex flex-wrap gap-1.5' },
-                cat.subcategories.map((sub, sIdx) =>
+                { key: idx, className: 'p-6 bg-white border border-slate-200 rounded-md shadow-sm hover:shadow-md hover:border-blue-400 transition-all space-y-3.5 flex flex-col justify-between' },
+                h(
+                  'div',
+                  { className: 'space-y-2' },
                   h(
-                    'a',
-                    {
-                      key: sIdx,
-                      href: `/${cat.slug}/${sub.slug}`,
-                      className: 'text-[11px] font-semibold px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 text-slate-700 rounded transition-colors'
-                    },
-                    sub.name
+                    'h3',
+                    { className: 'font-bold text-lg text-slate-900' },
+                    h(
+                      'a',
+                      {
+                        href: `/san-pham-vat-ly/${cat.slug}`,
+                        className: 'hover:text-blue-600 transition-colors inline-flex items-center gap-1.5 group'
+                      },
+                      cat.name,
+                      h('span', { className: 'text-xs text-blue-500 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all' }, '→')
+                    )
+                  ),
+                  h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, cat.desc)
+                ),
+                h(
+                  'div',
+                  { className: 'pt-2 flex flex-wrap gap-2' },
+                  cat.subcategories.map((sub, sIdx) =>
+                    h(
+                      'a',
+                      {
+                        key: sIdx,
+                        href: `/${cat.slug}/${sub.slug}`,
+                        className: 'text-xs font-semibold px-3 py-1.5 bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-700 rounded-md transition-all shadow-xs'
+                      },
+                      sub.name
+                    )
                   )
                 )
               )
             )
           )
-        )
-      ),
+        ),
 
       // Top 10 Rankings in Physical Hub
       h(
@@ -168,7 +183,8 @@ export default function PhysicalHubPage() {
           )
         )
       )
-    ),
-    h(Footer, null)
-  );
+    )
+  ),
+  h(Footer, null)
+);
 }

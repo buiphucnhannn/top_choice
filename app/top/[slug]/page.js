@@ -25,11 +25,10 @@ export default function RankingDetailPage({ params }) {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-8' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       // Breadcrumb
       h(Breadcrumb, {
         items: [
-          { name: ranking.group === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số', href: ranking.group === 'vat-ly' ? '/san-pham-vat-ly' : '/san-pham-so' },
           { name: 'Bảng xếp hạng', href: '/top' },
           { name: ranking.title }
         ]
@@ -39,13 +38,7 @@ export default function RankingDetailPage({ params }) {
       h(
         'header',
         { className: 'space-y-4 max-w-4xl' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-2 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'Bảng xếp hạng độc lập 2026'
-        ),
-        h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight' }, ranking.title),
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]' }, ranking.title),
         h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed text-justify' }, ranking.intro),
         // Author info bar
         h(
@@ -65,34 +58,56 @@ export default function RankingDetailPage({ params }) {
       h(
         'section',
         { className: 'bg-white border border-slate-200 rounded-lg p-6 space-y-4 shadow-sm' },
-        h('h2', { className: 'text-lg font-bold text-slate-900' }, '🏆 Lựa chọn nhanh của biên tập viên'),
+        h('h2', { className: 'text-lg font-bold text-slate-900' }, 'Lựa chọn nhanh của biên tập viên'),
         h(
           'div',
           { className: 'grid grid-cols-1 md:grid-cols-3 gap-4' },
           ranking.quickPicks.bestOverall &&
-            h(
-              'div',
-              { className: 'bg-slate-50 p-4 rounded-md border border-emerald-200/80 shadow-sm space-y-1.5' },
-              h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100/80 text-emerald-800 uppercase tracking-wider' }, 'Tốt nhất tổng thể'),
-              h('div', { className: 'font-bold text-slate-900 text-sm' }, ranking.quickPicks.bestOverall.name),
-              h('p', { className: 'text-xs text-slate-600' }, ranking.quickPicks.bestOverall.reason)
-            ),
+            (() => {
+              const matchedP = products.find((p) => p.name === ranking.quickPicks.bestOverall.name);
+              return h(
+                'div',
+                { className: 'bg-slate-50 p-4 rounded-md border border-emerald-200/80 shadow-sm space-y-1.5' },
+                h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100/80 text-emerald-800 uppercase tracking-wider' }, 'Tốt nhất tổng thể'),
+                h('div', { className: 'font-bold text-slate-900 text-sm' },
+                  matchedP
+                    ? h('a', { href: `/review/${matchedP.slug}`, className: 'hover:text-blue-600 transition-colors' }, ranking.quickPicks.bestOverall.name)
+                    : ranking.quickPicks.bestOverall.name
+                ),
+                h('p', { className: 'text-xs text-slate-600' }, ranking.quickPicks.bestOverall.reason)
+              );
+            })(),
           ranking.quickPicks.bestValue &&
-            h(
-              'div',
-              { className: 'bg-slate-50 p-4 rounded-md border border-blue-200/80 shadow-sm space-y-1.5' },
-              h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100/80 text-blue-800 uppercase tracking-wider' }, 'Giá trị tốt nhất'),
-              h('div', { className: 'font-bold text-slate-900 text-sm' }, ranking.quickPicks.bestValue.name),
-              h('p', { className: 'text-xs text-slate-600' }, ranking.quickPicks.bestValue.reason)
-            ),
+            (() => {
+              const matchedP = products.find((p) => p.name === ranking.quickPicks.bestValue.name);
+              return h(
+                'div',
+                { className: 'bg-slate-50 p-4 rounded-md border border-blue-200/80 shadow-sm space-y-1.5' },
+                h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-blue-100/80 text-blue-800 uppercase tracking-wider' }, 'Giá trị tốt nhất'),
+                h('div', { className: 'font-bold text-slate-900 text-sm' },
+                  matchedP
+                    ? h('a', { href: `/review/${matchedP.slug}`, className: 'hover:text-blue-600 transition-colors' }, ranking.quickPicks.bestValue.name)
+                    : ranking.quickPicks.bestValue.name
+                ),
+                h('p', { className: 'text-xs text-slate-600' }, ranking.quickPicks.bestValue.reason)
+              );
+            })(),
           (ranking.quickPicks.budgetPick || ranking.quickPicks.bestCreative) &&
-            h(
-              'div',
-              { className: 'bg-slate-50 p-4 rounded-md border border-amber-200/80 shadow-sm space-y-1.5' },
-              h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100/80 text-amber-800 uppercase tracking-wider' }, 'Lựa chọn đặc biệt'),
-              h('div', { className: 'font-bold text-slate-900 text-sm' }, (ranking.quickPicks.budgetPick || ranking.quickPicks.bestCreative).name),
-              h('p', { className: 'text-xs text-slate-600' }, (ranking.quickPicks.budgetPick || ranking.quickPicks.bestCreative).reason)
-            )
+            (() => {
+              const pick = ranking.quickPicks.budgetPick || ranking.quickPicks.bestCreative;
+              const matchedP = products.find((p) => p.name === pick.name);
+              return h(
+                'div',
+                { className: 'bg-slate-50 p-4 rounded-md border border-amber-200/80 shadow-sm space-y-1.5' },
+                h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100/80 text-amber-800 uppercase tracking-wider' }, 'Lựa chọn đặc biệt'),
+                h('div', { className: 'font-bold text-slate-900 text-sm' },
+                  matchedP
+                    ? h('a', { href: `/review/${matchedP.slug}`, className: 'hover:text-blue-600 transition-colors' }, pick.name)
+                    : pick.name
+                ),
+                h('p', { className: 'text-xs text-slate-600' }, pick.reason)
+              );
+            })()
         )
       ),
 
@@ -118,7 +133,9 @@ export default function RankingDetailPage({ params }) {
               const product = products.find((entry) => entry.id === item.productId) || products[0];
               return h('tr', { key: item.productId, className: 'hover:bg-slate-50/70' },
                 h('td', { className: 'px-3 py-3 font-black text-blue-600' }, `#${item.rank}`),
-                h('td', { className: 'px-3 py-3 font-bold text-slate-900' }, product.name),
+                h('td', { className: 'px-3 py-3 font-bold text-slate-900' },
+                  h('a', { href: `/review/${product.slug}`, className: 'hover:text-blue-600 transition-colors' }, product.name)
+                ),
                 h('td', { className: 'px-3 py-3 font-bold text-slate-700' }, `${product.overallScore}/10`),
                 h('td', { className: 'px-3 py-3 text-slate-600' }, product.priceRef),
                 h('td', { className: 'px-3 py-3 text-right' }, h('a', { href: `/review/${product.slug}`, className: 'font-bold text-blue-600 hover:underline' }, 'Xem review →'))
@@ -160,7 +177,11 @@ export default function RankingDetailPage({ params }) {
                     'div',
                     null,
                     h('span', { className: 'text-xs font-bold text-blue-600 uppercase tracking-wider mr-2' }, item.label),
-                    h('h3', { className: 'text-xl font-bold text-slate-900' }, prod.name)
+                    h(
+                      'h3',
+                      { className: 'text-xl font-bold text-slate-900' },
+                      h('a', { href: `/review/${prod.slug}`, className: 'hover:text-blue-600 transition-colors' }, prod.name)
+                    )
                   )
                 ),
                 h(
@@ -178,11 +199,15 @@ export default function RankingDetailPage({ params }) {
                 h(
                   'div',
                   { className: 'md:col-span-4' },
-                  h('img', {
-                    src: prod.image,
-                    alt: prod.name,
-                    className: 'w-full h-56 object-cover rounded-md border border-slate-200 bg-slate-50'
-                  })
+                  h(
+                    'a',
+                    { href: `/review/${prod.slug}`, className: 'block group overflow-hidden rounded-md' },
+                    h('img', {
+                      src: prod.image,
+                      alt: prod.name,
+                      className: 'w-full h-56 object-cover rounded-md border border-slate-200 bg-slate-50 group-hover:scale-105 transition-transform duration-300'
+                    })
+                  )
                 ),
                 h(
                   'div',

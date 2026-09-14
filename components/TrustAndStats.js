@@ -22,7 +22,7 @@ export default function TrustAndStats() {
     { className: 'w-full bg-[#0f172a] text-white py-14' },
     h(
       'div',
-      { className: 'max-w-7xl mx-auto px-4 sm:px-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
 
       // Stats row
       h(

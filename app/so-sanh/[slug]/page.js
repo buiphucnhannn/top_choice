@@ -26,11 +26,11 @@ export default function ComparisonPage({ params }) {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-10' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       // Breadcrumb
       h(Breadcrumb, {
         items: [
-          { name: 'So sánh sản phẩm' },
+          { name: 'So sánh sản phẩm', href: '/so-sanh' },
           { name: `${prodA.name} vs ${prodB.name}` }
         ]
       }),
@@ -38,49 +38,89 @@ export default function ComparisonPage({ params }) {
       // Comparison Header
       h(
         'header',
-        { className: 'text-center max-w-3xl mx-auto space-y-3' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-1.5 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'So Sánh Đối Đầu Trực Diện'
-        ),
-        h('h1', { className: 'text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight' }, comp.title),
-        h('p', { className: 'text-sm sm:text-base text-slate-600 text-justify' }, comp.summaryWinner)
+        { className: 'text-center max-w-4xl mx-auto space-y-4' },
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]' }, comp.title),
+        h('p', { className: 'text-base sm:text-lg text-slate-600 leading-relaxed text-justify' }, comp.summaryWinner)
       ),
 
       // Side by side Cards
       h(
         'section',
-        { className: 'grid grid-cols-1 md:grid-cols-2 gap-6' },
+        { className: 'grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch' },
         // Product A
         h(
           'div',
-          { className: `p-6 rounded-md border ${comp.winnerId === prodA.id ? 'border-blue-500 bg-blue-50/20 shadow-md ring-1 ring-blue-500/20' : 'border-slate-200 bg-white shadow-sm'} space-y-4` },
-          comp.winnerId === prodA.id && h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-blue-600 text-white uppercase tracking-wider' }, '👑 Chiến Thắng Tổng Thể'),
-          h('img', { src: prodA.image, alt: prodA.name, className: 'w-full h-56 object-cover rounded-md border border-slate-100 bg-white' }),
-          h('div', { className: 'flex justify-between items-baseline' },
-            h('h2', { className: 'text-2xl font-bold text-slate-900' }, prodA.name),
-            h('span', { className: 'text-2xl font-black text-blue-600' }, `${prodA.overallScore}/10`)
+          {
+            className: `relative p-6 sm:p-7 rounded-xl border-2 transition-all flex flex-col justify-between space-y-4 ${
+              comp.winnerId === prodA.id
+                ? 'border-amber-400 bg-white shadow-xl ring-4 ring-amber-400/20'
+                : 'border-slate-200 bg-white shadow-sm'
+            }`
+          },
+          h(
+            'div',
+            { className: 'space-y-4' },
+            comp.winnerId === prodA.id
+              ? h(
+                  'div',
+                  { className: 'inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black text-xs uppercase tracking-wider shadow-md' },
+                  h('span', { className: 'text-sm' }, '👑'),
+                  'CHIẾN THẮNG TỔNG THỂ'
+                )
+              : h(
+                  'div',
+                  { className: 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-500 font-bold text-xs uppercase tracking-wider' },
+                  'ĐÁNH GIÁ ĐỐI ĐẦU'
+                ),
+            h('img', { src: prodA.image, alt: prodA.name, className: 'w-full h-56 object-cover rounded-lg border border-slate-100 bg-white shadow-xs' }),
+            h('div', { className: 'flex justify-between items-baseline gap-2' },
+              h('h2', { className: 'text-2xl font-bold text-slate-900' }, prodA.name),
+              h('span', { className: `text-2xl font-black ${comp.winnerId === prodA.id ? 'text-amber-600' : 'text-blue-600'}` }, `${prodA.overallScore}/10`)
+            ),
+            h('div', { className: 'text-sm font-semibold text-slate-700' }, `Giá tham khảo: ${prodA.priceRef}`),
+            h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, prodA.summary)
           ),
-          h('div', { className: 'text-sm font-semibold text-slate-700' }, `Giá tham khảo: ${prodA.priceRef}`),
-          h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, prodA.summary),
-          h('a', { href: `/review/${prodA.slug}`, className: 'inline-block text-xs font-bold text-blue-600 hover:underline' }, 'Đọc review đầy đủ của sản phẩm A →')
+          h('div', { className: 'pt-2 border-t border-slate-100' },
+            h('a', { href: `/review/${prodA.slug}`, className: 'inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline' }, `Đọc review đầy đủ của ${prodA.name} →`)
+          )
         ),
 
         // Product B
         h(
           'div',
-          { className: `p-6 rounded-md border ${comp.winnerId === prodB.id ? 'border-blue-500 bg-blue-50/20 shadow-md ring-1 ring-blue-500/20' : 'border-slate-200 bg-white shadow-sm'} space-y-4` },
-          comp.winnerId === prodB.id && h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-blue-600 text-white uppercase tracking-wider' }, '👑 Chiến Thắng Tổng Thể'),
-          h('img', { src: prodB.image, alt: prodB.name, className: 'w-full h-56 object-cover rounded-md border border-slate-100 bg-white' }),
-          h('div', { className: 'flex justify-between items-baseline' },
-            h('h2', { className: 'text-2xl font-bold text-slate-900' }, prodB.name),
-            h('span', { className: 'text-2xl font-black text-blue-600' }, `${prodB.overallScore}/10`)
+          {
+            className: `relative p-6 sm:p-7 rounded-xl border-2 transition-all flex flex-col justify-between space-y-4 ${
+              comp.winnerId === prodB.id
+                ? 'border-amber-400 bg-white shadow-xl ring-4 ring-amber-400/20'
+                : 'border-slate-200 bg-white shadow-sm'
+            }`
+          },
+          h(
+            'div',
+            { className: 'space-y-4' },
+            comp.winnerId === prodB.id
+              ? h(
+                  'div',
+                  { className: 'inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white font-black text-xs uppercase tracking-wider shadow-md' },
+                  h('span', { className: 'text-sm' }, '👑'),
+                  'CHIẾN THẮNG TỔNG THỂ'
+                )
+              : h(
+                  'div',
+                  { className: 'inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-500 font-bold text-xs uppercase tracking-wider' },
+                  'ĐÁNH GIÁ ĐỐI ĐẦU'
+                ),
+            h('img', { src: prodB.image, alt: prodB.name, className: 'w-full h-56 object-cover rounded-lg border border-slate-100 bg-white shadow-xs' }),
+            h('div', { className: 'flex justify-between items-baseline gap-2' },
+              h('h2', { className: 'text-2xl font-bold text-slate-900' }, prodB.name),
+              h('span', { className: `text-2xl font-black ${comp.winnerId === prodB.id ? 'text-amber-600' : 'text-blue-600'}` }, `${prodB.overallScore}/10`)
+            ),
+            h('div', { className: 'text-sm font-semibold text-slate-700' }, `Giá tham khảo: ${prodB.priceRef}`),
+            h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, prodB.summary)
           ),
-          h('div', { className: 'text-sm font-semibold text-slate-700' }, `Giá tham khảo: ${prodB.priceRef}`),
-          h('p', { className: 'text-xs text-slate-600 leading-relaxed text-justify' }, prodB.summary),
-          h('a', { href: `/review/${prodB.slug}`, className: 'inline-block text-xs font-bold text-blue-600 hover:underline' }, 'Đọc review đầy đủ của sản phẩm B →')
+          h('div', { className: 'pt-2 border-t border-slate-100' },
+            h('a', { href: `/review/${prodB.slug}`, className: 'inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline' }, `Đọc review đầy đủ của ${prodB.name} →`)
+          )
         )
       ),
 

@@ -84,21 +84,20 @@ export default function SubCategoryPage({ params }) {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-10' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       // Breadcrumb
       h(Breadcrumb, { items: breadcrumbItems }),
 
-      // Header Banner
+      // Header Banner (Distance to breadcrumb matches header-to-breadcrumb)
       h(
         'header',
-        { className: 'bg-white border border-slate-200 rounded-lg p-6 sm:p-8 shadow-sm space-y-4' },
+        { className: 'bg-white border border-slate-200 rounded-lg p-6 sm:p-8 md:p-10 shadow-sm space-y-4' },
         h(
-          'div',
-          { className: 'inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-700 rounded text-xs font-bold uppercase tracking-wider' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          groupLabel
+          'h1',
+          { className: 'text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black text-slate-900 tracking-tight leading-[1.18]' },
+          'Đánh Giá & Xếp Hạng: ',
+          h('span', { className: 'text-blue-600' }, currentSub.name)
         ),
-        h('h1', { className: 'text-2xl sm:text-3xl font-black text-slate-900 tracking-tight' }, `Đánh Giá & Xếp Hạng: ${currentSub.name}`),
         h('p', { className: 'text-sm sm:text-base text-slate-600 max-w-3xl leading-relaxed text-justify' }, bannerDesc),
 
         // Subcategories Chips
@@ -113,7 +112,7 @@ export default function SubCategoryPage({ params }) {
                 {
                   key: sIdx,
                   href: `/${currentCategory.slug}/${sub.slug}`,
-                  className: `px-2.5 py-1 rounded text-xs font-semibold transition-all border ${
+                  className: `px-3 py-1.5 rounded-md text-xs sm:text-[13px] font-semibold transition-all border ${
                     sub.slug === danhmuc
                       ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                       : 'bg-slate-50 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-300 text-slate-700 border-slate-200'
@@ -125,11 +124,16 @@ export default function SubCategoryPage({ params }) {
           )
       ),
 
-      // Matched Products
+      // Content Sections Wrapper
       h(
-        'section',
-        { className: 'space-y-6' },
-        h('h2', { className: 'text-2xl font-bold text-slate-900 tracking-tight' }, 'Sản phẩm nổi bật trong phân khúc'),
+        'div',
+        { className: 'space-y-10 pt-5' },
+
+        // Matched Products
+        h(
+          'section',
+          { className: 'space-y-6' },
+          h('h2', { className: 'text-2xl font-bold text-slate-900 tracking-tight' }, 'Sản phẩm nổi bật trong phân khúc'),
         matchedProducts.length > 0
           ? h(
               'div',
@@ -195,6 +199,7 @@ export default function SubCategoryPage({ params }) {
             )
           )
         )
+      )
     ),
     h(Footer, null)
   );

@@ -385,7 +385,7 @@ export default function Header() {
     // Main header bar
     h(
       'div',
-      { className: 'max-w-7xl mx-auto px-4 sm:px-8 py-3 flex items-center justify-between gap-4' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 py-3 flex items-center justify-between gap-4' },
       // Brand Logo
       h(
         'a',

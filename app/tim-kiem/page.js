@@ -59,7 +59,7 @@ export default function SearchPage() {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full space-y-8' },
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
       // Breadcrumb
       h(Breadcrumb, { items: [{ name: 'Tìm kiếm' }] }),
 
@@ -67,13 +67,7 @@ export default function SearchPage() {
       h(
         'div',
         { className: 'max-w-3xl mx-auto space-y-4 text-center' },
-        h(
-          'div',
-          { className: 'inline-flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-700 rounded text-xs font-bold uppercase tracking-wider' },
-          h('span', { className: 'w-1.5 h-1.5 rounded-full bg-blue-600' }),
-          'Bộ Lọc & Tra Cứu Toàn Diện'
-        ),
-        h('h1', { className: 'text-3xl font-extrabold text-slate-900 tracking-tight' }, 'Tìm Kiếm Sản Phẩm & Bài Đánh Giá'),
+        h('h1', { className: 'text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]' }, 'Tìm Kiếm Sản Phẩm & Bài Đánh Giá'),
         h(
           'div',
           { className: 'relative flex items-center bg-white border border-slate-300 rounded-md p-1.5 focus-within:ring-2 focus-within:ring-blue-500 shadow-sm' },
@@ -188,11 +182,15 @@ export default function SearchPage() {
                       href: `/top/${r.slug}`,
                       className: 'flex items-center gap-4 p-4 bg-white border border-slate-200 rounded-md hover:border-blue-400 hover:shadow-sm transition-all group shadow-xs'
                     },
-                    h('div', { className: 'w-16 h-16 rounded bg-amber-50 border border-amber-200 flex items-center justify-center text-2xl flex-shrink-0' }, '🏆'),
+                    h('div', { className: 'w-12 h-12 rounded bg-amber-50 border border-amber-200 flex items-center justify-center flex-shrink-0' },
+                      h('svg', { className: 'w-6 h-6 text-amber-700', fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor', strokeWidth: 1.75 },
+                        h('path', { strokeLinecap: 'round', strokeLinejoin: 'round', d: 'M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.004 0V4.5a2.25 2.25 0 00-2.25-2.25h-1.5A2.25 2.25 0 008.625 4.5v9.75' })
+                      )
+                    ),
                     h(
                       'div',
                       { className: 'flex-1 min-w-0' },
-                      h('span', { className: 'inline-flex items-center gap-1 px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 rounded text-[10px] font-bold uppercase tracking-wider' }, 'Bảng xếp hạng Top 10'),
+                      h('span', { className: 'inline-flex items-center px-2 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 rounded text-[10px] font-bold uppercase tracking-wider' }, 'Bảng xếp hạng Top 10'),
                       h('h4', { className: 'font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors truncate mt-1' }, r.title),
                       h('p', { className: 'text-xs text-slate-500 line-clamp-1' }, r.intro)
                     )
@@ -209,11 +207,15 @@ export default function SearchPage() {
                       href: `/huong-dan/${g.slug}`,
                       className: 'flex items-center gap-4 p-4 bg-white border border-slate-200 rounded-md hover:border-blue-400 hover:shadow-sm transition-all group shadow-xs'
                     },
-                    h('div', { className: 'w-16 h-16 rounded bg-sky-50 border border-sky-200 flex items-center justify-center text-2xl flex-shrink-0' }, '📖'),
+                    h('div', { className: 'w-12 h-12 rounded bg-sky-50 border border-sky-200 flex items-center justify-center flex-shrink-0' },
+                      h('svg', { className: 'w-6 h-6 text-sky-700', fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor', strokeWidth: 1.75 },
+                        h('path', { strokeLinecap: 'round', strokeLinejoin: 'round', d: 'M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25' })
+                      )
+                    ),
                     h(
                       'div',
                       { className: 'flex-1 min-w-0' },
-                      h('span', { className: 'inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 text-sky-800 border border-sky-200 rounded text-[10px] font-bold uppercase tracking-wider' }, 'Hướng dẫn chọn mua'),
+                      h('span', { className: 'inline-flex items-center px-2 py-0.5 bg-sky-50 text-sky-800 border border-sky-200 rounded text-[10px] font-bold uppercase tracking-wider' }, 'Hướng dẫn chọn mua'),
                       h('h4', { className: 'font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors truncate mt-1' }, g.title),
                       h('p', { className: 'text-xs text-slate-500 line-clamp-1' }, g.excerpt)
                     )
@@ -230,11 +232,15 @@ export default function SearchPage() {
                       href: `/so-sanh/${c.slug}`,
                       className: 'flex items-center gap-4 p-4 bg-white border border-slate-200 rounded-md hover:border-blue-400 hover:shadow-sm transition-all group shadow-xs'
                     },
-                    h('div', { className: 'w-16 h-16 rounded bg-indigo-50 border border-indigo-200 flex items-center justify-center text-2xl flex-shrink-0' }, '⚖️'),
+                    h('div', { className: 'w-12 h-12 rounded bg-indigo-50 border border-indigo-200 flex items-center justify-center flex-shrink-0' },
+                      h('svg', { className: 'w-6 h-6 text-indigo-700', fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor', strokeWidth: 1.75 },
+                        h('path', { strokeLinecap: 'round', strokeLinejoin: 'round', d: 'M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5' })
+                      )
+                    ),
                     h(
                       'div',
                       { className: 'flex-1 min-w-0' },
-                      h('span', { className: 'inline-flex items-center gap-1 px-2 py-0.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded text-[10px] font-bold uppercase tracking-wider' }, 'So sánh sản phẩm'),
+                      h('span', { className: 'inline-flex items-center px-2 py-0.5 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded text-[10px] font-bold uppercase tracking-wider' }, 'So sánh sản phẩm'),
                       h('h4', { className: 'font-bold text-sm text-slate-900 group-hover:text-blue-600 transition-colors truncate mt-1' }, c.title),
                       h('p', { className: 'text-xs text-slate-500 line-clamp-1' }, c.summaryWinner)
                     )

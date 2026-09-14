@@ -40,7 +40,7 @@ export default function Breadcrumb({ items = [] }) {
           h('span', { className: 'text-slate-400' }, '/'),
           item.href
             ? h('a', { href: item.href, className: 'hover:text-blue-600 transition-colors' }, item.name)
-            : h('span', { className: 'text-slate-800 font-semibold truncate max-w-xs', 'aria-current': 'page' }, item.name)
+            : h('span', { className: 'text-slate-800 font-semibold truncate max-w-sm sm:max-w-md md:max-w-xl', 'aria-current': 'page' }, item.name)
         )
       )
     )

@@ -7,12 +7,12 @@ const h = React.createElement;
 export default function AdminSidebar({ active = 'dashboard' }) {
   const menuItems = [
     { id: 'settings', label: 'Cài đặt website', href: '/admin/settings' },
-    { id: 'dashboard', label: '📊 Dashboard Tổng Quan', href: '/admin' },
-    { id: 'categories', label: '📁 Quản Lý Danh Mục', href: '/admin/categories' },
-    { id: 'products', label: '📦 Quản Lý Sản Phẩm', href: '/admin/products' },
-    { id: 'rankings', label: '🏆 Quản Lý Bảng Xếp Hạng', href: '/admin/rankings' },
-    { id: 'content', label: '📝 Quản Lý Bài Viết & Review', href: '/admin/content' },
-    { id: 'comparisons', label: '⚖️ Quản Lý Trang So Sánh', href: '/admin/comparisons' }
+    { id: 'dashboard', label: 'Dashboard Tổng Quan', href: '/admin' },
+    { id: 'categories', label: 'Quản Lý Danh Mục', href: '/admin/categories' },
+    { id: 'products', label: 'Quản Lý Sản Phẩm', href: '/admin/products' },
+    { id: 'rankings', label: 'Quản Lý Bảng Xếp Hạng', href: '/admin/rankings' },
+    { id: 'content', label: 'Quản Lý Bài Viết & Review', href: '/admin/content' },
+    { id: 'comparisons', label: 'Quản Lý Trang So Sánh', href: '/admin/comparisons' }
   ];
 
   return h(
