@@ -4,74 +4,50 @@ import React from 'react';
 
 const h = React.createElement;
 
+// Dải quy trình — phiên bản nền sáng, cùng tông với toàn trang
 export default function TrustAndStats() {
-  const stats = [
-    { number: '500+', label: 'bảng xếp hạng đã công bố' },
-    { number: '5.000+', label: 'giờ nghiên cứu thực tế' },
-    { number: '12.000+', label: 'sản phẩm đã đánh giá' }
-  ];
-
   const steps = [
-    { step: '01', title: 'Thu thập & Nghiên cứu', desc: 'Khảo sát thị trường, thu thập sản phẩm mẫu từ nhà sản xuất chính hãng.' },
-    { step: '02', title: 'Thử nghiệm thực tế', desc: 'Đội ngũ chuyên gia sử dụng và đo lường hiệu năng trong điều kiện thực tế.' },
-    { step: '03', title: 'Chấm điểm & Xếp hạng', desc: 'Đánh giá theo 5 tiêu chí trọng số, công bố minh bạch phương pháp.' }
+    { title: 'Lướt & lọc sản phẩm', desc: 'Chọn nhóm vật lý hoặc số, lọc theo danh mục hoặc gõ từ khóa để thu hẹp đúng nhu cầu.' },
+    { title: 'So điểm & ưu nhược', desc: 'Mỗi sản phẩm có điểm /10 theo từng tiêu chí, kèm ưu nhược điểm rõ ràng để so sánh nhanh.' },
+    { title: 'Mở trang chi tiết', desc: 'Bấm vào sản phẩm để xem đánh giá đầy đủ: thông số, giá tham khảo và gợi ý thay thế.' },
   ];
 
   return h(
     'section',
-    { className: 'w-full bg-[#0f172a] text-white py-14' },
+    { id: 'quy-trinh', className: 'w-full bg-[#edf4fb] py-12 scroll-mt-20' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
-
-      // Stats row
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-8' },
+      // Steps header
       h(
         'div',
-        { className: 'grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-12 mb-12 text-center' },
-        stats.map((s, idx) =>
-          h(
-            'div',
-            { key: idx, className: 'space-y-1' },
-            h('div', { className: 'text-3xl sm:text-4xl lg:text-5xl font-black text-blue-400 tracking-tight' }, s.number),
-            h('div', { className: 'text-xs sm:text-sm text-slate-400 font-medium' }, s.label)
-          )
-        )
+        { className: 'text-center max-w-2xl mx-auto space-y-2' },
+        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Cách hoạt động'),
+        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, 'Chọn sản phẩm trong 3 bước'),
+        h('p', { className: 'text-sm text-slate-500 leading-relaxed' }, 'Chỉ cần lướt, lọc và mở trang chi tiết là đủ để ra quyết định.')
       ),
 
-      // Methodology section
+      // Steps: connected stepper
       h(
         'div',
-        { className: 'border-t border-slate-700 pt-10' },
-        h(
-          'div',
-          { className: 'text-center max-w-2xl mx-auto mb-8' },
-          h('h2', { className: 'text-xl sm:text-2xl font-bold text-white tracking-tight mb-2' }, 'Phương pháp đánh giá minh bạch'),
-          h('p', { className: 'text-sm text-slate-400 leading-relaxed' }, 'Quy trình 3 bước để đảm bảo mọi khuyến nghị đều chính xác, khách quan và đáng tin cậy.')
-        ),
-        h(
-          'div',
-          { className: 'grid grid-cols-1 md:grid-cols-3 gap-6' },
-          steps.map((s, idx) =>
+        { className: 'relative grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6' },
+        // connecting dashed line (desktop)
+        h('div', { className: 'hidden md:block absolute top-9 left-[18%] right-[18%] border-t-2 border-dashed border-blue-200 pointer-events-none', 'aria-hidden': true }),
+        steps.map((s, idx) =>
+          h(
+            'div',
+            { key: idx, className: 'relative bg-white border border-slate-200 rounded-md p-6 text-center shadow-sm hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all' },
             h(
               'div',
-              { key: idx, className: 'bg-slate-800/60 border border-slate-700 rounded-md p-5 space-y-2' },
-              h('div', { className: 'text-xs font-bold text-blue-400 uppercase tracking-wider' }, `Bước ${s.step}`),
-              h('h3', { className: 'text-base font-bold text-white' }, s.title),
-              h('p', { className: 'text-xs text-slate-400 leading-relaxed' }, s.desc)
-            )
-          )
-        ),
-        h(
-          'div',
-          { className: 'text-center mt-8' },
-          h(
-            'a',
-            {
-              href: '/phuong-phap-danh-gia',
-              className: 'inline-flex items-center gap-1.5 text-sm font-semibold text-blue-400 hover:text-blue-300 hover:underline transition-colors'
-            },
-            'Tìm hiểu chi tiết phương pháp đánh giá',
-            h('span', null, '→')
+              { className: 'relative z-10 w-[72px] h-[72px] mx-auto mb-4 rounded-full bg-white border-2 border-blue-100 flex items-center justify-center' },
+              h(
+                'span',
+                { className: 'w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 text-white text-xl font-black flex items-center justify-center shadow-md' },
+                String(idx + 1)
+              )
+            ),
+            h('h3', { className: 'text-sm sm:text-base font-bold text-slate-900 mb-1.5' }, s.title),
+            h('p', { className: 'text-xs text-slate-500 leading-relaxed' }, s.desc)
           )
         )
       )

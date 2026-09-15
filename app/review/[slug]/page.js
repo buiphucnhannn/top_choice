@@ -1,28 +1,71 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
 import Breadcrumb from '../../../components/Breadcrumb';
-import { products, authors, categories } from '../../../data/mockData';
+import { products as seedProducts, categories as seedCategories } from '../../../data/mockData';
+import { getProducts, getCategories, DATA_EVENT } from '../../../lib/productStore';
 
 const h = React.createElement;
 
 export default function ProductReviewPage({ params }) {
   const { slug } = params;
-  const product = products.find((p) => p.slug === slug) || products[0];
-  const category = categories.find((c) => c.slug === product.categorySlug) || categories[0];
-  const subCategory = category.subcategories?.find((s) => s.slug === product.subCategorySlug);
-  const groupHref = product.type === 'vat-ly' ? '/san-pham-vat-ly' : '/san-pham-so';
-  const groupLabel = product.type === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số';
-  const author = authors[0];
-  const alternatives = products.filter((item) => item.type === product.type && item.id !== product.id).slice(0, 3);
+  const [storeProducts, setStoreProducts] = useState(seedProducts);
+  const [storeCategories, setStoreCategories] = useState(seedCategories);
+
+  useEffect(() => {
+    const refresh = () => {
+      setStoreProducts(getProducts());
+      setStoreCategories(getCategories());
+    };
+    refresh();
+    window.addEventListener(DATA_EVENT, refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener(DATA_EVENT, refresh);
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
+
+  const found = storeProducts.find((p) => p.slug === slug) || storeProducts[0] || seedProducts[0];
+  // Chuẩn hóa để dữ liệu store thiếu trường cũng không làm trắng trang
+  const raw = found || {};
+  const product = {
+    id: raw.id || 'unknown',
+    slug: raw.slug || slug,
+    name: raw.name || 'Sản phẩm',
+    brand: raw.brand || '',
+    type: raw.type === 'so' ? 'so' : 'vat-ly',
+    categorySlug: raw.categorySlug || '',
+    summary: raw.summary || '',
+    image: raw.image || '',
+    overallScore: Number(raw.overallScore) || 0,
+    priceRef: raw.priceRef || 'Liên hệ',
+    officialUrl: raw.officialUrl || '#',
+    updatedAt: raw.updatedAt || '',
+    scores: Array.isArray(raw.scores) ? raw.scores : [],
+    pros: Array.isArray(raw.pros) ? raw.pros : [],
+    cons: Array.isArray(raw.cons) ? raw.cons : [],
+    specs: raw.specs && typeof raw.specs === 'object' ? raw.specs : {},
+    verdict: typeof raw.verdict === 'string' ? raw.verdict.trim() : '',
+    considerations: Array.isArray(raw.considerations) ? raw.considerations.map((s) => String(s || '').trim()).filter(Boolean) : [],
+    reviewBody: typeof raw.reviewBody === 'string' ? raw.reviewBody.trim() : '',
+  };
+  const alternatives = storeProducts.filter((item) => item.type === product.type && item.id !== product.id).slice(0, 3);
   const suitableFor = product.type === 'vat-ly'
     ? 'người cần một lựa chọn đáng tin cậy, dễ dùng và muốn tối ưu giá trị theo nhu cầu sử dụng thực tế.'
     : 'cá nhân hoặc nhóm nhỏ cần công cụ linh hoạt, dễ bắt đầu và có lộ trình nâng cấp rõ ràng.';
-
-  const [helpfulVotes, setHelpfulVotes] = useState(128);
-  const [voted, setVoted] = useState(false);
+  const verdictText = product.verdict || `${product.name} đạt ${product.overallScore}/10 nhờ ${product.pros[0]?.toLowerCase() || 'những điểm mạnh nổi bật'}. Sản phẩm phù hợp với ${suitableFor}`;
+  const considerList = product.considerations.length > 0 ? product.considerations : product.cons.slice(0, 3);
+  const showConclusion = !!verdictText || considerList.length > 0;
+  const defaultReviewParagraphs = [
+    `${product.summary} Trong quá trình đánh giá, ban biên tập đối chiếu trải nghiệm sử dụng, tính năng cốt lõi, mức độ hoàn thiện và giá trị nhận lại trong tầm giá.`,
+    `Điểm mạnh đáng chú ý là ${product.pros.slice(0, 2).join(' và ').toLowerCase() || 'tính hoàn thiện tốt'}. Trước khi chọn mua, hãy cân nhắc ${product.cons[0]?.toLowerCase() || 'nhu cầu sử dụng thực tế'} để chọn đúng phiên bản hoặc gói phù hợp.`
+  ];
+  const reviewParagraphs = product.reviewBody
+    ? product.reviewBody.split(/\n+/).map((s) => s.trim()).filter(Boolean)
+    : defaultReviewParagraphs;
 
   return h(
     'div',
@@ -30,14 +73,17 @@ export default function ProductReviewPage({ params }) {
     h(Header, null),
     h(
       'main',
-      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-5 pb-16 w-full space-y-5' },
-      // Breadcrumb
+      // Cân khe trên/dưới theo CHỮ breadcrumb: trên = pt - header(~71px) + py-3 của nav (12px);
+      // dưới = pb-3 (12px) + space-y-5 (20px) = 32px → pt = 92px cho 2 khe đều ~32px
+      { className: 'flex-1 max-w-[1400px] mx-auto px-4 sm:px-8 pt-[92px] pb-16 w-full space-y-5' },
+      // Breadcrumb chuẩn theo nhóm: Trang chủ / Sản phẩm vật lý|Sản phẩm số / Tên sản phẩm
       h(Breadcrumb, {
         items: [
-          { name: groupLabel, href: groupHref },
-          { name: category.name, href: `${groupHref}/${category.slug}` },
-          ...(subCategory ? [{ name: subCategory.name, href: `/${category.slug}/${subCategory.slug}` }] : []),
-          { name: `Đánh giá ${product.name}` }
+          {
+            name: product.type === 'so' ? 'Sản phẩm số' : 'Sản phẩm vật lý',
+            href: product.type === 'so' ? '/#san-pham-so' : '/#san-pham-vat-ly',
+          },
+          { name: product.name }
         ]
       }),
 
@@ -52,7 +98,7 @@ export default function ProductReviewPage({ params }) {
           h('img', {
             src: product.image,
             alt: product.name,
-            className: 'w-full h-80 object-cover rounded-md border border-slate-200 shadow-sm bg-white'
+            className: 'w-full h-56 sm:h-80 object-cover rounded-md border border-slate-200 shadow-sm bg-white'
           })
         ),
         // Right Column: Details & Overall Score
@@ -63,7 +109,6 @@ export default function ProductReviewPage({ params }) {
             'div',
             { className: 'flex items-center gap-2' },
             h('span', { className: 'px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200' }, product.brand),
-            h('span', { className: 'text-xs text-slate-400 font-medium' }, `Mã SP: ${product.id}`)
           ),
           h('h1', { className: 'text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-snug' }, `Đánh Giá Chi Tiết ${product.name}`),
           h('p', { className: 'text-slate-600 text-sm leading-relaxed text-justify' }, product.summary),
@@ -81,7 +126,7 @@ export default function ProductReviewPage({ params }) {
             h(
               'div',
               { className: 'text-right' },
-              h('div', { className: 'text-xs text-slate-500 font-medium' }, 'Điểm chuyên gia'),
+              h('div', { className: 'text-xs text-slate-500 font-medium' }, 'Điểm đánh giá'),
               h('div', { className: 'text-2xl font-black text-blue-600' }, `${product.overallScore}/10`)
             )
           ),
@@ -109,22 +154,25 @@ export default function ProductReviewPage({ params }) {
         'div',
         { className: 'space-y-10 pt-5' },
 
-        // Quick conclusion
+        // Quick conclusion (ẩn hẳn nếu cả kết luận và cân nhắc đều trống)
+        showConclusion &&
         h(
           'section',
-          { className: 'grid grid-cols-1 lg:grid-cols-3 gap-5' },
+          { className: verdictText ? 'grid grid-cols-1 lg:grid-cols-3 gap-5' : 'grid grid-cols-1 gap-5' },
+          verdictText &&
           h(
             'div',
             { className: 'lg:col-span-2 bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
             h('span', { className: 'inline-block text-[11px] font-bold uppercase tracking-wider text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded' }, 'Kết luận nhanh'),
             h('h2', { className: 'text-xl font-bold text-slate-900' }, `${product.name} có đáng chọn không?`),
-            h('p', { className: 'text-sm leading-relaxed text-slate-700 text-justify' }, `${product.name} đạt ${product.overallScore}/10 nhờ ${product.pros[0]?.toLowerCase() || 'những điểm mạnh nổi bật'}. Sản phẩm phù hợp với ${suitableFor}`)
+            h('p', { className: 'text-sm leading-relaxed text-slate-700 text-justify' }, verdictText)
           ),
+          considerList.length > 0 &&
           h(
             'div',
             { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
             h('h2', { className: 'text-sm font-bold text-slate-900' }, 'Cần cân nhắc nếu'),
-            h('ul', { className: 'space-y-2 text-xs text-slate-600' }, product.cons.slice(0, 3).map((item, index) => h('li', { key: index, className: 'flex gap-2' }, h('span', { className: 'text-rose-500 font-bold' }, '•'), item)))
+            h('ul', { className: 'space-y-2 text-xs text-slate-600' }, considerList.map((item, index) => h('li', { key: index, className: 'flex gap-2' }, h('span', { className: 'text-rose-500 font-bold' }, '•'), item)))
           )
         ),
 
@@ -216,16 +264,18 @@ export default function ProductReviewPage({ params }) {
         )
       ),
 
-      // Editorial analysis, price context and alternatives
+      // Editorial analysis (trải nghiệm ẩn nếu trống, hộp giá luôn giữ)
       h(
         'section',
-        { className: 'grid grid-cols-1 lg:grid-cols-2 gap-8' },
+        { className: reviewParagraphs.length > 0 ? 'grid grid-cols-1 lg:grid-cols-2 gap-8' : 'grid grid-cols-1 gap-8' },
+        reviewParagraphs.length > 0 &&
         h(
           'div',
           { className: 'bg-white border border-slate-200 rounded-md p-6 shadow-sm space-y-3' },
           h('h2', { className: 'text-xl font-bold text-slate-900' }, '🔎 Trải nghiệm & đánh giá chuyên sâu'),
-          h('p', { className: 'text-sm text-slate-700 leading-relaxed text-justify' }, `${product.summary} Trong quá trình đánh giá, ban biên tập đối chiếu trải nghiệm sử dụng, tính năng cốt lõi, mức độ hoàn thiện và giá trị nhận lại trong tầm giá.`),
-          h('p', { className: 'text-sm text-slate-700 leading-relaxed text-justify' }, `Điểm mạnh đáng chú ý là ${product.pros.slice(0, 2).join(' và ').toLowerCase()}. Trước khi chọn mua, hãy cân nhắc ${product.cons[0]?.toLowerCase() || 'nhu cầu sử dụng thực tế'} để chọn đúng phiên bản hoặc gói phù hợp.`)
+          ...reviewParagraphs.map((para, i) =>
+            h('p', { key: i, className: 'text-sm text-slate-700 leading-relaxed text-justify' }, para)
+          )
         ),
         h(
           'div',
@@ -250,67 +300,6 @@ export default function ProductReviewPage({ params }) {
         )))
       ),
 
-      h(
-        'section',
-        { className: 'bg-slate-50 border border-slate-200 rounded-md p-5 text-xs text-slate-600 leading-relaxed' },
-        h('h2', { className: 'font-bold text-slate-900 text-sm mb-1' }, 'Phương pháp đánh giá'),
-        'Điểm số tổng hợp từ chất lượng, tính năng, mức độ dễ dùng, giá trị và hỗ trợ. Ban biên tập tham chiếu thông tin chính thức, đối chiếu cùng lựa chọn trong danh mục và cập nhật nội dung khi dữ liệu thay đổi.'
-      ),
-
-      // Reader Interaction & Helpful Feedback (FR06)
-      h(
-        'section',
-        { className: 'p-6 bg-white border border-slate-200 rounded-md shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4' },
-        h(
-          'div',
-          { className: 'space-y-1 text-center sm:text-left' },
-          h('div', { className: 'text-sm font-bold text-slate-900' }, 'Bài viết này có hữu ích với bạn không?'),
-          h('div', { className: 'text-xs text-slate-500' }, '👁️ 4.250 lượt xem • ⏱️ 5 phút đọc • Đã kiểm duyệt nội dung')
-        ),
-        h(
-          'div',
-          { className: 'flex items-center gap-3' },
-          h(
-            'button',
-            {
-              disabled: voted,
-              onClick: () => {
-                if (!voted) {
-                  setHelpfulVotes(helpfulVotes + 1);
-                  setVoted(true);
-                }
-              },
-              className: `px-4 py-2 text-xs font-bold rounded border transition-all flex items-center gap-1.5 ${
-                voted
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-300 cursor-default'
-                  : 'bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 text-slate-700 border-slate-200 shadow-xs active:scale-95'
-              }`
-            },
-            'Hữu ích',
-            h('span', { className: 'ml-1 px-1.5 py-0.2 bg-slate-100 rounded font-mono' }, helpfulVotes)
-          ),
-          voted && h('span', { className: 'text-xs text-emerald-600 font-semibold' }, 'Cảm ơn phản hồi của bạn!')
-        )
-      ),
-
-      // Author & Editorial Verification Bar
-      h(
-        'section',
-        { className: 'bg-white border border-slate-200 rounded-md shadow-sm p-6 flex flex-col sm:flex-row items-center gap-4' },
-        h('img', { src: author.avatar, alt: author.name, className: 'w-12 h-12 rounded object-cover border border-slate-200 shadow-xs' }),
-        h(
-          'div',
-          { className: 'space-y-1 text-center sm:text-left' },
-          h(
-            'div',
-            { className: 'inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-bold text-blue-700 uppercase tracking-wider bg-blue-50 border border-blue-200' },
-            h('span', { className: 'w-1 h-1 rounded-full bg-blue-600' }),
-            'Kiểm chứng độc lập'
-          ),
-          h('div', { className: 'font-bold text-slate-900' }, `Biên tập viên: ${author.name} • ${author.credentials}`),
-          h('p', { className: 'text-xs text-slate-600 text-justify' }, author.bio)
-        )
-      )
       )
     ),
     h(Footer, null)

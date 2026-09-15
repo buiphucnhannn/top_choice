@@ -1,111 +1,101 @@
 'use client';
 
-import React from 'react';
-import AdminSidebar from '../../components/AdminSidebar';
-import { products, categories, rankings, guides } from '../../data/mockData';
+import React, { useEffect, useState } from 'react';
+import { products as seedProducts, categories as seedCategories } from '../../data/mockData';
+import { getProducts, getCategories, getAdminEmail, DATA_EVENT } from '../../lib/productStore';
 
 const h = React.createElement;
 
 export default function AdminDashboardPage() {
-  const staticKpis = [
-    { title: 'Tổng Sản Phẩm', value: products.length, change: '+12 mẫu', color: 'text-blue-600', bg: 'bg-blue-50' },
-    { title: 'Danh Mục', value: categories.length, change: '8 danh mục', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { title: 'Bảng Xếp Hạng', value: rankings.length, change: '4 active', color: 'text-amber-600', bg: 'bg-amber-50' },
-    { title: 'Bài Hướng Dẫn', value: guides.length, change: '4 bài viết', color: 'text-purple-600', bg: 'bg-purple-50' }
+  // Khởi tạo bằng seed để SSR/hydration khớp, effect nạp store ngay sau đó
+  const [products, setProducts] = useState(seedProducts);
+  const [categories, setCategories] = useState(seedCategories);
+
+  useEffect(() => {
+    const refresh = () => {
+      setProducts(getProducts());
+      setCategories(getCategories());
+    };
+    refresh();
+    window.addEventListener(DATA_EVENT, refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      window.removeEventListener(DATA_EVENT, refresh);
+      window.removeEventListener('storage', refresh);
+    };
+  }, []);
+
+  const vatLy = products.filter((p) => p.type === 'vat-ly').length;
+  const so = products.filter((p) => p.type === 'so').length;
+  const avg = products.length === 0 ? 0 : (products.reduce((s, p) => s + (Number(p.overallScore) || 0), 0) / products.length).toFixed(1);
+
+  const cards = [
+    { label: 'Tổng sản phẩm', value: products.length, href: '/admin/products', note: `${vatLy} vật lý • ${so} số` },
+    { label: 'Danh mục', value: categories.length, href: '/admin/categories', note: 'vật lý & số' },
+    { label: 'Điểm trung bình', value: `${avg}/10`, href: '/admin/products', note: 'toàn bộ sản phẩm' },
   ];
 
-  const kpis = [
-    { title: 'Tổng Sản Phẩm', value: products.length, change: 'Bộ demo mở rộng', color: 'text-blue-600', bg: 'bg-blue-50' },
-    { title: 'Danh Mục', value: categories.length, change: 'Cả vật lý và số', color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { title: 'Bảng Xếp Hạng', value: rankings.length, change: 'Đang xuất bản', color: 'text-amber-600', bg: 'bg-amber-50' },
-    { title: 'Bài Hướng Dẫn', value: guides.length, change: 'Đã xuất bản', color: 'text-purple-600', bg: 'bg-purple-50' }
-  ];
+  const recent = [...products].slice(-5).reverse();
 
   return h(
-    'div',
-    { className: 'min-h-screen flex flex-col md:flex-row bg-slate-100 font-sans' },
-    h(AdminSidebar, { active: 'dashboard' }),
+    'main',
+    { className: 'p-4 sm:p-8 animate-fadeIn' },
     h(
-      'main',
-      { className: 'flex-1 p-4 sm:p-6 md:p-8 space-y-6 md:space-y-8 overflow-y-auto' },
-      // Top header
+      'div',
+      { className: 'max-w-[1100px] mx-auto space-y-6' },
       h(
-        'header',
-        { className: 'flex flex-col sm:flex-row sm:items-center justify-between gap-4' },
-        h(
-          'div',
-          null,
-          h('h1', { className: 'text-2xl font-black text-slate-900' }, 'Bảng Quản Trị Nội Dung (Demo)'),
-          h('p', { className: 'text-xs text-slate-500' }, 'Theo dõi trạng thái xuất bản và quản lý dữ liệu sản phẩm mẫu')
-        ),
-        h(
-          'div',
-          { className: 'flex items-center gap-3' },
-          h('a', { href: '/admin/products', className: 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded shadow-sm transition-colors' }, '+ Thêm sản phẩm mới'),
-          h('a', { href: '/', target: '_blank', className: 'px-4 py-2 bg-white border border-slate-300 text-slate-700 text-xs font-bold rounded hover:bg-slate-50 transition-colors' }, 'Xem Website ↗')
-        )
+        'div',
+        null,
+        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, `Xin chào, ${getAdminEmail()}`),
+        h('h1', { className: 'text-2xl font-black text-slate-900 tracking-tight mt-1' }, 'Tổng quan quản trị')
       ),
-
-      // KPI Cards Grid
       h(
-        'section',
-        { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5' },
-        kpis.map((kpi, idx) =>
+        'div',
+        { className: 'grid grid-cols-1 sm:grid-cols-3 gap-4' },
+        cards.map((c) =>
           h(
-            'div',
-            { key: idx, className: 'bg-white p-5 rounded-md border border-slate-200 shadow-sm space-y-2' },
-            h('span', { className: 'text-xs font-semibold text-slate-500 uppercase tracking-wider' }, kpi.title),
-            h(
-              'div',
-              { className: 'flex items-baseline justify-between' },
-              h('span', { className: `text-3xl font-black ${kpi.color}` }, kpi.value),
-              h('span', { className: `text-[10px] font-bold px-2 py-0.5 rounded border border-current/20 ${kpi.bg} ${kpi.color}` }, kpi.change)
-            )
+            'a',
+            { key: c.label, href: c.href, className: 'bg-white border border-slate-200 rounded-md p-5 shadow-sm hover:border-blue-300 hover:shadow transition-all' },
+            h('div', { className: 'text-3xl font-black text-blue-600 tracking-tight' }, c.value),
+            h('div', { className: 'text-sm font-bold text-slate-900 mt-1' }, c.label),
+            h('div', { className: 'text-[11px] text-slate-400 mt-0.5' }, c.note)
           )
         )
       ),
-
-      // Recent Contents Table
       h(
-        'section',
-        { className: 'bg-white p-6 rounded-md border border-slate-200 shadow-sm space-y-4' },
-        h('h2', { className: 'text-lg font-bold text-slate-900' }, 'Nội dung cập nhật gần đây'),
+        'div',
+        { className: 'grid grid-cols-1 lg:grid-cols-2 gap-4' },
         h(
           'div',
-          { className: 'overflow-x-auto' },
+          { className: 'bg-white border border-slate-200 rounded-md p-5 shadow-sm' },
+          h('h2', { className: 'text-sm font-black text-slate-900 mb-3' }, 'Thao tác nhanh'),
           h(
-            'table',
-            { className: 'w-full text-left text-sm border-collapse min-w-[500px]' },
-            h(
-              'thead',
-              { className: 'bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500' },
+            'div',
+            { className: 'grid grid-cols-1 sm:grid-cols-2 gap-3' },
+            h('a', { href: '/admin/products', className: 'px-4 py-3 text-sm font-bold text-center bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-sm transition-all' }, '+ Thêm sản phẩm'),
+            h('a', { href: '/admin/categories', className: 'px-4 py-3 text-sm font-bold text-center bg-white hover:bg-blue-50 text-blue-700 border border-blue-200 rounded-md transition-all' }, '+ Thêm danh mục')
+          ),
+          h('p', { className: 'text-[11px] text-slate-400 mt-3 leading-relaxed' }, 'Mọi thay đổi được lưu ngay và hiển thị trên landing page (lưới sản phẩm, khu nổi bật, trang chi tiết).')
+        ),
+        h(
+          'div',
+          { className: 'bg-white border border-slate-200 rounded-md p-5 shadow-sm' },
+          h(
+            'div',
+            { className: 'flex items-center justify-between mb-3' },
+            h('h2', { className: 'text-sm font-black text-slate-900' }, 'Sản phẩm mới nhất'),
+            h('a', { href: '/admin/products', className: 'text-xs font-bold text-blue-600 hover:underline' }, 'Quản lý →')
+          ),
+          h(
+            'ul',
+            { className: 'divide-y divide-slate-100' },
+            recent.length === 0 && h('li', { className: 'py-3 text-xs text-slate-400' }, 'Chưa có sản phẩm nào.'),
+            recent.map((p) =>
               h(
-                'tr',
-                null,
-                h('th', { className: 'py-3 px-4' }, 'Tên nội dung / Sản phẩm'),
-                h('th', { className: 'py-3 px-4' }, 'Phân loại'),
-                h('th', { className: 'py-3 px-4' }, 'Điểm / Giá'),
-                h('th', { className: 'py-3 px-4' }, 'Trạng thái'),
-                h('th', { className: 'py-3 px-4 text-right' }, 'Ngày cập nhật')
-              )
-            ),
-            h(
-              'tbody',
-              { className: 'divide-y divide-slate-100 text-xs' },
-              products.slice(0, 6).map((p, idx) =>
-                h(
-                  'tr',
-                  { key: idx, className: 'hover:bg-slate-50/60 transition-colors' },
-                  h('td', { className: 'py-3.5 px-4 font-bold text-slate-800' }, p.name),
-                  h('td', { className: 'py-3.5 px-4 text-slate-500' }, p.type === 'vat-ly' ? 'Sản phẩm vật lý' : 'Sản phẩm số'),
-                  h('td', { className: 'py-3.5 px-4 font-semibold text-blue-600' }, `${p.overallScore}/10 (${p.priceRef})`),
-                  h(
-                    'td',
-                    { className: 'py-3.5 px-4' },
-                    h('span', { className: 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wider' }, p.status)
-                  ),
-                  h('td', { className: 'py-3.5 px-4 text-right text-slate-400' }, p.updatedAt)
-                )
+                'li',
+                { key: p.id, className: 'py-2.5 flex items-center justify-between gap-3' },
+                h('span', { className: 'text-sm font-semibold text-slate-800 truncate' }, p.name),
+                h('span', { className: 'text-xs font-black text-blue-600 flex-shrink-0' }, `${p.overallScore}/10`)
               )
             )
           )

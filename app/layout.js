@@ -1,5 +1,6 @@
 import React from 'react';
 import './globals.css';
+import ToastContainer from '../components/Toast';
 
 export const metadata = {
   metadataBase: new URL('https://topchoice.vn'),
@@ -25,7 +26,8 @@ export default function RootLayout(props) {
     h(
       'body',
       { className: 'bg-[#edf4fb] text-slate-900 min-h-screen antialiased flex flex-col selection:bg-blue-600 selection:text-white' },
-      props.children
+      props.children,
+      h(ToastContainer, null)
     )
   );
 }

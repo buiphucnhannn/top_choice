@@ -4,116 +4,106 @@ import React, { useState } from 'react';
 
 const h = React.createElement;
 
+const faqs = [
+  {
+    q: 'Top Choice là gì?',
+    a: 'Top Choice là trang tuyển chọn sản phẩm vật lý và sản phẩm số đáng mua nhất. Mỗi sản phẩm đều có điểm số, ưu nhược điểm và trang đánh giá chi tiết riêng để bạn dễ so sánh và ra quyết định.',
+  },
+  {
+    q: 'Điểm số sản phẩm được chấm thế nào?',
+    a: 'Mỗi sản phẩm được chấm trên thang 10 theo từng tiêu chí (hiệu năng, thiết kế, độ bền, giá trị...). Điểm tổng và chi tiết từng tiêu chí đều hiển thị trong trang đánh giá riêng của sản phẩm đó.',
+  },
+  {
+    q: 'Giá hiển thị có chính xác không?',
+    a: 'Giá là mức tham khảo tại thời điểm kiểm tra (kèm ngày cập nhật trong trang chi tiết). Giá thực tế có thể thay đổi theo nhà bán, bạn nên đối chiếu trước khi mua.',
+  },
+  {
+    q: 'Làm sao để xem chi tiết một sản phẩm?',
+      a: 'Bấm vào thẻ sản phẩm trong lưới “Sản phẩm vật lý” hoặc “Sản phẩm số”, hoặc khu “Điểm cao nhất”. Trang chi tiết gồm điểm từng tiêu chí, ưu nhược điểm, thông số kỹ thuật, giá tham khảo và sản phẩm thay thế.',
+  },
+  {
+    q: 'Sản phẩm vật lý và sản phẩm số khác nhau thế nào?',
+    a: 'Sản phẩm vật lý là đồ gia dụng, thiết bị điện tử... có giá bán tham khảo bằng VNĐ. Sản phẩm số là AI, phần mềm, VPN, hosting... thường tính giá theo gói hoặc theo tháng, kèm thông tin nền tảng và tính năng.',
+  },
+  {
+    q: 'Tôi có thể đề xuất sản phẩm để đánh giá không?',
+    a: 'Hoàn toàn được. Bạn gửi đề xuất qua email hotro@topchoice.vn kèm tên sản phẩm và nhu cầu sử dụng. Ban biên tập sẽ ưu tiên những sản phẩm được nhiều người quan tâm.',
+  },
+  {
+    q: 'Dữ liệu điểm số và giá có được cập nhật không?',
+    a: 'Có. Điểm số và giá tham khảo được rà soát định kỳ theo biến động thị trường. Mỗi trang chi tiết đều ghi rõ ngày kiểm tra dữ liệu lần cuối để bạn yên tâm tham khảo.',
+  },
+  {
+    q: 'Tôi cần tư vấn trực tiếp thì làm sao?',
+    a: 'Bạn gửi email về hotro@topchoice.vn kèm nhu cầu và ngân sách cụ thể, đội ngũ Top Choice sẽ gợi ý sản phẩm phù hợp trong vòng 24 giờ làm việc — hoàn toàn miễn phí.',
+  },
+];
+
 export default function FaqSection() {
-  const [openItems, setOpenItems] = useState({});
+  // Accordion đơn, mặc định đóng tất cả
+  const [openIdx, setOpenIdx] = useState(null);
 
-  const faqs = [
-    {
-      q: 'Làm thế nào để chúng tôi đánh giá sản phẩm?',
-      a: 'Đội ngũ chuyên gia của chúng tôi thu thập mẫu thực tế, đo lường các chỉ số hiệu năng, thiết kế, độ bền và phân tích phản hồi từ người dùng thực tế để đưa ra số điểm khách quan nhất.'
-    },
-    {
-      q: 'Các bảng xếp hạng được xây dựng dựa trên tiêu chí nào?',
-      a: 'Mỗi bảng xếp hạng kết hợp nhiều trọng số: chất lượng tính năng (35%), giá thành & giá trị mang lại (25%), độ bền bỉ (20%) và dịch vụ bảo hành/hỗ trợ người dùng (20%).'
-    },
-    {
-      q: 'Thông tin giá có được cập nhật thường xuyên không?',
-      a: 'Dữ liệu giá tham khảo được cập nhật định kỳ hàng tuần từ các nhà bán lẻ và website phân phối chính thức nhằm đảm bảo tính chính xác tại thời điểm người dùng tham khảo.'
-    },
-    {
-      q: 'Tôi có thể đề xuất sản phẩm để được đánh giá không?',
-      a: 'Hoàn toàn được! Bạn có thể gửi yêu cầu đánh giá qua trang Liên hệ. Ban biên tập sẽ xem xét mức độ quan tâm của cộng đồng và tiến hành thử nghiệm trong các bài viết tiếp theo.'
-    }
-  ];
-
-  const toggleFaq = (idx) => {
-    setOpenItems((prev) => ({
-      ...prev,
-      [idx]: !prev[idx]
-    }));
-  };
+  const toggleFaq = (idx) => setOpenIdx((prev) => (prev === idx ? null : idx));
 
   const renderCard = (faq, idx) => {
-    const isOpen = !!openItems[idx];
+    const isOpen = openIdx === idx;
     return h(
       'div',
       {
         key: idx,
-        className: 'bg-white border border-slate-200 rounded-md p-4 shadow-sm hover:border-blue-300 transition-all'
+        className: `mb-4 break-inside-avoid bg-white border rounded-md p-4 shadow-sm transition-colors flex flex-col ${isOpen ? 'border-blue-400 shadow-md' : 'border-slate-200 hover:border-blue-300'}`,
       },
       h(
         'button',
         {
           type: 'button',
           onClick: () => toggleFaq(idx),
-          className: 'w-full text-left flex items-start justify-between gap-3 text-slate-800 hover:text-blue-600 transition-colors group'
+          'aria-expanded': isOpen,
+          className: 'w-full text-left flex items-center justify-between gap-3 group min-h-[44px]',
         },
-        h(
-          'span',
-          { className: 'text-sm sm:text-base font-semibold text-slate-900 group-hover:text-blue-600 transition-colors flex-1' },
-          faq.q
-        ),
+        h('span', { className: 'text-sm sm:text-base font-semibold text-slate-900 group-hover:text-blue-600 transition-colors flex-1' }, faq.q),
         h(
           'span',
           {
             className: `w-6 h-6 flex-shrink-0 flex items-center justify-center border rounded text-sm font-bold transition-all ${
               isOpen ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-300 text-slate-400 group-hover:border-blue-400 group-hover:text-blue-600'
-            }`
+            }`,
           },
           isOpen ? '−' : '+'
         )
       ),
-      isOpen &&
+      h(
+        'div',
+        {
+          className: `grid transition-all duration-300 ease-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`,
+        },
         h(
           'div',
-          { className: 'mt-3 pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-600 leading-relaxed animate-fadeIn' },
-          faq.a
+          { className: 'overflow-hidden' },
+          h('div', { className: 'pt-3 border-t border-slate-100 text-xs sm:text-sm text-slate-600 leading-relaxed' }, faq.a)
         )
+      )
     );
   };
 
-  const colLeft = [
-    { faq: faqs[0], idx: 0 },
-    { faq: faqs[2], idx: 2 }
-  ];
-  const colRight = [
-    { faq: faqs[1], idx: 1 },
-    { faq: faqs[3], idx: 3 }
-  ];
-
   return h(
     'section',
-    { className: 'w-full pt-12 pb-16 bg-[#edf4fb]' },
+    { id: 'faq', className: 'w-full pt-12 pb-10 bg-[#edf4fb] scroll-mt-20' },
     h(
       'div',
       { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-6' },
-      // Header
       h(
         'div',
-        { className: 'flex items-center justify-between' },
-        h('h2', { className: 'text-xl sm:text-2xl font-bold text-slate-900 tracking-tight' }, 'Câu hỏi thường gặp'),
-        h(
-          'a',
-          { href: '/cau-hoi-thuong-gap', className: 'text-sm font-semibold text-blue-600 hover:text-blue-700 inline-flex items-center gap-1 transition-colors' },
-          'Xem tất cả câu hỏi',
-          h('span', null, '→')
-        )
+        { className: 'text-center max-w-2xl mx-auto' },
+        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-1' }, 'FAQ'),
+        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, 'Câu hỏi thường gặp'),
+        h('p', { className: 'text-sm text-slate-500 mt-1' }, 'Những điều cần biết khi chọn sản phẩm trên trang này.')
       ),
-
-      // 2 Independent Columns
+      // Chảy 2 cột độc lập (masonry): mở card nào chỉ nở card đó, không kéo card bên cạnh
       h(
         'div',
-        { className: 'grid grid-cols-1 md:grid-cols-2 gap-4 items-start' },
-        h(
-          'div',
-          { className: 'flex flex-col gap-4' },
-          colLeft.map((item) => renderCard(item.faq, item.idx))
-        ),
-        h(
-          'div',
-          { className: 'flex flex-col gap-4' },
-          colRight.map((item) => renderCard(item.faq, item.idx))
-        )
+        { className: 'columns-1 md:columns-2 gap-4' },
+        faqs.map((faq, idx) => renderCard(faq, idx))
       )
     )
   );
