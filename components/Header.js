@@ -64,6 +64,22 @@ export default function Header() {
     return () => clearInterval(timer);
   }, [pathname]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    const onResize = () => {
+      if (window.innerWidth >= 768) setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [mobileMenuOpen]);
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const q = searchQuery.trim();
@@ -93,7 +109,7 @@ export default function Header() {
     },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 py-3 flex items-center justify-between gap-4' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-3' },
       // Brand
       h(
         'a',
@@ -105,15 +121,15 @@ export default function Header() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           },
-          className: 'flex flex-col group flex-shrink-0'
+          className: 'flex flex-col group flex-shrink-0 min-w-0'
         },
         h(
           'div',
           { className: 'flex items-baseline tracking-tight' },
-          h('span', { className: 'text-2xl font-black text-slate-900 tracking-tighter' }, 'TOP'),
-          h('span', { className: 'text-2xl font-black text-blue-600 ml-1 tracking-tighter' }, 'CHOICE')
+          h('span', { className: 'text-xl sm:text-2xl font-black text-slate-900 tracking-tighter' }, 'TOP'),
+          h('span', { className: 'text-xl sm:text-2xl font-black text-blue-600 ml-1 tracking-tighter' }, 'CHOICE')
         ),
-        h('span', { className: 'text-[10px] text-slate-500 font-medium tracking-tight -mt-0.5' }, 'Đánh giá khách quan. Lựa chọn thông minh.')
+        h('span', { className: 'text-[10px] text-slate-500 font-medium tracking-tight -mt-0.5 truncate max-w-[200px] sm:max-w-none' }, 'Đánh giá khách quan. Lựa chọn thông minh.')
       ),
 
       // Desktop anchor nav (không active/underline — chỉ cuộn tới section)
@@ -175,8 +191,8 @@ export default function Header() {
         'button',
         {
           onClick: () => setMobileMenuOpen(!mobileMenuOpen),
-          className: 'md:hidden p-2 text-slate-600 hover:text-blue-600 focus:outline-none',
-          'aria-label': 'Mở menu',
+          className: 'md:hidden w-11 h-11 flex items-center justify-center rounded-lg text-slate-700 hover:text-blue-600 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 active:scale-95 transition-all flex-shrink-0',
+          'aria-label': mobileMenuOpen ? 'Đóng menu' : 'Mở menu',
           'aria-expanded': mobileMenuOpen,
         },
         h('svg', { className: 'w-6 h-6', fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor' },
@@ -188,7 +204,7 @@ export default function Header() {
     mobileMenuOpen &&
       h(
         'div',
-        { className: 'md:hidden border-t border-slate-200 bg-white px-4 py-3 space-y-3 animate-fadeIn max-h-[80vh] overflow-y-auto' },
+        { className: 'md:hidden border-t border-slate-200 bg-white/98 backdrop-blur-md px-4 py-4 space-y-3 animate-fadeIn max-h-[calc(100dvh-68px)] overflow-y-auto shadow-xl' },
         h(
           'form',
           { onSubmit: handleSearchSubmit, className: 'relative' },
@@ -198,15 +214,15 @@ export default function Header() {
             onChange: (e) => setSearchQuery(e.target.value),
             placeholder: 'Tìm sản phẩm...',
             'aria-label': 'Tìm sản phẩm',
-            className: 'w-full pl-3 pr-9 py-2 text-sm bg-slate-50 border border-slate-300 rounded-md',
+            className: 'w-full pl-4 pr-11 py-3 min-h-[44px] text-sm bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 placeholder:text-slate-400',
           }),
-          h('button', { type: 'submit', className: 'absolute right-2 top-2.5 text-slate-500', 'aria-label': 'Tìm kiếm' },
+          h('button', { type: 'submit', className: 'absolute right-1.5 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors', 'aria-label': 'Tìm kiếm' },
             h('svg', { className: 'w-4 h-4', fill: 'none', viewBox: '0 0 24 24', stroke: 'currentColor' },
               h('path', { strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: 2, d: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' })))
         ),
         h(
           'nav',
-          { className: 'flex flex-col text-sm font-semibold text-slate-700', 'aria-label': 'Menu di động' },
+          { className: 'flex flex-col text-[15px] font-semibold text-slate-700', 'aria-label': 'Menu di động' },
           NAV_LINKS.map((link) =>
             h(
               'a',
@@ -214,7 +230,7 @@ export default function Header() {
                 key: link.href,
                 href: link.href,
                 onClick: (e) => handleNavClick(e, link.href),
-                className: 'py-2.5 px-1 border-b border-slate-100 hover:text-blue-600',
+                className: 'py-3 px-2 min-h-[44px] flex items-center border-b border-slate-100 hover:text-blue-600 hover:bg-blue-50/50 hover:pl-3 rounded-lg transition-all',
               },
               link.label
             )
@@ -223,7 +239,7 @@ export default function Header() {
             'a',
             {
               href: '/admin/login',
-              className: 'mt-3 py-2.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-center font-bold',
+              className: 'mt-3 py-3 px-3 min-h-[44px] flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-center font-bold shadow-sm active:scale-[0.98] transition-all',
             },
             'Đăng nhập'
           )

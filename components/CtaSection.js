@@ -28,13 +28,13 @@ export default function CtaSection() {
 
   return h(
     'section',
-    { className: 'w-full pt-10 pb-16 bg-[#edf4fb]' },
+    { className: 'w-full pt-8 sm:pt-10 pb-12 sm:pb-16 bg-[#edf4fb] overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8' },
       h(
         'div',
-        { className: 'relative overflow-hidden rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 px-6 py-10 sm:p-12 text-white shadow-lg' },
+        { className: 'relative overflow-hidden rounded-2xl bg-gradient-to-br sm:bg-gradient-to-r from-blue-700 via-blue-600 to-blue-500 px-5 py-8 sm:px-6 sm:py-10 lg:p-12 text-white shadow-lg' },
         h('div', { className: 'absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/10' }),
         h('div', { className: 'absolute -bottom-12 -left-12 w-56 h-56 rounded-full bg-white/10' }),
         h(
@@ -58,15 +58,15 @@ export default function CtaSection() {
           // Right: thẻ hành động
           h(
             'div',
-            { className: 'bg-white rounded-md shadow-xl p-6 sm:p-8 space-y-4 text-center' },
-            h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Khám phá miễn phí'),
-            h('h3', { className: 'text-lg font-black text-slate-900 tracking-tight' }, 'Tìm sản phẩm của bạn trong 1 phút'),
+            { className: 'bg-white rounded-xl shadow-xl p-5 sm:p-8 space-y-4 text-center min-w-0' },
+            h('p', { className: 'text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Khám phá miễn phí'),
+            h('h3', { className: 'text-lg sm:text-xl font-black text-slate-900 tracking-tight text-balance' }, 'Tìm sản phẩm của bạn trong 1 phút'),
             h(
               'div',
               { className: 'space-y-2.5' },
-              h('button', { type: 'button', onClick: () => go('#san-pham-vat-ly'), className: 'w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-md shadow transition-all active:scale-[0.99]' }, 'Xem sản phẩm vật lý →'),
-              h('button', { type: 'button', onClick: () => go('#san-pham-so'), className: 'w-full px-6 py-3 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-sm rounded-md border border-blue-200 transition-all active:scale-[0.99]' }, 'Xem sản phẩm số →'),
-              h('button', { type: 'button', onClick: () => go('#noi-bat'), className: 'w-full px-6 py-2.5 text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors' }, 'hoặc xem sản phẩm nổi bật')
+              h('button', { type: 'button', onClick: () => go('#san-pham-vat-ly'), className: 'w-full px-6 py-3 min-h-[44px] bg-blue-600 hover:bg-blue-700 text-white font-bold text-[15px] sm:text-sm rounded-xl shadow transition-all active:scale-[0.99]' }, 'Xem sản phẩm vật lý →'),
+              h('button', { type: 'button', onClick: () => go('#san-pham-so'), className: 'w-full px-6 py-3 min-h-[44px] bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[15px] sm:text-sm rounded-xl border border-blue-200 transition-all active:scale-[0.99]' }, 'Xem sản phẩm số →'),
+              h('button', { type: 'button', onClick: () => go('#noi-bat'), className: 'w-full px-6 py-2.5 min-h-[44px] text-xs font-bold text-slate-500 hover:text-blue-600 transition-colors' }, 'hoặc xem sản phẩm nổi bật')
             ),
             h('p', { className: 'text-[11px] text-slate-400' }, 'Không cần đăng nhập • Dữ liệu cập nhật định kỳ')
           )

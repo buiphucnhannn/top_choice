@@ -14,29 +14,29 @@ export default function TrustAndStats() {
 
   return h(
     'section',
-    { id: 'quy-trinh', className: 'w-full bg-[#edf4fb] py-12 scroll-mt-20' },
+    { id: 'quy-trinh', className: 'w-full bg-[#edf4fb] py-10 sm:py-12 scroll-mt-20 overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8' },
       // Steps header
       h(
         'div',
-        { className: 'text-center max-w-2xl mx-auto space-y-2' },
-        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Cách hoạt động'),
-        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, 'Chọn sản phẩm trong 3 bước'),
-        h('p', { className: 'text-sm text-slate-500 leading-relaxed' }, 'Chỉ cần lướt, lọc và mở trang chi tiết là đủ để ra quyết định.')
+        { className: 'text-center max-w-2xl mx-auto space-y-2 px-1' },
+        h('p', { className: 'text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Cách hoạt động'),
+        h('h2', { className: 'text-[22px] sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight text-balance' }, 'Chọn sản phẩm trong 3 bước'),
+        h('p', { className: 'text-[13px] sm:text-sm text-slate-500 leading-relaxed' }, 'Chỉ cần lướt, lọc và mở trang chi tiết là đủ để ra quyết định.')
       ),
 
       // Steps: connected stepper
       h(
         'div',
-        { className: 'relative grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6' },
+        { className: 'relative grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6' },
         // connecting dashed line (desktop)
         h('div', { className: 'hidden md:block absolute top-9 left-[18%] right-[18%] border-t-2 border-dashed border-blue-200 pointer-events-none', 'aria-hidden': true }),
         steps.map((s, idx) =>
           h(
             'div',
-            { key: idx, className: 'relative bg-white border border-slate-200 rounded-md p-6 text-center shadow-sm hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all' },
+            { key: idx, className: 'relative bg-white border border-slate-200 rounded-xl p-5 sm:p-6 text-center shadow-sm hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all' },
             h(
               'div',
               { className: 'relative z-10 w-[72px] h-[72px] mx-auto mb-4 rounded-full bg-white border-2 border-blue-100 flex items-center justify-center' },

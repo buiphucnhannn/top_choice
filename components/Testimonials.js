@@ -59,24 +59,24 @@ export default function Testimonials() {
 
   return h(
     'section',
-    { id: 'danh-gia', className: 'w-full py-12 bg-[#edf4fb] scroll-mt-20' },
+    { id: 'danh-gia', className: 'w-full py-10 sm:py-12 bg-[#edf4fb] scroll-mt-20 overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-6' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6' },
       h(
         'div',
-        { className: 'text-center max-w-2xl mx-auto space-y-2' },
-        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Đánh giá'),
-        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, 'Người dùng nói gì về sản phẩm'),
-        h('p', { className: 'text-sm text-slate-500' }, 'Review thật từ người đã mua và sử dụng sản phẩm trong đời sống, công việc hàng ngày.')
+        { className: 'text-center max-w-2xl mx-auto space-y-2 px-1' },
+        h('p', { className: 'text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Đánh giá'),
+        h('h2', { className: 'text-[22px] sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight text-balance' }, 'Người dùng nói gì về sản phẩm'),
+        h('p', { className: 'text-[13px] sm:text-sm text-slate-500' }, 'Review thật từ người đã mua và sử dụng sản phẩm trong đời sống, công việc hàng ngày.')
       ),
       h(
         'div',
-        { className: 'grid grid-cols-1 md:grid-cols-3 gap-4' },
+        { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4' },
         userReviews.map((u, i) =>
           h(
             'div',
-            { key: i, className: 'bg-white border border-slate-200 rounded-md p-5 shadow-sm space-y-3 hover:border-blue-300 hover:shadow-md transition-all flex flex-col' },
+            { key: i, className: 'bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3 hover:border-blue-300 hover:shadow-md transition-all flex flex-col min-w-0' },
             stars(5),
             h('p', { className: 'text-xs sm:text-sm text-slate-700 leading-relaxed flex-1' }, `“${u.quote}”`),
             h(

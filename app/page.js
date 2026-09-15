@@ -14,8 +14,8 @@ import Footer from '../components/Footer';
 const h = React.createElement;
 
 export const metadata = {
-  title: 'Top Choice — Landing sản phẩm tuyển chọn',
-  description: 'Một trang duy nhất để khám phá sản phẩm vật lý và sản phẩm số đáng mua nhất, kèm trang đánh giá chi tiết cho từng sản phẩm.',
+  title: 'Trang chủ',
+  description: 'Tuyển chọn sản phẩm vật lý và sản phẩm số đáng mua nhất, chấm điểm minh bạch kèm trang đánh giá chi tiết cho từng sản phẩm.',
 };
 
 // Cấu trúc landing chuẩn, chỉ giữ những gì liên quan tới sản phẩm:

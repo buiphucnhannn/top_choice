@@ -39,28 +39,32 @@ export default function IntroSection() {
 
   return h(
     'section',
-    { id: 'tong-quan', className: 'w-full py-12 bg-[#edf4fb] scroll-mt-20' },
+    { id: 'tong-quan', className: 'w-full py-10 sm:py-12 bg-[#edf4fb] scroll-mt-20 overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8' },
       h(
         'div',
-        { className: 'text-center max-w-3xl mx-auto mb-8 space-y-2' },
-        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Tổng quan'),
-        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, 'Mọi sản phẩm đáng mua, gói gọn trong một trang'),
-        h('p', { className: 'text-sm text-slate-500 leading-relaxed' }, 'Từ nồi chiên không dầu, tai nghe, laptop đến trợ lý AI, VPN và hosting — mỗi sản phẩm đều được chấm điểm minh bạch, liệt kê ưu nhược điểm rõ ràng và có trang đánh giá chi tiết riêng.')
+        { className: 'text-center max-w-3xl mx-auto mb-6 sm:mb-8 space-y-2 px-1' },
+        h('p', { className: 'text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-blue-600' }, 'Tổng quan'),
+        h('h2', { className: 'text-[22px] sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight text-balance leading-snug' }, 'Mọi sản phẩm đáng mua, gói gọn trong một trang'),
+        h('p', { className: 'text-[13px] sm:text-sm text-slate-500 leading-relaxed text-balance' }, 'Từ nồi chiên không dầu, tai nghe, laptop đến trợ lý AI, VPN và hosting — mỗi sản phẩm đều được chấm điểm minh bạch, liệt kê ưu nhược điểm rõ ràng và có trang đánh giá chi tiết riêng.')
       ),
       h(
         'div',
-        { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6' },
+        { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5' },
         highlights.map((item, idx) =>
           h(
             'div',
-            { key: idx, className: 'flex flex-col items-center text-center p-4 sm:p-5 bg-white border border-slate-200 rounded-md shadow-sm hover:border-blue-400 hover:shadow-md transition-all duration-200 group' },
-            h('div', { className: 'w-10 h-10 flex items-center justify-center bg-blue-50 border border-blue-100 rounded-md mb-3 group-hover:border-blue-300 transition-colors' },
+            { key: idx, className: 'flex sm:flex-col flex-row sm:items-center sm:text-center text-left items-start gap-3 sm:gap-0 p-4 sm:p-5 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-300 hover:shadow-md transition-all duration-200 group' },
+            h('div', { className: 'w-11 h-11 sm:w-10 sm:h-10 flex-shrink-0 flex items-center justify-center bg-blue-50 border border-blue-100 rounded-xl sm:rounded-lg sm:mb-3 group-hover:border-blue-300 transition-colors' },
               item.icon({ className: 'w-5 h-5 text-blue-600' })),
-            h('h3', { className: 'text-sm font-bold text-slate-900 mb-1' }, item.title),
-            h('p', { className: 'text-xs text-slate-500 leading-relaxed' }, item.desc)
+            h(
+              'div',
+              { className: 'min-w-0' },
+              h('h3', { className: 'text-[15px] sm:text-sm font-bold text-slate-900 mb-1' }, item.title),
+              h('p', { className: 'text-[13px] sm:text-xs text-slate-500 leading-relaxed break-words' }, item.desc)
+            )
           )
         )
       )

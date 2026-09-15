@@ -51,7 +51,7 @@ export default function FaqSection() {
       'div',
       {
         key: idx,
-        className: `mb-4 break-inside-avoid bg-white border rounded-md p-4 shadow-sm transition-colors flex flex-col ${isOpen ? 'border-blue-400 shadow-md' : 'border-slate-200 hover:border-blue-300'}`,
+        className: `mb-3 sm:mb-4 break-inside-avoid bg-white border rounded-xl p-4 sm:p-4 shadow-sm transition-colors flex flex-col min-w-0 ${isOpen ? 'border-blue-400 shadow-md' : 'border-slate-200 hover:border-blue-300'}`,
       },
       h(
         'button',
@@ -88,16 +88,16 @@ export default function FaqSection() {
 
   return h(
     'section',
-    { id: 'faq', className: 'w-full pt-12 pb-10 bg-[#edf4fb] scroll-mt-20' },
+    { id: 'faq', className: 'w-full pt-10 sm:pt-12 pb-10 bg-[#edf4fb] scroll-mt-20 overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-6' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6' },
       h(
         'div',
-        { className: 'text-center max-w-2xl mx-auto' },
-        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-1' }, 'FAQ'),
-        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, 'Câu hỏi thường gặp'),
-        h('p', { className: 'text-sm text-slate-500 mt-1' }, 'Những điều cần biết khi chọn sản phẩm trên trang này.')
+        { className: 'text-center max-w-2xl mx-auto px-1' },
+        h('p', { className: 'text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-blue-600 mb-1' }, 'FAQ'),
+        h('h2', { className: 'text-[22px] sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight text-balance' }, 'Câu hỏi thường gặp'),
+        h('p', { className: 'text-[13px] sm:text-sm text-slate-500 mt-1' }, 'Những điều cần biết khi chọn sản phẩm trên trang này.')
       ),
       // Chảy 2 cột độc lập (masonry): mở card nào chỉ nở card đó, không kéo card bên cạnh
       h(

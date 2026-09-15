@@ -12,6 +12,7 @@ export default function AdminDashboardPage() {
   const [categories, setCategories] = useState(seedCategories);
 
   useEffect(() => {
+    if (typeof document !== 'undefined') document.title = 'Tổng quan quản trị | TOP CHOICE';
     const refresh = () => {
       setProducts(getProducts());
       setCategories(getCategories());
@@ -27,12 +28,15 @@ export default function AdminDashboardPage() {
 
   const vatLy = products.filter((p) => p.type === 'vat-ly').length;
   const so = products.filter((p) => p.type === 'so').length;
-  const avg = products.length === 0 ? 0 : (products.reduce((s, p) => s + (Number(p.overallScore) || 0), 0) / products.length).toFixed(1);
+  const validScores = products
+    .map((p) => (p.overallScore === '' || p.overallScore === null || p.overallScore === undefined ? NaN : Number(p.overallScore)))
+    .filter((v) => typeof v === 'number' && !Number.isNaN(v));
+  const avg = validScores.length === 0 ? 'Không có' : `${(validScores.reduce((s, v) => s + v, 0) / validScores.length).toFixed(1)}/10`;
 
   const cards = [
     { label: 'Tổng sản phẩm', value: products.length, href: '/admin/products', note: `${vatLy} vật lý • ${so} số` },
     { label: 'Danh mục', value: categories.length, href: '/admin/categories', note: 'vật lý & số' },
-    { label: 'Điểm trung bình', value: `${avg}/10`, href: '/admin/products', note: 'toàn bộ sản phẩm' },
+    { label: 'Điểm trung bình', value: avg, href: '/admin/products', note: 'toàn bộ sản phẩm có điểm' },
   ];
 
   const recent = [...products].slice(-5).reverse();
@@ -94,8 +98,10 @@ export default function AdminDashboardPage() {
               h(
                 'li',
                 { key: p.id, className: 'py-2.5 flex items-center justify-between gap-3' },
-                h('span', { className: 'text-sm font-semibold text-slate-800 truncate' }, p.name),
-                h('span', { className: 'text-xs font-black text-blue-600 flex-shrink-0' }, `${p.overallScore}/10`)
+                h('span', { className: 'text-sm font-semibold text-slate-800 truncate' }, p.name || 'Không có'),
+                p.overallScore !== '' && p.overallScore !== null && p.overallScore !== undefined
+                  ? h('span', { className: 'text-xs font-black text-blue-600 flex-shrink-0' }, `${p.overallScore}/10`)
+                  : h('span', { className: 'text-xs italic text-slate-400 flex-shrink-0' }, 'Không có')
               )
             )
           )

@@ -24,17 +24,19 @@ function ProductCard(item) {
     {
       key: item.id,
       href: `/review/${item.slug}`,
-      className: 'flex flex-col bg-white border border-slate-200 rounded-md overflow-hidden shadow-sm hover:shadow-md hover:border-blue-300 transition-all duration-200 group',
+      className: 'flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg hover:border-blue-300 hover:-translate-y-0.5 transition-all duration-200 group min-w-0',
     },
     h(
       'div',
       { className: 'relative w-full h-44 overflow-hidden bg-slate-100' },
-      h('img', {
-        src: item.image,
-        alt: item.name,
-        loading: 'lazy',
-        className: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300',
-      }),
+      item.image
+        ? h('img', {
+            src: item.image,
+            alt: item.name || 'Sản phẩm',
+            loading: 'lazy',
+            className: 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300',
+          })
+        : h('div', { className: 'w-full h-full flex items-center justify-center text-xs italic text-slate-400 bg-slate-50' }, 'Không có ảnh'),
       h(
         'span',
         { className: 'absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-white/95 border border-slate-200 text-slate-700' },
@@ -43,20 +45,20 @@ function ProductCard(item) {
       h(
         'span',
         { className: 'absolute top-2 right-2 text-xs font-black px-2 py-0.5 rounded bg-blue-600 text-white shadow' },
-        `${item.overallScore}/10`
+        item.overallScore !== '' && item.overallScore !== null && item.overallScore !== undefined ? `${item.overallScore}/10` : 'Không có'
       )
     ),
     h(
       'div',
-      { className: 'p-4 flex-1 flex flex-col gap-2' },
-      h('div', { className: 'text-[11px] font-semibold text-slate-400 uppercase tracking-wide' }, item.brand),
-      h('h3', { className: 'font-bold text-slate-900 text-sm sm:text-base leading-snug group-hover:text-blue-600 transition-colors' }, item.name),
-      h('p', { className: 'text-xs text-slate-600 line-clamp-2 leading-relaxed' }, item.summary),
+      { className: 'p-4 flex-1 flex flex-col gap-2 min-w-0' },
+      h('div', { className: 'text-[11px] font-semibold text-slate-400 uppercase tracking-wide truncate' }, item.brand || 'Không có'),
+      h('h3', { className: 'font-bold text-slate-900 text-[15px] sm:text-base leading-snug group-hover:text-blue-600 transition-colors break-words' }, item.name || 'Không có'),
+      h('p', { className: 'text-xs text-slate-600 line-clamp-2 leading-relaxed break-words' }, item.summary || 'Không có'),
       h(
         'div',
-        { className: 'mt-auto pt-3 border-t border-slate-100 flex items-center justify-between' },
-        h('span', { className: 'text-sm font-extrabold text-blue-600' }, item.priceRef),
-        h('span', { className: 'text-xs font-bold text-slate-700 group-hover:text-blue-600' }, 'Xem chi tiết →')
+        { className: 'mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2' },
+        h('span', { className: 'text-sm font-extrabold text-blue-600 truncate' }, item.priceRef || 'Không có'),
+        h('span', { className: 'text-xs font-bold text-slate-700 group-hover:text-blue-600 flex-shrink-0' }, 'Xem chi tiết →')
       )
     )
   );
@@ -125,17 +127,17 @@ export default function ProductSection({ id, eyebrow, title, desc, type, searchP
 
   return h(
     'section',
-    { id, className: 'w-full py-12 bg-[#edf4fb] scroll-mt-20' },
+    { id, className: 'w-full py-10 sm:py-12 bg-[#edf4fb] scroll-mt-20 overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8 space-y-6' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6' },
       // Header
       h(
         'div',
-        { className: 'text-center max-w-2xl mx-auto space-y-2' },
-        h('p', { className: 'text-xs font-extrabold uppercase tracking-widest text-blue-600' }, eyebrow),
-        h('h2', { className: 'text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight' }, title),
-        h('p', { className: 'text-sm text-slate-500 leading-relaxed' }, desc)
+        { className: 'text-center max-w-2xl mx-auto space-y-2 px-1' },
+        h('p', { className: 'text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-blue-600' }, eyebrow),
+        h('h2', { className: 'text-[22px] sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight text-balance leading-snug' }, title),
+        h('p', { className: 'text-[13px] sm:text-sm text-slate-500 leading-relaxed text-balance' }, desc)
       ),
 
       // Search box (đồng bộ với ô tìm ở header/hero)
@@ -175,19 +177,19 @@ export default function ProductSection({ id, eyebrow, title, desc, type, searchP
       // Category pills + reset
       h(
         'div',
-        { className: 'flex flex-col sm:flex-row items-center justify-between gap-3 bg-white border border-slate-200 rounded-md px-4 py-3 shadow-sm' },
+        { className: 'flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-slate-200 rounded-xl px-3 sm:px-4 py-3 shadow-sm' },
         h(
           'div',
-          { className: 'flex items-center gap-2 flex-wrap justify-center' },
+          { className: 'flex sm:flex-wrap items-center gap-2 overflow-x-auto sm:overflow-visible justify-start sm:justify-center pb-1 sm:pb-0 -mx-1 px-1 snap-x no-scrollbar' },
           h(
             'button',
-            { type: 'button', onClick: () => { setCategorySlug('all'); resetPage(); }, className: `px-3 py-1 text-xs font-semibold rounded-full border transition-colors ${categorySlug === 'all' ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'}` },
-            'Tất cả danh mục'
+            { type: 'button', onClick: () => { setCategorySlug('all'); resetPage(); }, className: `flex-shrink-0 snap-start min-h-[36px] px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-colors ${categorySlug === 'all' ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'}` },
+            'Tất cả'
           ),
           groupCats.map((c) =>
             h(
               'button',
-              { key: c.id, type: 'button', onClick: () => { setCategorySlug(c.slug); resetPage(); }, className: `px-3 py-1 text-xs font-semibold rounded-full border transition-colors ${categorySlug === c.slug ? 'bg-blue-600 text-white border-blue-600' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'}` },
+              { key: c.id, type: 'button', onClick: () => { setCategorySlug(c.slug); resetPage(); }, className: `flex-shrink-0 snap-start min-h-[36px] px-3.5 py-1.5 text-xs font-semibold rounded-full border transition-colors whitespace-nowrap ${categorySlug === c.slug ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-300 hover:text-blue-600'}` },
               c.name
             )
           )
@@ -195,8 +197,8 @@ export default function ProductSection({ id, eyebrow, title, desc, type, searchP
         (query.trim() || categorySlug !== 'all') &&
           h(
             'button',
-            { type: 'button', onClick: () => { setQuery(''); setCategorySlug('all'); resetPage(); }, className: 'text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline flex-shrink-0' },
-            'Bỏ lọc tất cả ✕'
+            { type: 'button', onClick: () => { setQuery(''); setCategorySlug('all'); resetPage(); }, className: 'text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline flex-shrink-0 min-h-[36px] px-2 self-center' },
+            'Bỏ lọc ✕'
           )
       ),
 
@@ -210,16 +212,16 @@ export default function ProductSection({ id, eyebrow, title, desc, type, searchP
       filtered.length > 0
         ? h(
             'div',
-            { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 scroll-mt-24' },
+            { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 scroll-mt-24' },
             paged.map((p) => ProductCard(p))
           )
         : h(
             'div',
-            { className: 'bg-white border border-slate-200 rounded-md p-10 text-center space-y-2 scroll-mt-24' },
+            { className: 'bg-white border border-slate-200 rounded-xl p-8 sm:p-10 text-center space-y-2 scroll-mt-24' },
             h('div', { className: 'text-3xl' }, '🔍'),
             h('h3', { className: 'font-bold text-slate-900' }, 'Không tìm thấy sản phẩm phù hợp'),
-            h('p', { className: 'text-sm text-slate-500' }, 'Thử từ khóa khác hoặc bấm “Bỏ lọc tất cả” để xem toàn bộ sản phẩm.'),
-            h('button', { type: 'button', onClick: () => { setQuery(''); setCategorySlug('all'); resetPage(); }, className: 'mt-2 px-4 py-2 text-xs font-bold bg-blue-600 text-white rounded-md hover:bg-blue-700' }, 'Xem tất cả sản phẩm')
+            h('p', { className: 'text-sm text-slate-500' }, 'Thử từ khóa khác hoặc bấm “Bỏ lọc” để xem toàn bộ sản phẩm.'),
+            h('button', { type: 'button', onClick: () => { setQuery(''); setCategorySlug('all'); resetPage(); }, className: 'mt-2 px-5 py-2.5 min-h-[44px] text-sm font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700' }, 'Xem tất cả sản phẩm')
           ),
 
       // Pagination

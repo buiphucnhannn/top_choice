@@ -44,13 +44,13 @@ export default function Footer() {
 
   return h(
     'footer',
-    { className: 'w-full bg-[#0B1528] text-slate-300 pt-14 pb-8 border-t-4 border-blue-600' },
+    { className: 'w-full bg-[#0B1528] text-slate-300 pt-10 sm:pt-14 pb-8 border-t-4 border-blue-600 overflow-x-clip' },
     h(
       'div',
-      { className: 'max-w-[1400px] mx-auto px-4 sm:px-8' },
+      { className: 'max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8' },
       h(
         'div',
-        { className: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800/80' },
+        { className: 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 pb-8 sm:pb-12 border-b border-slate-800/80' },
         // Brand
         h(
           'div',

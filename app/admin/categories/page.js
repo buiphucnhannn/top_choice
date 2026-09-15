@@ -28,6 +28,7 @@ export default function AdminCategoriesPage() {
   const [notice, setNotice] = useState('');
 
   useEffect(() => {
+    if (typeof document !== 'undefined') document.title = 'Quản lý danh mục | TOP CHOICE';
     const refresh = () => {
       setList(getCategories());
       setProducts(getProducts());

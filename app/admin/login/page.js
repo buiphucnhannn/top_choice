@@ -14,6 +14,7 @@ export default function AdminLoginPage() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
+    if (typeof document !== 'undefined') document.title = 'Đăng nhập quản trị | TOP CHOICE';
     if (isAdmin()) router.replace('/admin');
     else setChecking(false);
   }, [router]);

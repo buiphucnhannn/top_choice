@@ -83,6 +83,7 @@ export default function AdminProductsPage() {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
+    if (typeof document !== 'undefined') document.title = 'Quản lý sản phẩm | TOP CHOICE';
     const refresh = () => {
       setList(getProducts());
       setCategories(getCategories());
@@ -182,29 +183,28 @@ export default function AdminProductsPage() {
     else if (d.summary.trim().length < 10) errors.summary = 'Mô tả tối thiểu 10 ký tự.';
     if (d.image.trim() && !isValidUrl(d.image)) errors.image = 'Link ảnh phải bắt đầu bằng http(s)://.';
     if (d.officialUrl.trim() && !isValidUrl(d.officialUrl)) errors.officialUrl = 'Link phải bắt đầu bằng http(s)://.';
-    const score = parseScore(d.overallScore);
-    if (Number.isNaN(score) || score < 0 || score > 10) errors.overallScore = 'Điểm từ 0 đến 10.';
+    const rawScoreText = String(d.overallScore ?? '').trim();
+    const scoreEmpty = rawScoreText === '';
+    const score = scoreEmpty ? null : parseScore(rawScoreText);
+    if (!scoreEmpty && (Number.isNaN(score) || score < 0 || score > 10)) errors.overallScore = 'Điểm từ 0 đến 10 (bỏ trống = hiển thị “Không có”).';
     if (!d.categorySlug) errors.categorySlug = 'Chọn danh mục.';
 
     const cleanScores = d.scores
-      .map((s) => ({ criterion: (s.criterion || '').trim(), value: parseScore(s.value) }))
-      .filter((s) => s.criterion || !Number.isNaN(s.value));
-    const badScore = cleanScores.find((s) => !s.criterion || Number.isNaN(s.value) || s.value < 0 || s.value > 10);
-    if (badScore) errors.scores = 'Mỗi dòng điểm cần tên tiêu chí và điểm 0–10.';
-    if (!errors.scores && cleanScores.length === 0) errors.scores = 'Cần ít nhất 1 điểm thành phần để tính điểm tổng.';
+      .map((s) => ({ criterion: (s.criterion || '').trim(), value: String(s.value ?? '').trim() === '' ? null : parseScore(s.value) }))
+      .filter((s) => s.criterion || s.value !== null);
+    const badScore = cleanScores.find((s) => !s.criterion || s.value === null || Number.isNaN(s.value) || s.value < 0 || s.value > 10);
+    if (badScore) errors.scores = 'Mỗi dòng đã nhập cần tên tiêu chí và điểm 0–10 (bỏ trống hết = hiển thị “Không có”).';
     const cleanPros = d.pros.map((s) => (s || '').trim()).filter(Boolean);
     const cleanCons = d.cons.map((s) => (s || '').trim()).filter(Boolean);
-    if (cleanPros.length === 0) errors.pros = 'Cần ít nhất 1 ưu điểm.';
-    if (cleanCons.length === 0) errors.cons = 'Cần ít nhất 1 nhược điểm.';
     const cleanConsider = d.considerations.map((s) => (s || '').trim()).filter(Boolean);
     const cleanSpecs = d.specs
       .map((s) => ({ key: (s.key || '').trim(), value: (s.value || '').trim() }))
       .filter((s) => s.key || s.value);
     const badSpec = cleanSpecs.find((s) => !s.key || !s.value);
-    if (badSpec) errors.specs = 'Mỗi dòng thông số cần cả tên và giá trị.';
+    if (badSpec) errors.specs = 'Mỗi dòng đã nhập cần cả tên và giá trị (bỏ trống hết = hiển thị “Không có”).';
 
-    // Điểm tổng bắt buộc bằng trung bình điểm thành phần (làm tròn 1 chữ số)
-    if (!errors.scores && !errors.overallScore && cleanScores.length > 0) {
+    // Nếu có điểm thành phần + điểm tổng: điểm tổng phải bằng trung bình (làm tròn 1 chữ số)
+    if (!errors.scores && !errors.overallScore && cleanScores.length > 0 && !scoreEmpty) {
       const avg = Math.round((cleanScores.reduce((a, s) => a + s.value, 0) / cleanScores.length) * 10) / 10;
       if (score !== avg) {
         const msg = `Điểm tổng phải bằng trung bình điểm thành phần (${avg}), đang nhập ${score}.`;
@@ -225,6 +225,7 @@ export default function AdminProductsPage() {
     cleanSpecs.forEach((s) => { specsObj[s.key] = s.value; });
 
     let next;
+    const finalScore = scoreEmpty ? '' : Math.round(score * 10) / 10;
     if (editing.isNew) {
       let slug = slugify(d.name) || `san-pham-${Date.now()}`;
       if (list.some((p) => p.slug === slug)) slug = `${slug}-${Date.now().toString().slice(-4)}`;
@@ -238,9 +239,9 @@ export default function AdminProductsPage() {
           type: d.type,
           categorySlug: d.categorySlug,
           subCategorySlug: '',
-          summary: d.summary.trim() || 'Đang cập nhật mô tả.',
-          image: d.image.trim() || DEFAULT_IMAGE,
-          overallScore: Math.round(score * 10) / 10,
+          summary: d.summary.trim(),
+          image: d.image.trim(),
+          overallScore: finalScore,
           priceRef: d.priceRef.trim(),
           currency: 'VND',
           status: 'Published',
@@ -252,7 +253,7 @@ export default function AdminProductsPage() {
           pros: cleanPros,
           cons: cleanCons,
           specs: specsObj,
-          officialUrl: d.officialUrl.trim() || '#',
+          officialUrl: d.officialUrl.trim(),
         },
       ];
       showToast('Đã thêm sản phẩm mới.');
@@ -266,10 +267,10 @@ export default function AdminProductsPage() {
               type: d.type,
               categorySlug: d.categorySlug,
               priceRef: d.priceRef.trim(),
-              overallScore: Math.round(score * 10) / 10,
-              summary: d.summary.trim() || p.summary,
-              image: d.image.trim() || p.image,
-              officialUrl: d.officialUrl.trim() || p.officialUrl || '#',
+              overallScore: finalScore,
+              summary: d.summary.trim(),
+              image: d.image.trim(),
+              officialUrl: d.officialUrl.trim(),
               updatedAt: new Date().toLocaleDateString('vi-VN'),
               verdict: d.verdict.trim(),
               reviewBody: d.reviewBody.trim(),
@@ -388,8 +389,8 @@ export default function AdminProductsPage() {
                   )
                 ),
                 h('td', { className: 'py-3 px-4' }, h('span', { className: `text-[11px] font-bold px-2 py-0.5 rounded uppercase ${p.type === 'vat-ly' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-violet-50 text-violet-700 border border-violet-200'}` }, p.type === 'vat-ly' ? 'Vật lý' : 'Số')),
-                h('td', { className: 'py-3 px-4 text-center font-black text-blue-600' }, `${p.overallScore}/10`),
-                h('td', { className: 'py-3 px-4 text-right font-semibold text-slate-800 text-xs whitespace-nowrap' }, p.priceRef),
+                h('td', { className: 'py-3 px-4 text-center font-black text-blue-600' }, p.overallScore !== '' && p.overallScore !== null && p.overallScore !== undefined ? `${p.overallScore}/10` : h('span', { className: 'text-xs italic font-medium text-slate-400' }, 'Không có')),
+                h('td', { className: 'py-3 px-4 text-right font-semibold text-slate-800 text-xs whitespace-nowrap' }, p.priceRef ? p.priceRef : h('span', { className: 'italic font-medium text-slate-400' }, 'Không có')),
                 h(
                   'td',
                   { className: 'py-3 px-4' },
@@ -487,11 +488,11 @@ export default function AdminProductsPage() {
             ),
             field('Giá tham khảo *', h('input', { type: 'text', value: editing.data.priceRef, onChange: (e) => setData('priceRef', e.target.value), placeholder: 'VD: 2.490.000đ', className: inputClass }), editing.errors.priceRef),
             field(
-              'Điểm tổng (0–10) *',
+              'Điểm tổng (0–10)',
               h(
                 'div',
                 { className: 'space-y-1.5' },
-                h('input', { type: 'text', inputMode: 'decimal', value: editing.data.overallScore, onChange: (e) => setData('overallScore', e.target.value), placeholder: 'VD: 9.5', className: inputClass }),
+                h('input', { type: 'text', inputMode: 'decimal', value: editing.data.overallScore, onChange: (e) => setData('overallScore', e.target.value), placeholder: 'VD: 9.5 (trống = “Không có”)', className: inputClass }),
                 h(
                   'div',
                   { className: 'flex items-center justify-between gap-2' },
@@ -515,15 +516,15 @@ export default function AdminProductsPage() {
           h(
             'div',
             { className: 'grid grid-cols-1 sm:grid-cols-2 gap-4' },
-            field('Link ảnh', h('input', { type: 'text', value: editing.data.image, onChange: (e) => setData('image', e.target.value), placeholder: 'https://... (trống = ảnh mặc định)', className: inputClass }), editing.errors.image),
-            field('Link trang chính thức', h('input', { type: 'text', value: editing.data.officialUrl, onChange: (e) => setData('officialUrl', e.target.value), placeholder: 'https://... (nút “Xem nơi bán”)', className: inputClass }), editing.errors.officialUrl)
+            field('Link ảnh', h('input', { type: 'text', value: editing.data.image, onChange: (e) => setData('image', e.target.value), placeholder: 'https://... (trống = hiển thị “Không có”)', className: inputClass }), editing.errors.image),
+            field('Link trang chính thức', h('input', { type: 'text', value: editing.data.officialUrl, onChange: (e) => setData('officialUrl', e.target.value), placeholder: 'https://... (trống = hiển thị “Không có”)', className: inputClass }), editing.errors.officialUrl)
           ),
 
-          sectionTitle('Nội dung chi tiết'),
-          field('Kết luận nhanh', h('textarea', { rows: 3, value: editing.data.verdict, onChange: (e) => setData('verdict', e.target.value), placeholder: 'VD: NordVPN Pro đạt 9.4/10 nhờ tốc độ vượt trội... (trống = ẩn khối)', className: `${inputClass} resize-none` })),
-          field('Trải nghiệm chuyên sâu', h('textarea', { rows: 5, value: editing.data.reviewBody, onChange: (e) => setData('reviewBody', e.target.value), placeholder: 'Viết 1–2 đoạn đánh giá chi tiết, xuống dòng để tách đoạn... (trống = ẩn khối)', className: `${inputClass} resize-none` })),
+          sectionTitle('Nội dung chi tiết', 'Bỏ trống = hiển thị “Không có”, không tự sinh nội dung.'),
+          field('Kết luận nhanh', h('textarea', { rows: 3, value: editing.data.verdict, onChange: (e) => setData('verdict', e.target.value), placeholder: 'VD: NordVPN Pro đạt 9.4/10 nhờ tốc độ vượt trội... (trống = “Không có”)', className: `${inputClass} resize-none` })),
+          field('Trải nghiệm chuyên sâu', h('textarea', { rows: 5, value: editing.data.reviewBody, onChange: (e) => setData('reviewBody', e.target.value), placeholder: 'Viết 1–2 đoạn đánh giá chi tiết, xuống dòng để tách đoạn... (trống = “Không có”)', className: `${inputClass} resize-none` })),
 
-          sectionTitle('Điểm theo tiêu chí', 'Các thanh điểm trong khối “Đánh giá theo tiêu chí chi tiết”.'),
+          sectionTitle('Điểm theo tiêu chí', 'Các thanh điểm trong khối “Đánh giá theo tiêu chí chi tiết”. Bỏ trống hết = hiển thị “Không có”.'),
           h(
             'div',
             { className: 'space-y-2' },
@@ -544,7 +545,7 @@ export default function AdminProductsPage() {
             )
           ),
 
-          sectionTitle('Ưu điểm', 'Danh sách xanh trong khối “Ưu điểm & Nhược điểm”. Dòng đầu còn dùng cho kết luận nhanh.'),
+          sectionTitle('Ưu điểm', 'Danh sách xanh trong khối “Ưu điểm & Nhược điểm”. Bỏ trống hết = hiển thị “Không có”.'),
           h(
             'div',
             { className: 'space-y-2' },
@@ -558,10 +559,8 @@ export default function AdminProductsPage() {
             ),
             addRowBtn('+ Thêm ưu điểm', () => addListRow('pros', ''))
           ),
-          editing.errors.pros &&
-            h('p', { className: 'text-[11px] text-rose-600 font-medium' }, editing.errors.pros),
 
-          sectionTitle('Nhược điểm', 'Danh sách đỏ trong khối “Ưu điểm & Nhược điểm”.'),
+          sectionTitle('Nhược điểm', 'Danh sách đỏ trong khối “Ưu điểm & Nhược điểm”. Bỏ trống hết = hiển thị “Không có”.'),
           h(
             'div',
             { className: 'space-y-2' },
@@ -575,10 +574,8 @@ export default function AdminProductsPage() {
             ),
             addRowBtn('+ Thêm nhược điểm', () => addListRow('cons', ''))
           ),
-          editing.errors.cons &&
-            h('p', { className: 'text-[11px] text-rose-600 font-medium' }, editing.errors.cons),
 
-          sectionTitle('Cần cân nhắc nếu', 'Hộp “Cần cân nhắc nếu” cạnh khối kết luận. Bỏ trống = ẩn hộp.'),
+          sectionTitle('Cần cân nhắc nếu', 'Hộp “Cần cân nhắc nếu” cạnh khối kết luận. Bỏ trống = hiển thị “Không có”.'),
           h(
             'div',
             { className: 'space-y-2' },
@@ -593,7 +590,7 @@ export default function AdminProductsPage() {
             addRowBtn('+ Thêm điểm cân nhắc', () => addListRow('considerations', ''))
           ),
 
-          sectionTitle('Thông số kỹ thuật', 'Bảng “Thông số kỹ thuật & Chi tiết gói” trên trang chi tiết.'),
+          sectionTitle('Thông số kỹ thuật', 'Bảng “Thông số kỹ thuật & Chi tiết gói”. Bỏ trống hết = hiển thị “Không có”.'),
           h(
             'div',
             { className: 'space-y-2' },
