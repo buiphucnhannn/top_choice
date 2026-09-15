@@ -7,12 +7,29 @@ const h = React.createElement;
 
 const HEADER_OFFSET = 80;
 
-export function scrollToSection(hash) {
+export function scrollToSection(hash, behavior) {
   const el = document.querySelector(hash);
   if (el) {
     const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    window.scrollTo({ top: Math.max(0, y), behavior: behavior || 'smooth' });
   }
+}
+
+// Nhảy thẳng tới section, không lướt qua hero gây giật.
+// Ép scrollBehavior='auto' vì globals.css đang để html { scroll-behavior: smooth }
+// (behavior:'auto' sẽ ăn theo CSS nên vẫn trượt mượt nếu không ép).
+export function scrollToSectionInstant(hash) {
+  const el = document.querySelector(hash);
+  if (!el) return false;
+  const root = document.documentElement;
+  const prev = root.style.scrollBehavior;
+  root.style.scrollBehavior = 'auto';
+  const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+  window.requestAnimationFrame(() => {
+    root.style.scrollBehavior = prev;
+  });
+  return true;
 }
 
 export default function Breadcrumb({ items = [] }) {
@@ -35,9 +52,11 @@ export default function Breadcrumb({ items = [] }) {
     itemListElement: schemaItems
   });
 
-  // Link dạng /#section: nếu đang ở trang chủ thì cuộn tại chỗ (trừ hao header),
-  // nếu ở trang khác thì về trang chủ rồi mới cuộn đúng section.
-  // Không để # xuất hiện trên URL: push về '/' sạch rồi replaceState sau khi cuộn.
+  // Link dạng /#section: ở trang chủ thì cuộn mượt tại chỗ.
+  // Ở trang khác thì về '/' (URL sạch, không #) rồi nhảy thẳng tới section
+  // bằng instant (không lướt qua hero nên hết giật). Poll nhanh 40ms để
+  // gần như không thấy hero lóe lên. Không dùng sessionStorage để tránh
+  // StrictMode double-effect làm mất lệnh cuộn.
   const handleAnchorClick = (e, href) => {
     if (!href.startsWith('/#')) return;
     e.preventDefault();
@@ -47,26 +66,20 @@ export default function Breadcrumb({ items = [] }) {
         window.history.replaceState(null, '', '/');
       }
     };
-    const scrollAndClean = () => {
-      scrollToSection(hash);
-      // Đợi smooth-scroll bắt đầu rồi mới xóa hash để trình duyệt không nhảy lại
-      setTimeout(cleanUrl, 50);
-    };
     if (pathname === '/') {
-      scrollAndClean();
+      scrollToSection(hash, 'smooth');
+      setTimeout(cleanUrl, 50);
     } else {
       router.push('/', { scroll: false });
-      // Đợi trang chủ render xong rồi cuộn (thử lại vài lần cho chắc)
+      cleanUrl();
       let tries = 0;
+      if (scrollToSectionInstant(hash)) return;
       const timer = setInterval(() => {
         tries += 1;
-        const el = document.querySelector(hash);
-        if (el || tries > 15) {
+        if (scrollToSectionInstant(hash) || tries > 60) {
           clearInterval(timer);
-          if (el) scrollAndClean();
-          else cleanUrl();
         }
-      }, 150);
+      }, 40);
     }
   };
 

@@ -17,19 +17,35 @@ const NAV_LINKS = [
 
 const HEADER_OFFSET = 80;
 
-function scrollToHash(hash) {
+function scrollToHash(hash, behavior) {
   if (typeof window === 'undefined') return;
   if (hash === '#top') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: behavior || 'smooth' });
     return;
   }
   const el = document.querySelector(hash);
   if (el) {
     const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    window.scrollTo({ top: Math.max(0, y), behavior: behavior || 'smooth' });
   } else if (window.location.pathname !== '/') {
     window.location.href = `/${hash}`;
   }
+}
+
+function scrollToHashInstant(hash) {
+  if (typeof window === 'undefined') return false;
+  const el = document.querySelector(hash);
+  if (!el) return false;
+  // Ép 'auto' để thắng CSS html { scroll-behavior: smooth } trong globals.css
+  const root = document.documentElement;
+  const prev = root.style.scrollBehavior;
+  root.style.scrollBehavior = 'auto';
+  const y = el.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+  window.scrollTo({ top: Math.max(0, y), behavior: 'auto' });
+  window.requestAnimationFrame(() => {
+    root.style.scrollBehavior = prev;
+  });
+  return true;
 }
 
 export default function Header() {
@@ -48,20 +64,22 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Mở thẳng URL có hash (VD: /#san-pham-so): đợi render xong rồi cuộn trừ hao header
+  // Mở thẳng URL có hash (VD: /#san-pham-so): nhảy thẳng tới section bằng
+  // instant (ép scrollBehavior để thắng CSS smooth), rồi xóa hash cho sạch URL.
+  // Chỉ đọc location.hash (tồn tại qua remount) nên an toàn với StrictMode.
   useEffect(() => {
     if (pathname !== '/' || !window.location.hash) return;
     const hash = window.location.hash;
+    window.history.replaceState(null, '', '/');
+    let raf = 0;
     let tries = 0;
-    const timer = setInterval(() => {
+    const attempt = () => {
       tries += 1;
-      const el = document.querySelector(hash);
-      if (el || tries > 15) {
-        clearInterval(timer);
-        if (el) scrollToHash(hash);
-      }
-    }, 150);
-    return () => clearInterval(timer);
+      if (scrollToHashInstant(hash) || tries > 60) return;
+      raf = window.requestAnimationFrame(() => setTimeout(attempt, 40));
+    };
+    raf = window.requestAnimationFrame(attempt);
+    return () => window.cancelAnimationFrame(raf);
   }, [pathname]);
 
   useEffect(() => {
