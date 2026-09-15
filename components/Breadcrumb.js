@@ -36,15 +36,26 @@ export default function Breadcrumb({ items = [] }) {
   });
 
   // Link dạng /#section: nếu đang ở trang chủ thì cuộn tại chỗ (trừ hao header),
-  // nếu ở trang khác thì sang trang chủ rồi mới cuộn đúng section
+  // nếu ở trang khác thì về trang chủ rồi mới cuộn đúng section.
+  // Không để # xuất hiện trên URL: push về '/' sạch rồi replaceState sau khi cuộn.
   const handleAnchorClick = (e, href) => {
     if (!href.startsWith('/#')) return;
     e.preventDefault();
     const hash = href.slice(1); // '#san-pham-vat-ly'
-    if (pathname === '/') {
+    const cleanUrl = () => {
+      if (typeof window !== 'undefined' && window.location.hash) {
+        window.history.replaceState(null, '', '/');
+      }
+    };
+    const scrollAndClean = () => {
       scrollToSection(hash);
+      // Đợi smooth-scroll bắt đầu rồi mới xóa hash để trình duyệt không nhảy lại
+      setTimeout(cleanUrl, 50);
+    };
+    if (pathname === '/') {
+      scrollAndClean();
     } else {
-      router.push(href);
+      router.push('/', { scroll: false });
       // Đợi trang chủ render xong rồi cuộn (thử lại vài lần cho chắc)
       let tries = 0;
       const timer = setInterval(() => {
@@ -52,7 +63,8 @@ export default function Breadcrumb({ items = [] }) {
         const el = document.querySelector(hash);
         if (el || tries > 15) {
           clearInterval(timer);
-          if (el) scrollToSection(hash);
+          if (el) scrollAndClean();
+          else cleanUrl();
         }
       }, 150);
     }
